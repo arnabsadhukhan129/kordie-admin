@@ -1,0 +1,168 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/crucial-skill/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body class="view_page_cardBody ">
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel>Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('title')?.errors?.['required'] || addEditForm.get('title')?.errors?.['pattern']) && (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)" class="error">Please enter title.</p>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="!detailsId || getDetails?.type">
+                        <label cLabel> Media Type</label>
+                        <select aria-label="Default select example" cSelect formControlName="type" (change)="selectType($event)">
+                            <option value="" hidden disabled>Select Type</option>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
+                        <!-- <div class="error">
+                            <p *ngIf="(addEditForm.get('type')?.errors?.['required'] || addEditForm.get('type')?.errors?.['pattern']) && (addEditForm.get('type')?.dirty || addEditForm.get('type')?.touched)" class="error">Please select media type.</p>
+                        </div> -->
+                    </div>
+                    <div class="mb-3" *ngIf="mediaType" >
+                        <label cLabel >{{ mediaType | titlecase }} *</label>
+                        <input cFormControl
+                               type="file"
+                               formControlName="media"
+                               [accept]="mediaType === 'image' ? 'image/*' : 'video/*'"
+                               (change)="onMediaSelected($event)"/>
+                    </div>
+
+                    <div *ngIf="mediaType === 'image' && imagePreview" class="image-preview mb-3">
+                        <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+
+                    <div *ngIf="mediaType === 'video' && videoPreview" class="video-preview mb-3">
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!detailsId || getDetails?.description">
+                        <label cLabel >Description </label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                        <!-- <div class="error">
+                            <p *ngIf="(addEditForm.get('description')?.errors?.['required'] || addEditForm.get('description')?.errors?.['pattern']) && (addEditForm.get('description')?.dirty || addEditForm.get('description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                        </div> -->
+                    </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card" *ngIf="getDetails?.stats?.length!==0">     
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Stats :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="stats" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let statsItem of statsControls; let i = index"
+                            [formGroupName]="i"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Percentage-{{i+1}}</label>
+                                        <div class="input_percentage_block">
+                                            <input
+                                                cFormControl
+                                                placeholder="Enter Percentage"
+                                                type="number"
+                                                formControlName="percentage"
+                                                (keypress)="allowOnlyPositiveNumbers($event)"
+                                            />
+                                            <span class="percentage_icon">%</span>
+                                        </div>
+                                    <div *ngIf="statsItem.get('percentage')?.invalid && statsItem.get('percentage')?.touched" class="error">
+                                        Please enter percentage.
+                                    </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Text-{{i+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Text"
+                                        type="text"
+                                        formControlName="text"
+                                        />
+                                    <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                        Please enter text.
+                                    </div>
+                                    </div>
+
+                                    <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeStatsItem(i)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3">
+                            <button cButton color="primary" type="button" (click)="addStatsItem()">Add Item</button>
+                        </div>
+                    </div> 
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Category *</label>
+                    <select aria-label="Default select example" cSelect formControlName="category_id">
+                        <option value="" hidden disabled>Select Category</option>
+                        <option *ngFor="let getCategory of listData" [value]="getCategory._id"> {{ getCategory.name }}</option>
+                    </select>
+                    <div class="error">
+                      <p
+                        *ngIf="(addEditForm.get('category_id')?.errors?.['required'] || addEditForm.get('category_id')?.errors?.['pattern']) &&
+                              (addEditForm.get('category_id')?.dirty || addEditForm.get('category_id')?.touched)"
+                        class="error">
+                        Please select category.
+                      </p>
+                    </div>
+                  </div>
+
+                <!-- -------  Stats Block -- end --  -->
+
+                    <button
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

@@ -1,0 +1,67 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/customer-management/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">View Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel >First Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="First Name"
+                           type="text"
+                           formControlName="first_name"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Last Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Last Name"
+                           type="text"
+                           formControlName="last_name"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Email</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Email"
+                           type="text"
+                           formControlName="email"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel for="exampleFormControlInput3">Phone</label>
+                        <input cFormControl id="exampleFormControlInput3" placeholder="phone" type="text" formControlName="phone" readonly
+                        />
+                    </div>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

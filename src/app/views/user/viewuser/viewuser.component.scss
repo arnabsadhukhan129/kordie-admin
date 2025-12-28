@@ -1,0 +1,24 @@
+label {
+    white-space: pre-wrap;
+    margin: 10px;
+}
+.details {
+    margin: 15px;;
+}
+.block:not(:last-child) {
+    border-bottom: 1px solid #ccc7c7;
+}
+.hide-display {
+    display: none;
+}
+.prf-pic 
+{
+    max-height: 50%;
+    max-width: 20%;
+    display: block;
+    position: relative;
+    // margin-left: auto;
+    // margin-right: 20px;
+    margin : 15px;
+    // margin-top: 10px;
+}

@@ -1,0 +1,91 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+
+    <c-alert color="success" class="d-flex align-items-center alert-msg" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+      <div>{{displayMessage}}</div>
+    </c-alert>
+
+    <c-alert color="danger" class="d-flex align-items-center alert-msg" *ngIf="checkMessage()" fade [visible]="loginErrorMessage!=''">
+      <div>{{loginErrorMessage}}</div>
+    </c-alert>
+
+    <c-alert color="danger" class="d-flex align-items-center alert-msg" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+      <div>{{errorMessage}}</div>
+    </c-alert>
+
+    <c-row class="justify-content-center">
+     
+      <c-col md="6">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body class="login-wrapper">            
+              <div class="login-logo"><img src="assets/kordie-admin-image/logo.svg" alt="logo" /></div>
+              <form cForm [formGroup]="loginForm" (ngSubmit)="login()">
+                <h3>Sign In <span>to your account</span></h3>
+                
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input cFormControl placeholder="Email" formControlName="username" />
+
+                  <div class="error" *ngFor="let validation of validation_messages.username">
+                    <p *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').dirty || loginForm.get('username').touched)">{{ validation.message }}</p>
+                  </div>
+
+                </c-input-group>
+                
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    cFormControl
+                    placeholder="Password"
+                    type="password"  formControlName="password" 
+                  />
+
+                  <div class="error" *ngFor="let validation of validation_messages.password">
+                    <p *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">{{ validation.message }}</p>
+                  </div>
+
+                </c-input-group>
+    
+                <c-input-group class="mb-4">
+                    <ngx-recaptcha2 #captchaElem  [siteKey]="siteKey" formControlName="recaptcha">
+                     </ngx-recaptcha2>
+                </c-input-group>
+
+                <c-row>
+                  <c-col xs="6">
+                    <button  type="submit" cButton class="px-4" color="primary" [disabled]="!loginForm.valid">
+                      Login
+                    </button>
+
+                  </c-col>
+                  
+                  <c-col class="text-right" xs="6">
+                    <!-- <button cButton  color="link" >
+                      Forgot password?
+                    </button> -->
+                    <a [routerLink]="['/forgot-password']" class="px-0 forgot-link">Forgot password?</a>
+                  </c-col>  
+                  
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div> 
+
+
+  <!-- <form cForm [formGroup]="aFormGroup" >
+
+    <ngx-recaptcha2 #captchaElem  [siteKey]="siteKey" formControlName="recaptcha">
+
+    </ngx-recaptcha2>
+
+  </form> -->

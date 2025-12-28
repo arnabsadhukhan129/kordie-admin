@@ -1,0 +1,141 @@
+<div class="backbutton">
+
+    
+    <button cButton class="me-1" (click)="backClicked()">
+        <svg cIcon
+        name="cilArrowThickLeft"
+        size="sm"
+      ></svg> Back
+    </button>
+</div>
+<!-- cil-arrow-thick-left -->
+
+<div class="card">
+
+    <div class="prf-pic" *ngIf="userData?.roles[0]?.slug!='editor' && userData?.roles[0]?.slug!='administrator' && userData?.profile && userData?.profile?.avatar">
+            <img [src]="userData.profile.avatar" height="150px" width="150px"  >
+    </div>
+
+    <div class="details">
+        <div class="block" *ngIf="userData?.name">
+            <label>
+                <h6>Name</h6>{{userData?.name}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.name">
+            <label>
+                <h6>Role</h6>{{userData?.roles[0]?.name}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.email">
+            <label>
+                <h6>Email</h6>{{userData?.email}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.profile?.dob">
+            <label>
+                <h6>Date of Birth</h6>{{userData?.profile?.dob | date:'longDate'}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.profile?.gender">
+            <label>
+                <h6>Gender</h6>{{userData?.profile?.gender}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.phone">
+            <label>
+                <h6>Phone</h6>{{userData?.phone}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.userCity?.name">
+            <label>
+                <h6>City</h6>{{userData?.userCity?.name}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.userState?.name">
+            <label>
+                <h6>State</h6>{{userData?.userState?.name}}
+            </label>
+        </div>
+        <div class="block" *ngIf="userData?.userCountry?.name">
+            <label>
+                <h6>Country</h6>{{userData?.userCountry?.name}}
+            </label>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <ng-container *ngIf="userData?.addressDetail?.length > 0">
+        <ng-container *ngFor="let item of userData?.addressDetail; let i = index">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card">
+                    <div class="details" >
+                        <label><h5>Shipping Address {{i+1}}</h5></label>
+                        <div>
+                            <label>
+                                <h6>Name:</h6>{{item.name ? item.name : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Email:</h6>{{item.email ? item.email : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Contact Number:</h6>{{item.phone ? item.phone : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Address1:</h6>{{item.address1 ? item.address1 : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Address2:</h6>{{item.address2 ? item.address2 : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Address3:</h6>{{item.address3 ? item.address3 : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Landmark:</h6>{{item.landmark ? item.landmark : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Near By:</h6>{{item.nearBy ? item.nearBy : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Country:</h6>{{item.countryDetail ? item.countryDetail.name : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>State:</h6>{{item.stateDetail ? item.stateDetail.name : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>City:</h6>{{item.cityDetail ? item.cityDetail.name : 'N/A'}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h6>Pincode:</h6>{{item.pincode ? item.pincode : 'N/A'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
+

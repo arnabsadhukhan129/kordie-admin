@@ -1,0 +1,200 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/contact/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong >View Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>   
+            </c-card-header>
+              <c-card-body>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+
+                    <div class="mb-3">
+                        <label cLabel>First Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="First Name"
+                           type="text"
+                           formControlName="firstname"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.lastname">
+                        <label cLabel>Last Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Last Name"
+                           type="text"
+                           formControlName="lastname"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Email</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Email"
+                           type="text"
+                           formControlName="email"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.countryCode">
+                        <label cLabel>Country Code</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="countryCode"
+                           type="text"
+                           formControlName="countryCode"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Phone</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Phone"
+                           type="text"
+                           formControlName="phone"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.jobtitle">
+                        <label cLabel>Job Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Job Title"
+                           type="text"
+                           formControlName="jobtitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.company">
+                        <label cLabel>Company</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Company"
+                           type="text"
+                           formControlName="company"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.teamSize">
+                        <label cLabel>Team Size</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Team Size"
+                           type="text"
+                           formControlName="teamSize"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.businessType">
+                        <label cLabel>Business Type</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Business Type"
+                           type="text"
+                           formControlName="businessType"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.linkedin">
+                        <label cLabel>Linkedin</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Linkedin"
+                           type="text"
+                           formControlName="linkedin"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" >
+                        <label cLabel>Enquiry Type</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enquiry Type"
+                           type="text"
+                           formControlName="type"
+                           readonly
+                        />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label cLabel>Country</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Country"
+                           type="text"
+                           formControlName="country"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="getData?.requestServices?.length">
+                        <label cLabel>Requested Services</label>
+                        <ul>
+                          <li *ngFor="let service of getData.requestServices">{{ service }}</li>
+                        </ul>
+                    </div>    
+                    
+                    <div class="mb-3" *ngIf="getData?.attachCV">
+                        <label cLabel>Attached File</label>
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            <button 
+                            type="button" 
+                            class="custom-grey-btn" 
+                            (click)="openCV()">
+                            <i class="bi bi-eye me-1"></i> View File
+                          </button>
+                        </div>
+                    </div>
+                      
+                    <div class="mb-3">
+                        <label cLabel>Message</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Message"
+                           type="text"
+                           formControlName="message"
+                           readonly
+                        />
+                    </div>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

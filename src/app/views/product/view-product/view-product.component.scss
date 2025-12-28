@@ -1,0 +1,9 @@
+input[type="color"] {
+    pointer-events: none;
+  }
+
+  :host ::ng-deep .readonly-radio {
+    pointer-events: none;
+  }
+  
+  

@@ -1,0 +1,919 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/about-us/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+
+            <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Title"
+                            type="text"
+                            formControlName="about_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('about_title')?.errors?.['required'] || addEditForm.get('about_title')?.errors?.['pattern']) && (addEditForm.get('about_title')?.dirty || addEditForm.get('about_title')?.touched)" class="error">
+                                Please enter title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="about_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('about_description')?.errors?.['required'] || addEditForm.get('about_description')?.errors?.['pattern']) && (addEditForm.get('about_description')?.dirty || addEditForm.get('about_description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">About Banner :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="about_banner" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item of bannerControls; let i = index"
+                                [formGroupName]="i"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+                                        <div class="mb-3">
+                                            <label cLabel>Image {{i+1}}*</label>
+                                            <input
+                                              cFormControl
+                                              type="file"
+                                              accept="image/*"
+                                              (change)="onImageSelected($event, i, 'bannerImage')"
+                                            />
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="bannerImagePreviews[i]" class="image-preview mb-3">
+                                            <img
+                                              class="imgVideo_box"
+                                              [src]="bannerImagePreviews[i]"
+                                              alt="Preview"
+                                              style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeBannersubsectionItem(i)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="bannerControls && bannerControls.length < 3">
+                                <button cButton color="primary" type="button" (click)="addBannersubsectionItem()" >Add More Banner Image</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >See Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="See Title"
+                            type="text"
+                            formControlName="see_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('see_title')?.errors?.['required'] || addEditForm.get('see_title')?.errors?.['pattern']) && (addEditForm.get('see_title')?.dirty || addEditForm.get('see_title')?.touched)" class="error">
+                                Please enter see title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>See Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="see_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('see_description')?.errors?.['required'] || addEditForm.get('see_description')?.errors?.['pattern']) && (addEditForm.get('see_description')?.dirty || addEditForm.get('see_description')?.touched)" class="error">
+                                Please enter see description.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>See Media *</label>
+                        <input cFormControl  type="file" formControlName="see_media" accept="image/*" (change)="onFileSelected($event, 'mediaImage')"/>
+                    </div>
+                    <div *ngIf="seeVideoPreview" class="video-preview mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <img class="imgVideo_box"  [src]="seeVideoPreview" alt="Preview">
+                        </div>
+                        <!-- <video [src]="seeVideoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video> -->
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Economic Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Economic Title"
+                            type="text"
+                            formControlName="economic_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('economic_title')?.errors?.['required'] || addEditForm.get('economic_title')?.errors?.['pattern']) && (addEditForm.get('economic_title')?.dirty || addEditForm.get('economic_title')?.touched)" class="error">
+                                Please enter economic title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Economic Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="economic_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item1 of economicControls; let j = index"
+                                [formGroupName]="j"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{j+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="j > 0"  color="danger" type="button" (click)="removeEconomicItem(j)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="economicControls && economicControls.length < 10">
+                                <button cButton color="primary" type="button" (click)="addEconomicItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel>Economic Icon *</label>
+                        <input cFormControl  type="file" formControlName="economic_icon" accept="image/*" (change)="onFileSelected($event, 'economicIcon')"/>
+                    </div>
+                    <div *ngIf="economicIconPreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="economicIconPreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Economic Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="economic_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('economic_description')?.errors?.['required'] || addEditForm.get('economic_description')?.errors?.['pattern']) && (addEditForm.get('economic_description')?.dirty || addEditForm.get('economic_description')?.touched)" class="error">
+                                Please enter economic description.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Economic Image *</label>
+                        <input cFormControl  type="file" formControlName="economic_image" accept="image/*" (change)="onFileSelected($event, 'economicImage')"/>
+                    </div>
+                    <div *ngIf="economicImagePreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="economicImagePreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>World Icon *</label>
+                        <input cFormControl  type="file" formControlName="world_icon" accept="image/*" (change)="onFileSelected($event, 'worldIcon')"/>
+                    </div>
+                    <div *ngIf="worldIconPreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="worldIconPreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >World Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="World Title"
+                            type="text"
+                            formControlName="world_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('world_title')?.errors?.['required'] || addEditForm.get('world_title')?.errors?.['pattern']) && (addEditForm.get('world_title')?.dirty || addEditForm.get('world_title')?.touched)" class="error">
+                                Please enter world title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">World Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="world_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item2 of worldControls; let k = index"
+                                [formGroupName]="k"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{k+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label cLabel>Description {{k+1}}*</label>
+                                            <textarea
+                                              cFormControl
+                                              placeholder="Description"
+                                              formControlName="description"
+                                            ></textarea>
+                                            <!-- <div
+                                              *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                              class="error"
+                                            >
+                                              Please enter description.
+                                            </div> -->
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="k > 0"  color="danger" type="button" (click)="removeworldSectionItem(k)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="worldControls && worldControls.length < 10">
+                                <button cButton color="primary" type="button" (click)="addWorldSectionItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">World Subsection :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="world_subsection" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item3 of worldSubControls; let l = index"
+                                [formGroupName]="l"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{l+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label cLabel >Subtitle {{l+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter subtitle"
+                                            type="text"
+                                            formControlName="subtitle"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="l > 0"  color="danger" type="button" (click)="removeworldSubsectionItem(l)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="worldSubControls && worldSubControls.length < 3">
+                                <button cButton color="primary" type="button" (click)="addWorldSubsectionItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >Learning Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Learning Title"
+                            type="text"
+                            formControlName="learning_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('learning_title')?.errors?.['required'] || addEditForm.get('learning_title')?.errors?.['pattern']) && (addEditForm.get('learning_title')?.dirty || addEditForm.get('learning_title')?.touched)" class="error">
+                                Please enter learning title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Learning Image *</label>
+                        <input cFormControl  type="file" formControlName="learning_image" accept="image/*" (change)="onFileSelected($event, 'learningImage')"/>
+                    </div>
+                    <div *ngIf="learningImagePreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="learningImagePreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Learning Subtitle *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Learning Subtitle"
+                            type="text"
+                            formControlName="learning_subtitle"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('learning_subtitle')?.errors?.['required'] || addEditForm.get('learning_subtitle')?.errors?.['pattern']) && (addEditForm.get('learning_subtitle')?.dirty || addEditForm.get('learning_subtitle')?.touched)" class="error">
+                                Please enter learning subtitle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Learning Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="learning_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('learning_description')?.errors?.['required'] || addEditForm.get('learning_description')?.errors?.['pattern']) && (addEditForm.get('learning_description')?.dirty || addEditForm.get('learning_description')?.touched)" class="error">
+                                Please enter learning description.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Learning Below Subtitle *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Learning Below Subtitle"
+                            type="text"
+                            formControlName="learning_below_subtitle"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('learning_below_subtitle')?.errors?.['required'] || addEditForm.get('learning_below_subtitle')?.errors?.['pattern']) && (addEditForm.get('learning_below_subtitle')?.dirty || addEditForm.get('learning_below_subtitle')?.touched)" class="error">
+                                Please enter learning subtitle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Learning Skill :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="learning_skill" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item4 of sillsControls; let m = index"
+                                [formGroupName]="m"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{m+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeSkillItem(m)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="sillsControls && sillsControls.length < 10">
+                                <button cButton color="primary" type="button" (click)="addSkillItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >Kordie Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Kordie Title"
+                            type="text"
+                            formControlName="kordie_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('kordie_title')?.errors?.['required'] || addEditForm.get('kordie_title')?.errors?.['pattern']) && (addEditForm.get('kordie_title')?.dirty || addEditForm.get('kordie_title')?.touched)" class="error">
+                                Please enter kordie title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Kordie Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="kordie_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('kordie_description')?.errors?.['required'] || addEditForm.get('kordie_description')?.errors?.['pattern']) && (addEditForm.get('kordie_description')?.dirty || addEditForm.get('kordie_description')?.touched)" class="error">
+                                Please enter kordie description.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Kordie Image *</label>
+                        <input cFormControl  type="file" formControlName="kordie_image" accept="image/*" (change)="onFileSelected($event, 'kordieImage')"/>
+                    </div>
+                    <div *ngIf="kordieImagePreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="kordieImagePreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Kordie Job Subtitle *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Kordie Job Subtitle"
+                            type="text"
+                            formControlName="kordie_job_subtitle"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('kordie_job_subtitle')?.errors?.['required'] || addEditForm.get('kordie_job_subtitle')?.errors?.['pattern']) && (addEditForm.get('kordie_job_subtitle')?.dirty || addEditForm.get('kordie_job_subtitle')?.touched)" class="error">
+                                Please enter kordie job subtitle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Kordie Job Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="kordie_job_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item5 of jobControls; let n = index"
+                                [formGroupName]="n"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{n+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label cLabel>Description {{n+1}}*</label>
+                                            <textarea
+                                              cFormControl
+                                              placeholder="Description"
+                                              formControlName="description"
+                                            ></textarea>
+                                            <!-- <div
+                                              *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                              class="error"
+                                            >
+                                              Please enter description.
+                                            </div> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label cLabel>Image {{n+1}}*</label>
+                                            <input
+                                              cFormControl
+                                              type="file"
+                                              accept="image/*"
+                                              (change)="onImageSelected($event, n, 'jobImage')"
+                                            />
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="jobImagePreviews[n]" class="image-preview mb-3">
+                                            <img
+                                              class="imgVideo_box"
+                                              [src]="jobImagePreviews[n]"
+                                              alt="Preview"
+                                              style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="n > 0"  color="danger" type="button" (click)="removeJobItem(n)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="jobControls && jobControls.length < 3">
+                                <button cButton color="primary" type="button" (click)="addJobItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >Kordie Industries Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Kordie Industries Title"
+                            type="text"
+                            formControlName="kordie_industries_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('kordie_industries_title')?.errors?.['required'] || addEditForm.get('kordie_industries_title')?.errors?.['pattern']) && (addEditForm.get('kordie_industries_title')?.dirty || addEditForm.get('kordie_industries_title')?.touched)" class="error">
+                                Please enter kordie industries title.
+                            </p>
+                        </div>
+                    </div>
+
+                     <!-- -------  Stats Block -- start --  -->
+                     <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Kordie Industries Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="kordie_industries_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item6 of industriesControls; let p = index"
+                                [formGroupName]="p"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{p+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="p > 0"  color="danger" type="button" (click)="removeIndustriesItem(p)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="industriesControls && industriesControls.length < 10">
+                                <button cButton color="primary" type="button" (click)="addIndustriesItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >Story Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Story Title"
+                            type="text"
+                            formControlName="story_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('story_title')?.errors?.['required'] || addEditForm.get('story_title')?.errors?.['pattern']) && (addEditForm.get('story_title')?.dirty || addEditForm.get('story_title')?.touched)" class="error">
+                                Please enter story title.
+                            </p>
+                        </div>
+                    </div>
+
+                     <!-- -------  Stats Block -- start --  -->
+                     <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Story Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="story_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item7 of storyControls; let q = index"
+                                [formGroupName]="q"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel>Description {{q+1}}*</label>
+                                            <textarea
+                                              cFormControl
+                                              placeholder="Description"
+                                              formControlName="description"
+                                            ></textarea>
+                                            <!-- <div
+                                              *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                              class="error"
+                                            >
+                                              Please enter description.
+                                            </div> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label cLabel>Image {{q+1}}*</label>
+                                            <input
+                                              cFormControl
+                                              type="file"
+                                              accept="image/*"
+                                              (change)="onImageSelected($event, q, 'storyImage')"
+                                            />
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="storyImagePreviews[q]" class="image-preview mb-3">
+                                            <img
+                                              class="imgVideo_box"
+                                              [src]="storyImagePreviews[q]"
+                                              alt="Preview"
+                                              style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="q > 0"  color="danger" type="button" (click)="removeStoryItem(q)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="storyControls && storyControls.length < 2">
+                                <button cButton color="primary" type="button" (click)="addStoryItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel >Live Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Live Title"
+                            type="text"
+                            formControlName="live_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('live_title')?.errors?.['required'] || addEditForm.get('live_title')?.errors?.['pattern']) && (addEditForm.get('live_title')?.dirty || addEditForm.get('live_title')?.touched)" class="error">
+                                Please enter live title.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Live Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="live_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item8 of liveControls; let r = index"
+                                [formGroupName]="r"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{r+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label cLabel>Description {{r+1}}*</label>
+                                            <textarea
+                                              cFormControl
+                                              placeholder="Description"
+                                              formControlName="description"
+                                            ></textarea>
+                                            <!-- <div
+                                              *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                              class="error"
+                                            >
+                                              Please enter description.
+                                            </div> -->
+                                        </div>
+                                       
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="r > 0"  color="danger" type="button" (click)="removeLiveItem(r)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="liveControls && liveControls.length < 7">
+                                <button cButton color="primary" type="button" (click)="addLiveItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+                    <div class="mb-3">
+                        <label cLabel>Live Image *</label>
+                        <input cFormControl  type="file" formControlName="live_image" accept="image/*" (change)="onFileSelected($event, 'liveImage')"/>
+                    </div>
+                    <div *ngIf="liveImagePreview" class="image-preview mb-3">
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <img class="imgVideo_box"  [src]="liveImagePreview" alt="Preview">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Next Title *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Next Title"
+                            type="text"
+                            formControlName="next_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('next_title')?.errors?.['required'] || addEditForm.get('next_title')?.errors?.['pattern']) && (addEditForm.get('next_title')?.dirty || addEditForm.get('next_title')?.touched)" class="error">
+                                Please enter next title.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Next Section :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="next_section" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item9 of nextControls; let s = index"
+                                [formGroupName]="s"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title {{s+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            />
+                                        <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                            Please enter text.
+                                        </div> -->
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label cLabel>Description {{s+1}}*</label>
+                                            <textarea
+                                            cFormControl
+                                            placeholder="Description"
+                                            formControlName="description"
+                                            ></textarea>
+                                            <!-- <div
+                                            *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                            class="error"
+                                            >
+                                            Please enter description.
+                                            </div> -->
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label cLabel>Image {{s+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            type="file"
+                                            accept="image/*"
+                                            (change)="onImageSelected($event, s, 'nextImage')"
+                                            />
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="nextImagePreviews[s]" class="image-preview mb-3">
+                                            <img
+                                            class="imgVideo_box"
+                                            [src]="nextImagePreviews[s]"
+                                            alt="Preview"
+                                            style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label cLabel>Icon {{s+1}}*</label>
+                                            <input
+                                            cFormControl
+                                            type="file"
+                                            accept="image/*"
+                                            (change)="onImageSelected($event, s, 'nextIcon')"
+                                            />
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="nextIconPreviews[s]" class="image-preview mb-3">
+                                            <img
+                                            class="imgVideo_box"
+                                            [src]="nextIconPreviews[s]"
+                                            alt="Preview"
+                                            style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+                                        <button cButton class="inner_card_close_btn close_btn" *ngIf="s > 0"  color="danger" type="button" (click)="removenextSectionItem(s)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <div class="mb-1 mt-3" *ngIf="nextControls && nextControls.length < 3">
+                                <button cButton color="primary" type="button" (click)="addnextSectionItem()" >Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------  Stats Block -- end --  -->
+
+
+
+        <button 
+            cButton
+            class="me-1"
+            type="submit"
+            [disabled]="!addEditForm.valid"
+        >
+            Save
+        </button>
+        </form>
+
+        </c-card-body>
+
+        </c-card>
+    </c-col>
+</c-row>

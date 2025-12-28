@@ -1,0 +1,87 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/titlelist">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Title</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+              <c-card-body class="view_page_cardBody">
+                <form [formGroup]="viewTitleForm">
+                    <div class="mb-3">
+                        <label cLabel  >Title Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="name"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3" *ngIf="title12 || title10">
+                      <label cLabel>Subtitle *</label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Subtitle"
+                        type="text"
+                        formControlName="subtitle"
+                        readonly
+                      />
+                    </div>
+                  
+
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title3 && !title4 &&
+                        !title5 && !title6  && !title8 && !title9 && !title10 && !title11 && !title12">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel >Image Preview</label>
+                            <img class="imgVideo_box" [src]="titleData?.image ? titleData?.image : 'assets/kordie-admin-image/no-image-found-01.png'">
+                        </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="title10">
+                        <label cLabel>Video</label>
+                    </div>
+                    <div  class="video-preview mb-3" *ngIf="title10">
+                        <video [src]="titleData?.video ? titleData?.video : 'assets/kordie-admin-image/No-Video-gray.png'" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title4 &&
+                        !title5 && !title7 && !title8 && !title9 && !title12">
+                        <label cLabel  >Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                    </div>
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title3 && !title4
+                         && !title5 && !title6 && !title7 && !title8 && !title9 && !title10 && !title11 && !title12">
+                        <label cLabel  >URL</label>
+                        <input cFormControl
+                           id="exampleFormControlInput2"
+                           placeholder="url"
+                           type="text"
+                           formControlName="url"
+                           readonly
+                        />
+                    </div>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

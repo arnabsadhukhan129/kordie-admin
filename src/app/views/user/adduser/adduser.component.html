@@ -1,0 +1,143 @@
+<div class="backbutton">
+  <button cButton class="me-1" (click)="backClicked()">
+    <svg cIcon
+        name="cilArrowThickLeft"
+        size="sm"
+      ></svg> Back
+  </button>
+</div>
+
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <!-- <app-docs-callout href="forms/form-control" name="Form Control"></app-docs-callout> -->
+    </c-col>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>Add User</strong>
+        </c-card-header>
+        <c-card-body>
+<!-- 
+            <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+              <div>{{displayMessage}}</div>
+            </c-alert>
+    
+            <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+              <div>{{errorMessage}}</div>
+            </c-alert> -->
+            
+          <!-- <app-docs-example href="forms/form-control"> -->
+            <form cForm [formGroup]="editForm" (ngSubmit)="addUser()">
+              <div class="mb-3">
+                <label cLabel  >Name *</label>
+                <input cFormControl
+                       id="exampleFormControlInput1"
+                       placeholder="Name"
+                       type="text"
+                       formControlName="name"
+                />
+
+                <div class="error">
+                    <p *ngIf="editForm.get('name').errors?.required && (editForm.get('name').dirty || editForm.get('name').touched)" class="error">Please enter name.</p>
+                    <p *ngIf="editForm.get('name').errors?.pattern && (editForm.get('name').dirty || editForm.get('name').touched)" class="error">Name should be only alphabet.</p>
+                </div>
+
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput2">Email *</label>
+                <input cFormControl
+                       id="exampleFormControlInput2"
+                       placeholder="Email"
+                       type="email"
+                       formControlName="email"
+                />
+
+                <div class="error">
+                    <p *ngIf="editForm.get('email').errors?.required && (editForm.get('email').dirty || editForm.get('email').touched)" class="error">Please enter valid email.</p>
+                    <!-- <p *ngIf="editForm.get('email').errors?.email && (editForm.get('email').dirty || editForm.get('email').touched)" class="error">Please enter valid email1.</p> -->
+                    <p *ngIf="editForm.get('email').errors?.pattern && (editForm.get('email').dirty || editForm.get('email').touched)" class="error">Please enter valid email.</p>
+                </div>
+
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput3">Phone *</label>
+                <input cFormControl
+                       id="exampleFormControlInput3"
+                       placeholder="Phone"
+                       type="text"
+                       formControlName="phone"
+                />
+
+                <div class="error">
+                    <p *ngIf="editForm.get('phone').errors?.required && (editForm.get('phone').dirty || editForm.get('phone').touched)" class="error">Please enter phone.</p>
+                    <p *ngIf="editForm.get('phone').errors?.pattern && (editForm.get('phone').dirty || editForm.get('phone').touched)" class="error">Phone should be only 10 digit number.</p>
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput">Role *</label>
+                <select aria-label="Default select example" cSelect formControlName="roles">
+                  <option value="">Select Role</option>
+                  <option [value]="role.slug" *ngFor="let role of roleList">{{role.name}}</option>
+                </select>  
+                <div class="error">
+                    <p *ngIf="editForm.get('roles').errors?.required && (editForm.get('roles').dirty || editForm.get('roles').touched)" class="error">Please select Role.</p>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput3">Password *</label>
+                <input cFormControl
+                       id="exampleFormControlInput3"
+                       placeholder="Password"
+                       type="password"
+                       formControlName="password"
+                />
+
+                <div class="error">
+                    <p *ngIf="editForm.get('password').errors?.required && (editForm.get('password').dirty || editForm.get('password').touched)" class="error">Please enter password.</p>
+                    <p *ngIf="editForm.get('password').errors?.pattern && (editForm.get('password').dirty || editForm.get('password').touched)" class="error">Password should be minimum 8 character including one number, one capital letter and one special character.</p>
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput3">Confirm Password *</label>
+                <input cFormControl
+                       id="exampleFormControlInput3"
+                       placeholder="Confirm Password"
+                       type="password"
+                       formControlName="confirm_password"
+                />
+
+                <!-- <div class="error" *ngFor="let validation of validation_messages.conpassword">
+                    <p *ngIf="editForm.get('conpassword').hasError(validation.type) && (editForm.get('conpassword').dirty || editForm.get('conpassword').touched)">{{ validation.message }}</p>
+                </div> -->
+                <div class="error">
+                        <p *ngIf="editForm.get('confirm_password').errors?.required && (editForm.get('confirm_password').dirty || editForm.get('confirm_password').touched)" class="error">Please enter confirm password.</p>
+                        <p *ngIf="editForm.get('confirm_password').errors?.mustMatch && (editForm.get('confirm_password').dirty || editForm.get('confirm_password').touched)" class="error">Confirm Password doesn't match</p>
+                </div>
+              </div>
+
+              <button 
+              cButton
+              class="me-1"
+              [disabled]="!editForm.valid"
+              type="submit"
+                >
+                Save  
+            </button>
+
+
+            </form>
+          <!-- </app-docs-example> -->
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+
+
+  </c-row>
+  
+  

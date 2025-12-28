@@ -1,0 +1,71 @@
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+
+      <c-card class="mb-4">
+        <c-card-header>
+          <div class="sub-head">
+          <strong>Role List</strong>
+
+
+          <button cButton class="me-1" routerLink="/access/addrole" *ngIf="loginRights[2]?.access?.create">
+            Add New Role
+          </button>
+          <button cButton class="me-1" routerLink="/access/addrole" *ngIf="loginRights[0]?.access?.full">
+            Add New Role
+          </button>
+          </div>
+
+        </c-card-header>
+        <c-card-body>
+
+            <!-- <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+              <div>{{displayMessage}}</div>
+            </c-alert>
+
+            <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+              <div>{{errorMessage}}</div>
+            </c-alert> -->
+
+            <table cTable>
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of userRoleData;let i = index;">
+                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                <td>{{user.name}}</td>
+                <td>
+                    <!-- <a (click)="changeStatus(user.id, user.slug, i)"> -->
+                        <span *ngIf="user.status==false" class="text-inactive">Inactive</span>
+                        <span *ngIf="user.status!=false" class="text-active">Active</span>
+                    <!-- </a> -->
+                </td>
+                <td>
+                  <em *ngIf="loginRights[0]?.access?.full">
+                    <a *ngIf="user.slug!='administrator' && user.slug!='student'" (click)="editRolePermission(user.id)" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <a *ngIf="user.slug!='administrator' && user.slug!='student' && user.slug!='editor'"  (click)="delRole(user.id)" title="Delete"><i class="bi bi-trash"></i></a>
+                  </em>
+                  <em *ngIf="loginRights[2]?.resource === 'roles'">
+                    <a *ngIf="user.slug!='administrator' && user.slug!='student' && loginRights[2]?.access?.update" (click)="editRolePermission(user.id)" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <a *ngIf="user.slug!='administrator' && user.slug!='student' && user.slug!='editor' && loginRights[2]?.access?.delete"  (click)="delRole(user.id)" title="Delete"><i class="bi bi-trash"></i></a>
+                  </em>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+        </c-card-body>
+        <c-card-footer *ngIf="userRoleData.length > 0">
+          <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getUserRoleList($event)">
+          </app-pagination>
+        </c-card-footer>
+      </c-card>
+    </c-col>
+</c-row>

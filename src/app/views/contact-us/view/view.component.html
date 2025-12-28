@@ -1,0 +1,95 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/contact-us/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel>Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter title"
+                           type="text"
+                           formControlName="title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Section Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter Section Title"
+                           type="text"
+                           formControlName="subtitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Email *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter email"
+                           type="text"
+                           formControlName="email"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Type</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter type"
+                           type="text"
+                           formControlName="type"
+                           readonly
+                        />
+                    </div>
+                </form>
+
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

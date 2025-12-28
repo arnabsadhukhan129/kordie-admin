@@ -1,0 +1,124 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/user/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >First Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="First Name"
+                           type="text"
+                           formControlName="first_name"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('first_name')?.errors?.['required'] || addEditForm.get('first_name')?.errors?.['pattern']) 
+                                        && (addEditForm.get('first_name')?.dirty || addEditForm.get('first_name')?.touched)" 
+                                class="error">
+                                Please enter first name.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Last Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Last Name"
+                           type="text"
+                           formControlName="last_name"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('last_name')?.errors?.['required'] || addEditForm.get('last_name')?.errors?.['pattern']) 
+                                        && (addEditForm.get('last_name')?.dirty || addEditForm.get('last_name')?.touched)" 
+                                class="error">
+                                Please enter last name.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Email *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Email"
+                           type="text"
+                           formControlName="email"
+                           [readonly]="detailsId"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel for="exampleFormControlInput3">Phone *</label>
+                        <input cFormControl id="exampleFormControlInput3" placeholder="phone" type="text" formControlName="phone"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('phone')?.errors?.['required']) 
+                                        && (addEditForm.get('phone')?.dirty || addEditForm.get('phone')?.touched)" 
+                                class="error">
+                                Please enter phone number.
+                            </p>
+                            <p *ngIf="(addEditForm.get('phone')?.errors?.['pattern']) 
+                                        && (addEditForm.get('phone')?.dirty || addEditForm.get('phone')?.touched)" 
+                                class="error">
+                                Invalid phone number
+                            </p>
+                        </div>
+                      </div>
+
+                      <div class="mb-3" *ngIf="!detailsId">
+                        <label cLabel> Role *</label>
+                        <select aria-label="Default select example" cSelect formControlName="user_type">
+                            <option value="" hidden disabled>Select Role</option>
+                            <!-- <option value="admin">Admin</option>
+                            <option value="sub_admin">Sub Admin</option>
+                            <option value="product_manager">Product Manager</option> -->
+                            <option value="sub_admin">Super Admin</option>
+                            <option value="product_manager">Manager</option>
+                            <!-- <option value="user">User</option>
+                            <option value="corporate_user" hidden disabled>Corporate User</option> -->
+                        </select>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('user_type')?.errors?.['required'] || addEditForm.get('user_type')?.errors?.['pattern']) && (addEditForm.get('user_type')?.dirty || addEditForm.get('user_type')?.touched)" class="error">Please select role.</p>
+                        </div>
+                    </div>
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

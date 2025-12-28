@@ -1,0 +1,107 @@
+<div class="row">
+  <!-- <h3>Coming Soon.....</h3> -->
+  <div class="col-lg-4">
+    <div class="dashboard-box">
+      <div class="content" >
+        <svg cIcon name="cilUser" size="xl" class="active-icon"></svg>
+        <h3>{{userno.active_count}}</h3>
+        <p>Active App {{userno.active_count > 1 ? 'Users' : 'User' }}</p>
+      </div>
+      <div class="content" >
+        <svg cIcon name="cilUser" size="xl" class="inactive-icon"></svg>
+        <h3>{{userno.inactive_count}}</h3>
+        <p>Inactive App {{userno.inactive_count > 1 ? 'Users' : 'User' }}</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="dashboard-box">
+      <div class="content" >
+        <svg cIcon name="cilFile" size="xl" class="active-icon"></svg>
+        <h3>{{courseno.active_count}}</h3>
+        <p>Active {{courseno.active_count > 1 ? 'Courses' : 'Course' }}</p>
+      </div>
+      <div class="content" >
+        <svg cIcon name="cilFile" size="xl" class="inactive-icon"></svg>
+        <h3>{{courseno.inactive_count}}</h3>
+        <p>Inactive {{courseno.inactive_count > 1 ? 'Courses' : 'Course' }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="dashboard-box">
+      <div class="content" >
+        <svg cIcon name="cilNotes" size="xl" class="active-icon"></svg>
+        <h3>{{chapterno.active_count}}</h3>
+        <p>Active {{chapterno.active_count > 1 ? 'Topics' : 'Topic' }}</p>
+      </div>
+      <div class="content" >
+        <svg cIcon name="cilNotes" size="xl" class="inactive-icon"></svg>
+        <h3>{{chapterno.inactive_count}}</h3>
+        <p>Inactive {{chapterno.inactive_count > 1 ? 'Topics' : 'Topic' }}</p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- <div class="row">
+  <div class="col-md-12">
+    <h2>Transaction Graph</h2>
+    <div class="graph">
+      <img src="assets/images/graph.png" alt="">
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="graph-heading">Transaction Graph</div> -->
+
+<!-- <c-col class="graph-ele" sm="7">
+
+
+  <div class="date-picker">
+    <span>
+      <input cFormControl placeholder="Start Date" type="date" [max]="today_date" [(ngModel)]="start_date" />
+    </span>
+
+    <span>
+      <input cFormControl placeholder="End Date" type="date" [max]="today_date" [(ngModel)]="end_date" />
+    </span>
+
+    <div class="searchbutton">
+      <button cButton class="me-1" (click)="getChangedDateGraph()">
+        Search
+      </button>
+    </div>
+
+  </div>
+
+  <div class="graph-radio">
+    <form [formGroup]="trafficRadioGroup">
+
+      <c-button-group class="float-end me-3 graph-button" role="group">
+        <input class="btn-check" formControlName="trafficRadio" type="radio" value="Day" />
+        <label (click)="setTrafficPeriod('Day')" cButton cFormCheckLabel color="secondary" variant="outline">Day</label>
+
+        <input class="btn-check" formControlName="trafficRadio" type="radio" value="Month" />
+        <label (click)="setTrafficPeriod('Month')" cButton cFormCheckLabel color="secondary" variant="outline">Month</label>
+
+        <input class="btn-check" formControlName="trafficRadio" type="radio" value="Year" />
+        <label (click)="setTrafficPeriod('Year')" cButton cFormCheckLabel color="secondary" variant="outline">Year</label>
+      </c-button-group>
+
+    </form>
+  </div>
+
+</c-col> -->
+
+<!-- <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+  <div>{{errorMessage}}</div>
+</c-alert>
+
+<c-chart [data]="mainChart.data" [height]="300" [ngStyle]="{ 'marginTop.px': 40 }" [options]="mainChart.options" [type]="mainChart.type">
+  Mainn chartttt
+</c-chart> -->

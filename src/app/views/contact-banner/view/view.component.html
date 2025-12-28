@@ -1,0 +1,115 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/contact-banner/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel>Title</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Title"
+                            type="text"
+                            formControlName="title"
+                            readonly
+                        />
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label cLabel>Image *</label>
+                        <input cFormControl  type="file" formControlName="image" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div> -->
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <!-- <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;" /> -->
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel >Image</label>
+                            <img class="imgVideo_box"  [src]="imagePreview" alt="Preview">
+                        </div>
+                    </div>
+                   
+                    <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card" *ngIf="getDetails?.stats?.length > 0">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Stats :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="stats" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let statsItem of statsControls; let i = index"
+                            [formGroupName]="i"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title </label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                        Please enter text.
+                                    </div> -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Link </label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Link"
+                                        type="text"
+                                        formControlName="link"
+                                        readonly
+                                        />
+                                    <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                        Please enter text.
+                                    </div> -->
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeStatsItem(i)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <!-- <div class="mb-1 mt-3" *ngIf="statsControls && statsControls.length < 2">
+                            <button cButton color="primary" type="button" (click)="addStatsItem()" >Add Item</button>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+                </form>
+
+            </c-card-body>
+
+        </c-card>
+    </c-col>
+</c-row>

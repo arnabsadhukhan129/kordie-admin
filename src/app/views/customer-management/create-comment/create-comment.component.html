@@ -1,0 +1,83 @@
+<div class="backbutton">
+    <button cButton class="me-1" [routerLink]="['/customer-management/comment-logs', detailsId]">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Subject *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Subject"
+                           type="text"
+                           formControlName="subject"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('subject')?.errors?.['required'] || addEditForm.get('subject')?.errors?.['pattern']) 
+                                        && (addEditForm.get('subject')?.dirty || addEditForm.get('subject')?.touched)" 
+                                class="error">
+                                Please enter subject.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Comment *</label>
+                        <!-- <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Comment"
+                           type="text"
+                           formControlName="comment"
+                        /> -->
+                        <textarea
+                            cFormControl
+                            placeholder="Comment"
+                            formControlName="comment"
+                        ></textarea>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('comment')?.errors?.['required'] || addEditForm.get('comment')?.errors?.['pattern']) 
+                                        && (addEditForm.get('comment')?.dirty || addEditForm.get('comment')?.touched)" 
+                                class="error">
+                                Please enter comment.
+                            </p>
+                        </div>
+                    </div>
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

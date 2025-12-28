@@ -1,0 +1,33 @@
+<div class="card">
+
+  <div class="details">
+      <!-- <div class="block" *ngIf="contentData.name">
+          <label>
+              <h6>Name : </h6>{{contentData.name}}
+          </label>
+      </div>
+      <div class="block" *ngIf="contentData.order">
+          <label>
+              <h6>Order : </h6>{{contentData.order}}
+          </label>
+      </div>
+      <div class="block" *ngIf="contentData.featureImage">
+          <label>
+              <h6>Image : </h6>
+
+                  <div class="display-image">
+                      <img src="{{contentData.featureImage}}" height="150px" >
+                  </div>
+          </label>
+      </div> -->
+ 
+      <div class="block" *ngIf="contentData.content">
+          <label>
+              <!-- <h6>Content : </h6> -->
+              <div [innerHTML]="contentData.content"></div>
+          </label>
+      </div>
+           
+  </div>
+
+</div>

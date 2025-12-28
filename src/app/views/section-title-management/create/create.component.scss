@@ -1,0 +1,11 @@
+.input_appearance_none {
+    background: none;
+    border: none;
+    box-shadow: none;
+  
+    -webkit-appearance: none; /* remove default appearance on Webkit-based browsers */
+    -moz-appearance: none; /* remove default appearance on Mozilla-based browsers */
+    appearance: none; /* remove default appearance on all other browsers */
+  }
+
+  

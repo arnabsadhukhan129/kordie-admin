@@ -1,0 +1,69 @@
+<div class="backbutton">
+    <button cButton class="me-1" (click)="backClicked()">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back
+    </button>
+  </div>
+  
+  <c-row ngPreserveWhitespaces>
+      <c-col xs="12">
+  
+      </c-col>
+      <c-col xs="12">
+        <c-card class="mb-4">
+          <c-card-header>
+            <strong>Add Role</strong>
+          </c-card-header>
+          <c-card-body>
+  
+           
+  
+              <!-- <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                <div>{{displayMessage}}</div>
+              </c-alert>
+      
+              <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                <div>{{errorMessage}}</div>
+              </c-alert> -->
+              
+          
+              <form cForm [formGroup]="editForm" (ngSubmit)="saveRole()">
+                <div class="mb-3">
+                  <label cLabel >Name *</label>
+                  <input cFormControl
+                         id="exampleFormControlInput1"
+                         placeholder="Name"
+                         type="text"
+                         formControlName="name"
+                  />
+  
+                  <div class="error">
+                      <p *ngIf="editForm.get('name').errors?.required && (editForm.get('name').dirty || editForm.get('name').touched)" class="error">Please enter name.</p>
+                      <p *ngIf="editForm.get('name').errors?.pattern && (editForm.get('name').dirty || editForm.get('name').touched)" class="error">Name should be only alphabet.</p>
+                  </div>
+  
+                </div>                
+  
+                <button 
+                cButton
+                class="me-1"
+                [disabled]="!editForm.valid"
+                type="submit"
+                  >
+                  Save & Next  
+              </button>
+  
+  
+              </form>
+            <!-- </app-docs-example> -->
+          </c-card-body>
+        </c-card>
+      </c-col>
+  
+  
+  
+    </c-row>
+    
+    

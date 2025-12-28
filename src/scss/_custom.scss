@@ -1,0 +1,499 @@
+// --------   common CSS --  start -----
+.button_appearance_none {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+
+  -webkit-appearance: none; /* remove default appearance on Webkit-based browsers */
+  -moz-appearance: none; /* remove default appearance on Mozilla-based browsers */
+  appearance: none; /* remove default appearance on all other browsers */
+}
+.input_appearance_none {
+  background: none;
+  border: none;
+  box-shadow: none;
+
+  -webkit-appearance: none; /* remove default appearance on Webkit-based browsers */
+  -moz-appearance: none; /* remove default appearance on Mozilla-based browsers */
+  appearance: none; /* remove default appearance on all other browsers */
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.pointer_event_none {
+  pointer-events: none;
+}
+.input_pointer_event_none {
+  pointer-events: none;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+// --------   common CSS --  end -----
+
+//  ---- Reset Style --- start  --
+// Here you can add other styles
+
+.cke_notifications_area {
+    display: none !important;
+  }
+
+//  ---- Reset Style --- end  --
+
+// ==== Global style -- CSS / SCSS -- start ====
+
+.header_user_btn {
+  // border: 1px solid;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .avatar-img {
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
+    object-position: center center;
+  }
+
+}
+
+
+.backbutton_spaceBlock {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  
+}
+
+
+// -- Sidebar style start --
+.sidebar_area {
+
+    .sidebar-nav {
+
+      padding-bottom: 70px;
+
+      .nav-item {
+        margin-bottom: 1px;
+      }
+
+      .nav-link {
+        // padding: 10px 5px;
+        padding: 10px 14px 10px 5px;
+        font-size: 14px;
+        justify-content: flex-start;
+
+        .nav-icon {
+          margin-right: 10px;
+          margin-left: 2px !important;
+          max-width: 15px;
+          flex: none;
+        }
+
+      }
+
+      .nav-group-items {
+        .nav-link {
+          padding-left: 20px !important;
+        }
+      }
+
+    }
+
+}
+// -- Sidebar style end --
+
+.section_title_block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.page_search_block {
+  position: relative;
+  margin: 0 0 12px;
+}
+.page_search_block .searchbutton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+}
+.page_search_block .search_btn_icon {
+  background-color: #666;
+  color: #fff;
+  padding: 7px 20px;
+  height: auto;
+  border-radius: 0 5px 5px 0;
+
+  -webkit-transition: all .3s ease .15s;
+  -moz-transition: all .3s ease .15s;
+  -o-transition: all .3s ease .15s;
+  -ms-transition: all .3s ease .15s;
+  transition: all .3s ease .15s;
+}
+.page_search_block .search_btn_icon {
+
+  background-color: #f5821f;
+
+  -webkit-transition: all .3s ease .15s;
+  -moz-transition: all .3s ease .15s;
+  -o-transition: all .3s ease .15s;
+  -ms-transition: all .3s ease .15s;
+  transition: all .3s ease .15s;
+
+}
+// -- table design fixing --- start ---
+
+.table_resposive_block {
+  overflow-x: auto;
+}
+
+.section_title_block_right {
+
+}
+
+.card-body {
+ .table {
+  th {
+    align-content: center;
+
+  }
+  td {
+    align-content: center;
+  }
+  .table_th {
+    align-content: center;
+    min-width: 70px;
+  }
+  .table_text_center {
+    text-align: center;
+  }
+ }
+}
+
+.table_text_center {
+  text-align: center;
+}
+ .table_action_btn {
+  min-width: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    text-decoration: none;
+  }
+
+ }
+
+.table_icon_btn i {
+  color: #f5821f;
+}
+.table_icon_btn:hover i {
+  color: #666;
+}
+
+.table_td_img {
+ height: 50px;
+ width: 50px;
+  // padding: 5px;
+  object-fit: contain;
+  object-position: center;
+  border: 1px solid #b1b7c1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img{
+    max-height: 44px;
+    max-width: 44px;
+  }
+}
+
+.td_blogDes_block  {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  .table_td_des_img {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: contain;
+    object-position: center;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .table_td_des_text {
+    line-height: 1.2;
+  }
+
+
+}
+
+
+ul.pagination  {
+  li.page-item {
+    a.page-link {
+      color: #f5821f;
+      font-size: 10px;
+
+    }
+    a.page-link.active {
+      background-color: #f5821f;
+      border: 1px solid #f5821f;
+      color: #fff;
+    }
+  }
+}
+
+// -- table design fixing --- end ---
+
+// -- View page -- start ---
+.view_page_cardBody {
+  .form-label {
+    font-weight: 600;
+  }
+}
+
+// -- View page -- end ---
+
+// Add / Edit -- Page -- start --
+.imgVideo_preview {
+  display: flex;
+  flex-direction: column;
+  gap: 30;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.imgVideo_box {
+  border: 1px solid #b1b7c1;
+
+  height: 150px;
+  width: 150px;
+  padding: 10px;
+  object-fit: contain;
+  object-position: center;
+}
+.cke_chrome {
+  border-radius: 8px;
+  overflow: hidden;
+}
+// Add / Edit -- Page -- end --
+
+button.btn.btn-status-toggle.btn_active,
+button.btn.btn-status-toggle.btn_active:focus {
+  border: 1px solid;
+  color: #fff;
+  background-color: rgb(0, 179, 74);
+  border-color: rgb(0, 179, 74);
+}
+button.btn.btn-status-toggle.btn_inactive,
+button.btn.btn-status-toggle.btn_inactive:focus {
+  border: 1px solid;
+  color: #fff;
+  background-color: #f5821f;
+  border-color: #f5821f;
+}
+.btn.btn-status-toggle:hover {
+  background: none;
+}
+.btn-status-toggle {
+  min-width: 100px;
+  text-align: center;
+}
+
+// toast Block --
+.toastErrorBlock {
+  background-color: #f5631f !important;
+  color: #fff;
+  background-image: none !important;
+}
+.toastSuccessBlock {
+  background-color: rgb(0, 179, 74) !important;
+  color: #fff;
+  background-image: none !important;
+}
+
+// ==== Global style -- CSS / SCSS -- end ===
+
+// ==== card Style -- start ---
+
+.inner_card_body {
+  position: relative;
+
+    .inner_card_title {
+      position: absolute;
+      padding: 5px 20px;
+      font-weight: bold;
+      line-height: 1;
+      top: -20px;
+      left: 10px;
+
+       background-color: var(--cui-card-bg);
+      // background-color: #f5821f;
+
+      border: var(--cui-card-border-width) solid var(--cui-card-border-color);
+      border-radius: var(--cui-card-border-radius);
+    }
+
+ 
+    .inner_card_close_btn  {
+      position: absolute;
+      right: -10px;
+      top: -10px;
+    }
+
+
+
+    .card_close_btn_wrap {
+      position: relative;
+
+      .inner_card_close_btn  {
+        position: absolute;
+        right: -25px;
+        top: -30px;
+      }
+    }
+
+}
+
+.inner_repeat_block {
+  background: #f8f8f8;
+}
+.close_btn {
+  color: #fff;
+  border-radius: 100px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    line-height: 1;
+    font-weight: bold;
+  }
+}
+
+
+// ==== card Style -- end ---
+
+// ==== Form style-- start ---
+.dropdown-multiselect__caret::before {
+
+ // border-style: none !important;
+
+  background-image: url(../assets/kordie-admin-image/select_down_arrow.svg);
+  border-width: 0px 7px 0 !important;
+  border-color: transparent !important;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 16px 12px;
+  top: 8px !important;
+  left: 0;
+  background-position: center;
+
+}
+.dropdown-multiselect--active {
+
+  .dropdown-multiselect__caret {
+    transform: rotateZ(0) !important;
+  }
+
+}
+
+.multiselect-dropdown {
+
+    .selected-item {
+      border: 1px solid #7c7c7c !important;
+      background: #7c7c7c !important;
+      color: #fff !important;
+      margin-top: 2px;
+      margin-bottom: 2px !important;
+    }
+
+}
+.multiselect-item-checkbox {
+
+  input[type=checkbox]+ div:before {
+    border: 1px solid #7c7c7c !important;
+  }
+
+
+  input[type=checkbox]:checked + div:before {
+    border: 1px solid #7c7c7c !important;
+    background: #7c7c7c !important;
+    // width: 16px;
+    // height: 16px;
+  }
+
+}
+
+.multiselect-item-checkbox[_ngcontent-hpt-c47] input[type=checkbox][_ngcontent-hpt-c47] + div[_ngcontent-hpt-c47]:before {
+
+}
+
+// .multiselect-item-checkbox[_ngcontent-qax-c47] input[type=checkbox][_ngcontent-qax-c47] + div[_ngcontent-qax-c47]:before {
+//   border: 1px solid #b1b7c1;
+// }
+
+.input_percentage_block {
+  position: relative;
+}
+.percentage_icon {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  font-weight: bold;
+}
+
+// ==== Form style-- end ---
+
+
+//  ==**==  Responsive adjustment -- start -------
+$extraSmall: 568px;
+$small: 768px;
+$medium: 991px;
+$tab: 1024px;
+$large: 1199px;
+$extraLarge: 1366px;
+
+
+/* Using responsive -- CSS */
+@media (max-width: $large) {
+
+  .td_blogDes_block {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+}
+//  ==**==  Responsive adjustment -- end -------

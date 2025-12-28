@@ -1,0 +1,14 @@
+<div *ngIf="pages.length >= 1">
+    <c-pagination align="end" aria-label="Page navigation example">
+        <li cPageItem (click)="onClickPage(activePage - 1)">
+            <a cPageLink aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+        <li cPageItem *ngFor="let item of pages"
+            (click)="onClickPage(item)">
+            <a cPageLink  [ngClass]="{'active': activePage === item}">{{item}}</a>
+        </li>
+        <li cPageItem (click)="onClickPage(activePage + 1)">
+            <a cPageLink aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+    </c-pagination>
+</div>

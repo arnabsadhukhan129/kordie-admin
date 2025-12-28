@@ -1,0 +1,119 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/titlelist">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12"></c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Edit Section Title Details</strong>
+                        </div>
+                        <div class="section_title_block_right"></div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <form [formGroup]="addTitleForm" (ngSubmit)="addEditTitle()">
+                    <!-- Title Name Field -->
+                    <div class="mb-3" >
+                      <label cLabel>Title Name *</label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Name"
+                        type="text"
+                        formControlName="name"
+                      />
+                      <div class="error">
+                        <p *ngIf="(addTitleForm.get('name').errors?.required || addTitleForm.get('name').errors?.pattern) 
+                                   && (addTitleForm.get('name').dirty || addTitleForm.get('name').touched)"
+                           class="error">
+                          Please enter title name.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title3 && !title4 &&
+                    !title5 && !title6 && !title7 && !title8 && !title9 && !title11">
+                      <label cLabel>Subtitle *</label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Subtitle"
+                        type="text"
+                        formControlName="subtitle"
+                      />
+                    </div>
+                  
+                    <!-- Image Field -->
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title3 && !title4
+                    && !title5 && !title6  && !title8 && !title9 && !title10 && !title11 && !title12">
+                      <label cLabel>Image</label>
+                      <input
+                        cFormControl
+                        type="file"
+                        formControlName="image"
+                        accept="image/*"
+                        (change)="onImageSelected($event)"
+                      />
+                    </div>
+                    <div *ngIf="!title1 && !title2 && !title3 && !title4 &&
+                    !title5 && !title6 && !title8 && !title9 && !title10 && !title11 && !title12 && imagePreview" class="image-preview mb-3 imgVideo_preview">
+                      <label cLabel>Image Preview</label>
+                      <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 150px; max-height: 150px;" />
+                    </div>
+                  
+                    <!-- Video Field -->
+                    <div class="mb-3" *ngIf="title10">
+                      <label cLabel>Video</label>
+                      <input
+                        cFormControl
+                        type="file"
+                        formControlName="video"
+                        accept="video/*"
+                        (change)="onVideoSelected($event)"
+                      />
+                    </div>
+                    <div *ngIf="title10 && videoPreview" class="video-preview mb-3">
+                      <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+                  
+                    <!-- Description Field -->
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title4 &&
+                    !title5 && !title7 && !title8 && !title9 && !title12">
+                      <label cLabel>Description</label>
+                      <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                    </div>
+                  
+                    <!-- URL Field -->
+                    <div class="mb-3" *ngIf="!title1 && !title2 && !title3 && !title4
+                    && !title5 && !title6 && !title7 && !title8 && !title9 && !title10 && !title11 && !title12">
+                      <label cLabel>URL</label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput2"
+                        placeholder="url"
+                        type="text"
+                        formControlName="url"
+                      />
+                    </div>
+                  
+                    <!-- Save Button -->
+                    <div class="mb-3">
+                      <button cButton class="me-1" type="submit" [disabled]="!addTitleForm.valid">Save</button>
+                    </div>
+                  </form>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
+
+  

@@ -1,0 +1,69 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/customer-management/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+
+                    <div class="mb-3">
+                        <label cLabel >Customer</label>
+                        <select aria-label="Default select example" cSelect formControlName="customer_id">
+                            <option value="" hidden disabled>Select Customer</option>
+                            <option *ngFor="let getCustomer of customerList" [value]="getCustomer._id"> {{ getCustomer.fullName }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Couse </label>
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Select Course'"
+                          [data]="courseList || []"
+                          [settings]="dropdownSettings_course"
+                          formControlName="courses">
+                        </ng-multiselect-dropdown>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Subscription</label>
+                        <select aria-label="Default select example" cSelect formControlName="subcription_plan">
+                            <option value="" hidden disabled>Select Subscription</option>
+                            <option *ngFor="let getSubs of subscriptionList" [value]="getSubsValue(getSubs)" > {{ stripHtml(getSubs.plan_name) }}</option>
+                        </select>
+                    </div>
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

@@ -1,0 +1,83 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/master-list/type-list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="name"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('name')?.errors?.['required'] || addEditForm.get('name')?.errors?.['pattern']) && (addEditForm.get('name')?.dirty || addEditForm.get('name')?.touched)" class="error">
+                                Please enter name.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Color *</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            type="color"
+                            formControlName="color"
+                            style="height: 60px; width: 100px; border: 0px none;"
+                        />
+
+                        <!-- <div class="error">
+                            <p *ngIf="(addEditForm.get('color')?.errors?.['required'] || addEditForm.get('color')?.errors?.['pattern']) && (addEditForm.get('color')?.dirty || addEditForm.get('color')?.touched)" class="error">
+                                Please select color.
+                            </p>
+                        </div> -->
+                    </div>
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

@@ -1,0 +1,89 @@
+<div class="backbutton">
+    <button cButton class="me-1" (click)="goBack()">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <div class="search-element page_search_block">
+            <div class="searchval">
+                <input cFormControl placeholder="Search By Email Id" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchVal"/>
+            </div>
+            <div class="searchbutton">
+                <button class="button_appearance_none search_btn_icon" >
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Subscribed User List</strong>
+                        </div>
+                        <!-- <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/user/create">
+                                Add User
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Email Id</th>
+                                <th scope="col">Subscription Start Date<br/>(MM-DD-YYYY)</th>
+                                <th scope="col">Subscription End Date <br/>(MM-DD-YYYY)</th>
+                                <th scope="col" class="table_text_center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i= index">
+                                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                                <td>{{item?.USER?.first_name ?item?.USER?.first_name : 'N/A'}}</td>
+                                <td>{{item?.USER?.last_name ? item?.USER?.last_name : 'N/A'}}</td>
+                                <td>{{item?.USER?.email ? item?.USER?.email : 'N/A'}}</td>
+                                <td>{{item?.subscription_date ? (item?.subscription_date | date:'MM-dd-yyyy') : 'N/A'}}</td>
+                                <td>{{item?.subscription_end_date ? (item?.subscription_end_date | date:'MM-dd-yyyy') : 'N/A'}}</td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn"
+                                        [routerLink]="['/subscription/subscribed-user-details/', detailsId, item._id]"
+                                        (click)="currentPage()"
+                                        title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                     
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!listData?.length">
+                                <td colspan="7">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </c-card-body>
+            <c-card-footer *ngIf="listData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getList($event)">
+                </app-pagination>
+            </c-card-footer>
+        </c-card>
+    </c-col>
+</c-row>

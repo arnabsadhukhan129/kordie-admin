@@ -1,0 +1,285 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/dashboard">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To Dashboard
+    </button>
+</div>
+
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <div class="search-element page_search_block">
+            <div class="searchval">
+                <input cFormControl placeholder="Search here" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchVal"/>
+            </div>
+            <div class="searchbutton">
+                <button class="button_appearance_none search_btn_icon" >
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>User List</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/user/create">
+                                Add User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Email Id</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Corporate User</th>
+                                <th scope="col" class="table_text_center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i= index">
+                                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                                <td>{{item.first_name ? item.first_name : 'N/A'}}</td>
+                                <td>{{item.last_name ? item.last_name : 'N/A'}}</td>
+                                <td>{{item.email ? item.email : 'N/A'}}</td>
+                                <td>{{item.phone ? item.phone : 'N/A'}}</td>
+                                <td>{{item.corporate_enquiry_id ? item.corporate_enquiry_id.full_name : 'N/A'}}</td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn" (click)="viewUser(viewUserModal,item)" title="View" style="cursor: pointer;"><i class="bi bi-eye"></i></a>
+                                        
+                                        <a class="table_icon_btn" [routerLink]="['/user/edit', item._id]"  (click)="currentPage()" title="Edit"><i class="bi bi-pencil"></i></a>
+                                        <a class="table_icon_btn" (click)="delete(item._id)" style="cursor: pointer;" title="Delete"><i class="bi bi-trash"></i></a>
+                                        <button
+                                            class="button_appearance_none table_icon_btn"
+                                            title="Enrolled Course List"
+                                            [routerLink]="['/user/enrolled-course', item._id]"
+                                            *ngIf="item.user_type[0] !== 'sub_admin' && item.user_type[0] !== 'admin' && item.user_type[0] !== 'product_manager'">
+                                            <i class="bi bi-view-list"></i>
+                                        </button>
+                                        <!-- <button
+                                            class="button_appearance_none table_icon_btn"
+                                            title="Subscription Plan List"
+                                            [routerLink]="['/user/Subscription-plan', item._id]"
+                                            *ngIf="item.user_type[0] !== 'sub_admin' && item.user_type[0] !== 'admin' && item.user_type[0] !== 'product_manager'">
+                                            <i class="bi bi-list-ul"></i>
+                                        </button> -->
+                                        <button
+                                            class="button_appearance_none table_icon_btn"
+                                            title="Role Permission"
+                                            [routerLink]="['/user/role-permission', item._id]"
+                                            *ngIf="item.user_type[0] === 'sub_admin' || item.user_type[0] === 'admin' || item.user_type[0] === 'product_manager'">
+                                            <i class="bi bi-shield-lock"></i>
+                                        </button>
+                                        <!-- <button cButton
+                                        class="btn-sm me-1"
+                                        [routerLink]="['/user/enrolled-course', item._id]">
+                                             Enrolled Course List
+                                        </button> -->
+                                        <!-- <button cButton
+                                        class="btn-sm me-1"
+                                        [routerLink]="['/user/Subscription-plan', item._id]">
+                                             Subscription Plan List
+                                        </button> -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!listData?.length">
+                                <td colspan="6">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </c-card-body>
+            <c-card-footer *ngIf="listData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getList($event)">
+                </app-pagination>
+            </c-card-footer>
+        </c-card>
+    </c-col>
+</c-row>
+
+<ng-template #viewUserModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">User Details</h5>
+        <button type="button" cButton class="btn btn-close me-1" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body">
+        <div *ngIf="userDetails; else loadingBlock">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <img [src]="userDetails?.picture || 'assets/img/avatars/blank-profile-picture.webp'" alt="Profile Picture" class="rounded-circle" width="60" height="60"
+                    style="object-fit: cover;" />
+                <h4 class="mb-0">{{ userDetails?.first_name }} {{ userDetails?.last_name }}</h4>
+            </div>
+
+            <div class="user-details-grid">
+                <!-- Column 1 -->
+                <div class="form-group">
+                    <label class="grid-label">Email:</label>
+                    <input class="grid-input" type="email" [value]="userDetails?.email || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Phone:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.phone || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">User Type:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.user_type[0] ? breakWord(userDetails?.user_type[0]) : '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Status:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.is_active" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Product News:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.product_news" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="form-group">
+                    <label class="grid-label">Data Updates:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.data_updates" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Is Validated:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.is_validated" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                 <div class="form-group">
+                    <label class="grid-label">Promotion Tips</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.promotion_tips" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Account Updates</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.account_updates" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">User Signup Step Done</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" [checked]="!!userDetails.user_signup_step_done" disabled />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group full-row">
+                    <label class="grid-label">Goal:</label>
+                    <select class="grid-input" multiple disabled>
+                        <option class="multiple-input" *ngFor="let g of userDetails.goal" selected>
+                            {{ g }}
+                        </option>
+                    </select>
+                </div>
+
+                
+
+                <div class="form-group full-row">
+                    <label class="grid-label">User Notify Email:</label>
+                    <select class="grid-input" multiple disabled>
+                        <option class="multiple-input" *ngFor="let notify of userDetails.user_notify_email" selected>
+                            {{ notify?.email || "--" }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Heard About Us From:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.about_us || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Current Role:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.current_role || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Workplace:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.work_place || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Language:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.language || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Timezone:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.timezone || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Linkedin:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.linkedin || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Short Bio:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.shortbio || '--'" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="grid-label">Created At:</label>
+                    <input class="grid-input" type="text" [value]="userDetails?.createdAt ? formatDate(userDetails?.createdAt) : '--'" readonly />
+                </div>
+
+                <!-- <div class="form-group">
+                    <label class="grid-label">Last Login:</label>
+                    <input class="grid-input" type="text" [value]="userDetails.lastLogin" readonly />
+                </div> -->
+            </div>
+        </div>
+
+        <ng-template #loadingBlock>
+            <p>Loading user details…</p>
+        </ng-template>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" cButton class="btn btn-secondary me-1" (click)="modal.close()">Close</button>
+    </div>
+</ng-template>
+
+

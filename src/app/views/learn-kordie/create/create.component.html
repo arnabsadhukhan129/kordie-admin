@@ -1,0 +1,93 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/learn-kordie/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('title').errors?.required || addEditForm.get('title').errors?.pattern) && (addEditForm.get('title').dirty || addEditForm.get('title').touched)" class="error">Please enter title.</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" (ready)="onEditorReady($event)" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('description')?.errors?.['required'] || addEditForm.get('description')?.errors?.['pattern']) && (addEditForm.get('description')?.dirty || addEditForm.get('description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel > Media Type*</label>
+                        <select aria-label="Default select example" cSelect formControlName="type" (change)="selectType($event)">
+                            <option value="" hidden disabled>Select Type</option>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('type').errors?.required || addEditForm.get('type').errors?.pattern) && (addEditForm.get('type').dirty || addEditForm.get('type').touched)" class="error">Please select media type.</p>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="mediaType">
+                        <label cLabel >{{ mediaType | titlecase }} *</label>
+                        <input cFormControl 
+                               type="file" 
+                               formControlName="media" 
+                               [accept]="mediaType === 'image' ? 'image/*' : 'video/*'" 
+                               (change)="onMediaSelected($event)"/>
+                    </div>
+                    
+                    <div *ngIf="mediaType === 'image' && imagePreview" class="image-preview mb-3">
+                        <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                    
+                    <div *ngIf="mediaType === 'video' && videoPreview" class="video-preview mb-3">
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+                    
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

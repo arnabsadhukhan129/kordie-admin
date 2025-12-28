@@ -1,0 +1,187 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/contact-us/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel>Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter title"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('title')?.errors?.['required'] || addEditForm.get('title')?.errors?.['pattern']) && (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)" class="error">
+                                Please enter title.
+                            </p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('title')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <!-- <label cLabel>Subtitle *</label> -->
+                        <label cLabel>Section Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter Section Title"
+                           type="text"
+                           formControlName="subtitle"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('subtitle')?.errors?.['required'] || addEditForm.get('subtitle')?.errors?.['pattern']) && (addEditForm.get('subtitle')?.dirty || addEditForm.get('subtitle')?.touched)" class="error">
+                                Please enter section title.
+                            </p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('subtitle')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('subtitle')?.dirty || addEditForm.get('subtitle')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('description')?.errors?.['required'] || addEditForm.get('description')?.errors?.['pattern']) && (addEditForm.get('description')?.dirty || addEditForm.get('description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                            <!-- <p
+                            *ngIf="
+                                addEditForm.get('description')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('description')?.dirty || addEditForm.get('description')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p> -->
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Email *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Enter email"
+                           type="text"
+                           formControlName="email"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('email')?.errors?.['required'] || addEditForm.get('email')?.errors?.['pattern']) && (addEditForm.get('email')?.dirty || addEditForm.get('email')?.touched)" class="error">
+                                Please enter email.
+                            </p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('email')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('email')?.dirty || addEditForm.get('email')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                          <p
+                            *ngIf="
+                                addEditForm.get('email')?.errors?.['invalidEmail'] &&
+                                (addEditForm.get('email')?.dirty || addEditForm.get('email')?.touched)
+                                "
+                                class="error"
+                            >
+                           Invalid email.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!detailsId">
+                        <label cLabel>Type *</label>
+                        <select aria-label="Default select example" cSelect formControlName="type">
+                            <option value="" hidden disabled>Select Type</option>
+                            <option *ngFor="let item of getTypeData" [value]="item">  {{ item }}</option>
+                        </select>
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('type')?.errors?.['required'] || addEditForm.get('type')?.errors?.['pattern']) && 
+                                  (addEditForm.get('type')?.dirty || addEditForm.get('type')?.touched)"
+                            class="error">
+                            Please select type.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="detailsId">
+                        <label cLabel>Type *</label>
+                        <select aria-label="Default select example" cSelect formControlName="type" [attr.disabled]="true">
+                            <option value="" hidden disabled>Select Type</option>
+                            <option *ngFor="let item of getTypeData" [value]="item">  {{ item }}</option>
+                        </select>
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('type')?.errors?.['required'] || addEditForm.get('type')?.errors?.['pattern']) && 
+                                  (addEditForm.get('type')?.dirty || addEditForm.get('type')?.touched)"
+                            class="error">
+                            Please select type.
+                          </p>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
