@@ -1,0 +1,59 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/user/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong>Role Permission</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel> Role *</label>
+                        <select aria-label="Default select example" cSelect formControlName="user_type">
+                            <option value="" hidden disabled>Select Role</option>
+                            <!-- <option value="admin">Admin</option> -->
+                            <option value="sub_admin">Super Admin</option>
+                            <option value="product_manager">Manager</option>
+                            <!-- <option value="sub_admin">Sub Admin</option>
+                            <option value="product_manager">Product Manager</option> -->
+                            <!-- <option value="user">User</option>
+                            <option value="corporate_user" hidden disabled>Corporate User</option> -->
+                        </select>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('user_type')?.errors?.['required'] || addEditForm.get('user_type')?.errors?.['pattern']) && (addEditForm.get('user_type')?.dirty || addEditForm.get('user_type')?.touched)" class="error">Please select role.</p>
+                        </div>
+                    </div>
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

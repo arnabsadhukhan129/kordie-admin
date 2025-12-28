@@ -1,0 +1,157 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/content/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong>View Details</strong>
+            </c-card-header>
+              <c-card-body class="view_page_cardBody ">
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel>Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Url</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Url"
+                           type="text"
+                           formControlName="url"
+                           readonly
+                        />
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label cLabel>Body</label>
+                        <textarea
+                            cFormControl
+                            placeholder="Body"
+                            formControlName="body"
+                            readonly
+                        ></textarea>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label cLabel >Body *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea"  formControlName="body" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Meta Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Meta Title"
+                           type="text"
+                           formControlName="meta_title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Meta Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="meta_description" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Meta Keywords</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Meta Keywords"
+                          type="text"
+                          formControlName="meta_keywords"
+                          readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Image</label>
+                    </div>
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                    <div *ngIf="!imagePreview" class="image-preview mb-3">
+                        <img [src]="'assets/kordie-admin-image/no-image-found-01.png'" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label cLabel>Video</label>
+                    </div>
+                    <div *ngIf="videoPreview" class="video-preview mb-3">
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+                    <div *ngIf="!videoPreview" class="video-preview mb-3">
+                        <img [src]="'assets/kordie-admin-image/No-Video-gray.png'" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                        <!-- <video [src]="'assets/kordie-admin-image/No-Video-gray.png'" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video> -->
+                    </div>
+
+                <!-- -------  sections Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Sections :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="sections" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let sectionItem of sectionControls; let i = index"
+                            [formGroupName]="i"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+                                    <div class="mb-3">
+                                        <label cLabel >Title</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Content </label>
+                                        <!-- <input
+                                        cFormControl
+                                        placeholder="content"
+                                        type="text"
+                                        formControlName="content"
+                                        readonly
+                                        /> -->
+                                        <ckeditor *ngIf="isEditorVisible" class="input_appearance_none editWeb_textArea"  formControlName="content" [config]="editorConfig"></ckeditor>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- -------  Stats Block -- end --  -->
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

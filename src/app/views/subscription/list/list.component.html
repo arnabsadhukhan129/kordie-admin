@@ -1,0 +1,90 @@
+<div class="backbutton">
+    <button cButton class="me-1" (click)="currentPage()" routerLink="/dashboard">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To Dashboard
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <div class="search-element page_search_block">
+            <div class="searchval">
+                <input cFormControl placeholder="Search by plan name" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchValue"/>
+            </div>
+            <div class="searchbutton">
+                <button class="button_appearance_none search_btn_icon" >
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Subscription Plan List</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/subscription/create">
+                                Add Subscription Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">Plan Name</th>
+                                <th scope="col">Slug</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Discount Amount</th>
+                                <th scope="col" class="table_text_center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i= index">
+                                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                                <!-- <td>{{item.plan_name ? item.plan_name : 'N/A'}}</td> -->
+                                <td>{{ stripHtmlTags(item.plan_name) || 'N/A' }}</td>
+                                <td>{{item.slug ? item.slug : 'N/A'}}</td>
+                                <td>{{item.price ? item.price : 0}}</td>
+                                <td>{{item.discount ? item.discount : 0}}</td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn" [routerLink]="['/subscription/view', item._id]" (click)="currentPage()" title="View"><i class="bi bi-eye"></i></a>
+                                        <a class="table_icon_btn" [routerLink]="['/subscription/edit', item._id]" (click)="currentPage()" title="Edit"><i class="bi bi-pencil"></i></a>
+                                        <a class="table_icon_btn" (click)="delete(item._id)" style="cursor: pointer;" title="Delete"><i class="bi bi-trash"></i></a>
+                                        <!-- <a class="table_icon_btn" [routerLink]="['/subscription/subscribed-user-list', item._id]"  (click)="currentPage()" title="Subscribed User List">
+                                            <i class="bi bi-card-list"></i>
+                                        </a> -->
+                                        <a class="table_icon_btn" style="cursor: pointer;" (click)="SubsuserList(item._id)" title="Subscribed User List">
+                                            <i class="bi bi-card-list"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!listData?.length">
+                                <td colspan="6">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </c-card-body>
+            <c-card-footer *ngIf="listData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getList($event)">
+                </app-pagination>
+            </c-card-footer>
+        </c-card>
+    </c-col>
+</c-row>

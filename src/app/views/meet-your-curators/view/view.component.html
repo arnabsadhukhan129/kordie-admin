@@ -1,0 +1,71 @@
+<div class="backbutton">
+    <!-- <button cButton class="me-1" routerLink="/section-title-mangement/meet-your-curators/list"> -->
+    <button cButton class="me-1" routerLink="/meet-your-curators/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+              <c-card-body class="view_page_cardBody">
+                <form [formGroup]="viewDetailsForm">
+                    <div class="mb-3">
+                        <label cLabel  >Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="name"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel for="exampleFormControlInput13">Image</label>
+                            <img class="imgVideo_box"  [src]="getDetails?.image ? getDetails?.image : 'assets/kordie-admin-image/no-image-found-01.png'">
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel  >Desgination</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Desgination"
+                           type="text"
+                           formControlName="desgination"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel  >At</label>
+                        <input cFormControl
+                           id="exampleFormControlInput2"
+                           placeholder="At"
+                           type="text"
+                           formControlName="at"
+                           readonly
+                        />
+                    </div>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

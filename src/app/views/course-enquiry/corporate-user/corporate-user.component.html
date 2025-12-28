@@ -1,0 +1,154 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/enquiry/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong>Add Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <!-- <div class="mb-3">
+                        <label cLabel >Sana Course *</label>
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Select Sana Course'"
+                          [data]="getCourseList || []"
+                          [settings]="dropdownSettings_course"
+                          formControlName="courses">
+                        </ng-multiselect-dropdown>
+    
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('courses')?.errors?.['required'] || addEditForm.get('courses')?.errors?.['pattern']) &&
+                                  (addEditForm.get('courses')?.dirty || addEditForm.get('courses')?.touched)"
+                            class="error">
+                            Please select course.
+                          </p>
+                          
+                        </div>
+                      </div> -->
+
+
+                      <div class="mb-3">
+                        <label cLabel >Course *</label>
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Select Course'"
+                          [data]="getCourseList || []"
+                          [settings]="dropdownSettings_course"
+                          formControlName="courses">
+                        </ng-multiselect-dropdown>
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('courses')?.errors?.['required'] || addEditForm.get('courses')?.errors?.['pattern']) &&
+                                  (addEditForm.get('courses')?.dirty || addEditForm.get('courses')?.touched)"
+                            class="error">
+                            Please select course.
+                          </p>
+                          
+                        </div>
+                      </div>
+
+                      <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+      
+                          <label class="inner_card_title">User Details:</label>
+                          <div class="inner_repeat_block_bg" formArrayName="users">
+                            <!-- --- repeat block start --  -->
+                            <div
+                              *ngFor="let item of userControls; let j = index"
+                              [formGroupName]="j"
+                              class="testimonials-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+      
+                              <div class=" card-body inner_card_body ">
+
+                                <div class="mb-3">
+                                  <label cLabel>First Name *</label>
+                                  <input
+                                    cFormControl
+                                    placeholder="Enter First Name"
+                                    type="text"
+                                    formControlName="first_name"
+                                  />
+                                  <div *ngIf="item.get('first_name')?.invalid && item.get('first_name')?.touched" class="error">
+                                    Please enter first name.
+                                  </div>
+                                </div>
+      
+                                <div class="mb-3">
+                                  <label cLabel>Last Name *</label>
+                                  <input
+                                  cFormControl
+                                  placeholder="Enter Last Name"
+                                  type="text"
+                                  formControlName="last_name"
+                                />
+                                  <div
+                                    *ngIf="item.get('last_name')?.invalid && item.get('last_name')?.touched"
+                                    class="error"
+                                  >
+                                    Please enter last name.
+                                  </div>
+                                </div>
+      
+                                <div class="mb-3">
+                                    <label cLabel>Email *</label>
+                                    <input
+                                      cFormControl
+                                      placeholder="Enter Email"
+                                      type="email"
+                                      formControlName="email"
+                                    />
+                                    <div
+                                        *ngIf="item.get('email')?.invalid && item.get('email')?.touched"
+                                        class="error"
+                                    >
+                                        Please enter correct email address.
+                                  </div>
+                                </div>
+      
+                                <button cButton class="inner_card_close_btn close_btn" *ngIf="j > 0" color="danger" type="button" (click)="removeItem(j)"><i class="bi bi-x-circle"></i></button>
+                              </div>
+                            </div>
+                            <!-- --- repeat block end --  -->
+                          </div>
+
+                        <div class="mb-1 mt-3" *ngIf="userControls && userControls.length < 10">
+                            <button cButton color="primary" type="button" (click)="addItem()" >Add More User Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button 
+                    cButton
+                    class="me-1"
+                    type="submit"
+                    [disabled]="!addEditForm.valid"
+                >
+                    Save
+                </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

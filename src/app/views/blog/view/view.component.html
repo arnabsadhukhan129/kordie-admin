@@ -1,0 +1,155 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/blog/blog-list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Blog Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+              <c-card-body class="view_page_cardBody ">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel >Blog Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Blog Title"
+                           type="text"
+                           formControlName="title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Blog Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Blog Category</label>
+                        <select aria-label="Default select example" cSelect formControlName="categoryId" [attr.disabled]="true">
+                            <option value="" hidden disabled>Select Blog Category</option>
+                            <option *ngFor="let blogCategory of blogCategoryList" [value]="blogCategory._id">{{ blogCategory.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Author</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Author"
+                           type="text"
+                           formControlName="author"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Date</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Date"
+                          type="date"
+                          formControlName="date"
+                          readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Meta Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Meta Title"
+                           type="text"
+                           formControlName="meta_title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Meta Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="meta_description" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Meta Keywords</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Meta Keywords"
+                          type="text"
+                          formControlName="meta_keywords"
+                          readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Course Category</label>
+                        <select aria-label="Default select example" cSelect formControlName="course_category" [attr.disabled]="true">
+                            <option value="" hidden disabled>Select Course Category</option>
+                            <option *ngFor="let category of categoryList" [value]="category._id">{{ category.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Course Type</label>
+                        <select aria-label="Default select example" cSelect formControlName="course_type" [attr.disabled]="true">
+                            <option value="" hidden disabled>Select Course Type</option>
+                            <option *ngFor="let type of typeList" [value]="type.value">  {{ type.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Blog Type</label>
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Select Blog Type'"
+                          [data]="blogTypeList || []"
+                          [settings]="dropdownSettings_blog_type"
+                          formControlName="blog_type"
+                          [disabled] = "isDisabled">
+                        </ng-multiselect-dropdown>
+                    </div>
+
+                    <div class="image-preview mb-3 imgVideo_preview">
+                        <label cLabel >Image</label>
+                        <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+
+                    <div class="image-preview mb-3 imgVideo_preview">
+                        <label cLabel >Video</label>
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Time To Read</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Time To Read"
+                           type="text"
+                           formControlName="timetoread"
+                           readonly
+                        />
+                    </div>
+
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

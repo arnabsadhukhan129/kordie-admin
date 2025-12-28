@@ -1,0 +1,1160 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/course/course-list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+  </div>
+  <c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Course Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+  
+            <c-card-body class="view_page_cardBody">
+              <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                  <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+              </ngx-spinner>
+  
+              <form [formGroup]="viewForm">
+                  <div class="mb-3">
+                      <label cLabel >Course Name </label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Name"
+                          type="text"
+                          formControlName="course_name"
+                          readonly
+                      />
+                  </div>
+  
+                  <!-- <div class="mb-3">
+                    <label cLabel >Sanna Course Id</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Sanna Course Id"
+                        type="text"
+                        formControlName="sana_course_id"
+                        readonly
+                    />
+                </div> -->
+
+                <div class="mb-3">
+                  <label cLabel >Sanna Course</label>
+                  <select aria-label="Default select example" cSelect formControlName="sana_course_id" [attr.disabled]="isDisabled">
+                      <option value="" hidden disabled>Select Sana Course</option>
+                      <option *ngFor="let getCourse of getCourseList" [value]="getCourse.id"> {{ getCourse.id }} - {{ getCourse.title }}</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label cLabel >Course Intro</label>
+                  <textarea
+                  cFormControl
+                  placeholder="Enter Course Intro"
+                  formControlName="course_intro"
+                  readonly
+                  ></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label cLabel >Course Description</label>
+                  <textarea
+                  cFormControl
+                  placeholder="Enter Course Description"
+                  formControlName="course_description"
+                  readonly
+                  ></textarea>
+                </div>
+  
+                  <!-- <div class="mb-3">
+                      <label cLabel >Course Description</label>
+                      <ckeditor class="input_appearance_none editWeb_textArea" formControlName="course_description"   
+                      [config]="editorConfig"
+                      >
+                    </ckeditor>
+                  </div> -->
+
+                  <div class="mb-3">
+                    <label cLabel >Course Topic </label>
+                    <ng-multiselect-dropdown
+                      [placeholder]="'Select Course Topic'"
+                      [data]="topicList || []"
+                      [settings]="dropdownSettings_topic"
+                      formControlName="course_topic"
+                      [disabled] = "isDisabled">
+                    </ng-multiselect-dropdown>
+                 </div>
+  
+                  <!-- <div class="mb-3">
+                    <label cLabel >Course Topic</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_topic" [attr.disabled]="isDisabled">
+                          <option value="" hidden disabled>Select Course Topic</option>
+                          <option *ngFor="let topic of topicList" [value]="topic._id">  {{ topic.name }}</option>
+                      </select> -->
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_topic')?.errors?.['required'] || addEditForm.get('course_topic')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_topic')?.dirty || addEditForm.get('course_topic')?.touched)"
+                          class="error">
+                          Please select course topic.
+                        </p>
+                      </div> -->
+                    <!-- </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Time</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_time" [attr.disabled]="isDisabled">
+                          <option value="" hidden disabled>Select Course Time</option>
+                          <option *ngFor="let time of timeList" [value]="time._id">  {{ time.name }}</option>
+                      </select>
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_time')?.errors?.['required'] || addEditForm.get('course_time')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_time')?.dirty || addEditForm.get('course_time')?.touched)"
+                          class="error">
+                          Please select course time.
+                        </p>
+                      </div> -->
+                    </div>
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Goal*</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_goal">
+                          <option value="" hidden disabled>Select Course Goal</option>
+                          <option *ngFor="let goal of goalList" [value]="goal._id">  {{ goal.name }}</option>
+                      </select>
+                      <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_goal')?.errors?.['required'] || addEditForm.get('course_goal')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_goal')?.dirty || addEditForm.get('course_goal')?.touched)"
+                          class="error">
+                          Please select course goal.
+                        </p>
+                      </div>
+                    </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Goal</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Course Goals'"
+                        [data]="goalList || []"
+                        [settings]="dropdownSettings_goal"
+                        formControlName="course_goal"
+                        [disabled] = "isDisabled"
+                        >
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_goal')?.errors?.['required'] || addEditForm.get('course_goal')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_goal')?.dirty || addEditForm.get('course_goal')?.touched)"
+                          class="error">
+                          Please select course goal.
+                        </p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Category</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Course Category'"
+                        [data]="categoryList || []"
+                        [settings]="dropdownSettings_category"
+                        formControlName="course_category"
+                        [disabled]="isDisabled"
+                        >
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_category')?.errors?.['required'] || addEditForm.get('course_category')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_category')?.dirty || addEditForm.get('course_category')?.touched)"
+                          class="error">
+                          Please select course category.
+                        </p>
+                      </div> -->
+                    </div>
+  
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Category*</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_category">
+                          <option value="" hidden disabled>Select Course Category</option>
+                          <option *ngFor="let category of categoryList" [value]="category._id">  {{ category.name }}</option>
+                      </select>
+                      <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_category')?.errors?.['required'] || addEditForm.get('course_category')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_category')?.dirty || addEditForm.get('course_category')?.touched)"
+                          class="error">
+                          Please select course category.
+                        </p>
+                      </div>
+                    </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Teacher</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Course Teacher'"
+                        [data]="teacherList || []"
+                        [settings]="dropdownSettings_teacher"
+                        formControlName="course_teacher"
+                        [disabled]="isDisabled"
+                        >
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_teacher')?.errors?.['required'] || addEditForm.get('course_teacher')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_teacher')?.dirty || addEditForm.get('course_teacher')?.touched)"
+                          class="error">
+                          Please select course teacher.
+                        </p>
+                      </div> -->
+                    </div>
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Teacher*</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_teacher">
+                          <option value="" hidden disabled>Select Course Teacher</option>
+                          <option *ngFor="let teacher of teacherList" [value]="teacher._id">  {{ teacher.name }}</option>
+                      </select>
+                      <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_teacher')?.errors?.['required'] || addEditForm.get('course_teacher')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_teacher')?.dirty || addEditForm.get('course_teacher')?.touched)"
+                          class="error">
+                          Please select course teacher.
+                        </p>
+                      </div>
+                    </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Type</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_type" [attr.disabled]="isDisabled">
+                          <option value="" hidden disabled>Select Course Type</option>
+                          <option *ngFor="let type of typeList" [value]="type._id">  {{ type.name }}</option>
+                      </select>
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_type')?.errors?.['required'] || addEditForm.get('course_type')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_type')?.dirty || addEditForm.get('course_type')?.touched)"
+                          class="error">
+                          Please select course type.
+                        </p>
+                      </div> -->
+                    </div>
+<!--   
+                    <div class="mb-3">
+                      <label cLabel for="exampleFormControlInput13"> Course Image *</label>
+                      <input cFormControl  type="file" formControlName="course_image" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div> -->
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                      <!-- <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;" /> -->
+                      <div class="image-preview mb-3 imgVideo_preview">
+                          <label cLabel >Course Image</label>
+                          <img class="imgVideo_box"  [src]="imagePreview" alt="Preview">
+                      </div>
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Price </label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Price"
+                          type="number"
+                          formControlName="course_price"
+                          readonly
+                      />
+                      
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Price Text</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Price Text"
+                          type="text"
+                          formControlName="course_price_text"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('course_price_text').errors?.required || addEditForm.get('course_price_text').errors?.pattern) && (addEditForm.get('course_price_text').dirty || addEditForm.get('course_price_text').touched)" class="error">Please enter course price text.</p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Certificate</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Certificate"
+                          type="text"
+                          formControlName="course_certificate"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('course_certificate').errors?.required || addEditForm.get('course_certificate').errors?.pattern) && (addEditForm.get('course_certificate').dirty || addEditForm.get('course_certificate').touched)" class="error">Please enter course certificate.</p>
+                      </div> -->
+                    </div>
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Certificate *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Certificate"
+                          type="text"
+                          formControlName="course_certificate"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('course_certificate').errors?.required || addEditForm.get('course_certificate').errors?.pattern) && (addEditForm.get('course_certificate').dirty || addEditForm.get('course_certificate').touched)" class="error">Please enter course certificate.</p>
+                      </div>
+                    </div> -->
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Link Text *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Link Text"
+                          type="text"
+                          formControlName="course_link_text"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('course_link_text').errors?.required || addEditForm.get('course_link_text').errors?.pattern) && (addEditForm.get('course_link_text').dirty || addEditForm.get('course_link_text').touched)" class="error">Please enter course link text.</p>
+                      </div>
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Link Membership Text *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Link Membership Text"
+                          type="text"
+                          formControlName="course_link_membership_text"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('course_link_membership_text').errors?.required || addEditForm.get('course_link_membership_text').errors?.pattern) && (addEditForm.get('course_link_membership_text').dirty || addEditForm.get('course_link_membership_text').touched)" class="error">Please enter course link membership text.</p>
+                      </div>
+                    </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Learn Title</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Learn Title"
+                          type="text"
+                          formControlName="learn_title"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('learn_title').errors?.required || addEditForm.get('learn_title').errors?.pattern) && (addEditForm.get('learn_title').dirty || addEditForm.get('learn_title').touched)" class="error">Please enter learn title.</p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Learn Description</label>
+                      <ckeditor class="input_appearance_none editWeb_textArea" formControlName="learn_description" [config]="editorConfig" ></ckeditor>
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('learn_description')?.errors?.['required'] || addEditForm.get('learn_description')?.errors?.['pattern']) && (addEditForm.get('learn_description')?.dirty || addEditForm.get('learn_description')?.touched)" class="error">
+                              Please enter learn description.
+                          </p>
+                      </div> -->
+                  </div>
+  
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Learn Subtitle *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Learn Subtitle"
+                          type="text"
+                          formControlName="learn_subtitle"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('learn_subtitle').errors?.required || addEditForm.get('learn_subtitle').errors?.pattern) && (addEditForm.get('learn_subtitle').dirty || addEditForm.get('learn_subtitle').touched)" class="error">Please enter learn subtitle.</p>
+                      </div>
+                    </div> -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Learn Outcomes</label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Learn Outcomes"
+                        type="text"
+                        formControlName="learn_outcomes"
+                        readonly
+                      />
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('learn_outcomes')?.errors?.required || addEditForm.get('learn_outcomes')?.errors?.pattern) &&
+                                  (addEditForm.get('learn_outcomes')?.dirty || addEditForm.get('learn_outcomes')?.touched)"
+                          class="error"
+                        >
+                          Please enter learn Outcomes.
+                        </p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Address Title</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Address Title"
+                          type="text"
+                          formControlName="address_title"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('address_title').errors?.required || addEditForm.get('address_title').errors?.pattern) && (addEditForm.get('address_title').dirty || addEditForm.get('address_title').touched)" class="error">Please enter address title.</p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel >Address Description *</label>
+                      <ckeditor class="input_appearance_none editWeb_textArea" formControlName="address_description" [config]="editorConfig"></ckeditor>
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('address_description')?.errors?.['required'] || addEditForm.get('address_description')?.errors?.['pattern']) && (addEditForm.get('address_description')?.dirty || addEditForm.get('address_description')?.touched)" class="error">
+                              Please enter address description.
+                          </p>
+                      </div> -->
+                    </div>
+
+                    <div class="mb-3">
+                      <label cLabel >Interest</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Interest'"
+                        [data]="interestList || []"
+                        [settings]="dropdownSettings_interest"
+                        formControlName="course_interest"
+                        [disabled]="isDisabled">
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_interest')?.errors?.['required'] || addEditForm.get('course_interest')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_interest')?.dirty || addEditForm.get('course_interest')?.touched)"
+                          class="error">
+                          Please select Interest.
+                        </p>
+                      </div> -->
+                    </div>
+
+                    <div class="mb-3">
+                      <label cLabel >Industry</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Industry'"
+                        [data]="industryList || []"
+                        [settings]="dropdownSettings_industry"
+                        formControlName="course_industry"
+                        [disabled]="isDisabled">
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_industry')?.errors?.['required'] || addEditForm.get('course_industry')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_industry')?.dirty || addEditForm.get('course_industry')?.touched)"
+                          class="error">
+                          Please select industry.
+                        </p>
+                      </div> -->
+                    </div>
+
+                    <div *ngIf="addressImagePreview" class="image-preview mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel >Address Image</label>
+                            <img class="imgVideo_box"  [src]="addressImagePreview" alt="Preview">
+                        </div>
+                    </div>
+  
+                  <!-- <div class="mb-3">
+                      <label cLabel >Syllabus Title *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Syllabus Title"
+                          type="text"
+                          formControlName="syllabus_title"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('syllabus_title').errors?.required || addEditForm.get('syllabus_title').errors?.pattern) && (addEditForm.get('syllabus_title').dirty || addEditForm.get('syllabus_title').touched)" class="error">Please enter syllabus title.</p>
+                      </div>
+                  </div> -->
+  
+  
+                  <!-- -------  Syllabus Block -- start --  -->
+  
+                  <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                      <label class="inner_card_title">Syllabus Details:</label>
+  
+                      <div class="inner_repeat_block_bg " formArrayName="syllabus" >
+                        <!-- --- repeat block start --  -->
+                        <div
+                          *ngFor="let syllabusItem of syllabusControls; let i = index"
+                          [formGroupName]="i"
+                          class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                        >
+  
+                          <div class=" card-body inner_card_body ">
+                              <div class="mb-3">
+                                <label cLabel for="exampleFormControlInput13">Title {{i+1}}</label>
+                                <input
+                                  cFormControl
+                                  placeholder="Enter title"
+                                  type="text"
+                                  formControlName="title"
+                                  readonly
+                                />
+                                <!-- <div *ngIf="syllabusItem.get('title')?.invalid && syllabusItem.get('title')?.touched" class="error">
+                                  Please enter title.
+                              </div> -->
+                              </div>
+  
+                              <!-- <div class="mb-3">
+                                <label cLabel for="exampleFormControlInput13">Image *</label>
+                                <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelected3($event, i)"
+                                />
+                              </div> -->
+                              <!-- Image Preview -->
+                              <div *ngIf="syllabusImagePreviews[i]" class="image-preview mb-3">
+                                <!-- <label cLabel>Image Preview</label> -->
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="syllabusImagePreviews[i]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                              </div>
+  
+                              <div class="mb-3">
+                                <label cLabel>Time {{i+1}}</label>
+                                <input
+                                  cFormControl
+                                  placeholder="Enter Time"
+                                  type="text"
+                                  formControlName="time"
+                                  readonly
+                            />
+                                <!-- <div *ngIf="syllabusItem.get('time')?.invalid && syllabusItem.get('time')?.touched" class="error">
+                                  Please enter time.
+                                </div> -->
+                              </div>
+  
+                              <div class="mb-3">
+                                <label cLabel>Description {{i+1}}</label>
+                                <textarea
+                                  cFormControl
+                                  placeholder="Enter description"
+                                  formControlName="description"
+                                  readonly
+                                ></textarea>
+                                <!-- <div
+                                  *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                  class="error"
+                                >
+                                  Please enter a syllabus description.
+                                </div> -->
+                              </div>
+  
+                              <!-- <div class="mb-3">
+                                <label cLabel>Syllabus Chapters {{i+1}}</label>
+                                <input
+                                  cFormControl
+                                  placeholder="Enter chapter"
+                                  type="text"
+                                  formControlName="chapter"
+                                  readonly
+                                /> -->
+                                <!-- <div *ngIf="syllabusItem.get('chapter')?.invalid && syllabusItem.get('chapter')?.touched" class="error">
+                                  Please enter a syllabus chapter.
+                                </div> -->
+                              <!-- </div> -->
+
+                              <div class="mb-3">
+                                <label cLabel>Choose Icon 1</label>                              
+                                <div class="icon-radio-group">
+                                  <label *ngFor="let icon of iconList" class="icon-radio-option">
+                                    <input 
+                                      type="radio"
+                                      [value]="icon.url"
+                                      formControlName="icon1"
+                                      [checked]="true"
+                                      (click)="$event.preventDefault()"
+                                    />
+                                    <img [src]="icon.url" height="30px" width="30px" />
+                                  </label>
+                                </div>                              
+                              </div>                                                             
+                                <input
+                                  cFormControl
+                                  placeholder="Enter chapter1"
+                                  type="text"
+                                  formControlName="chapter1"
+                                  readonly
+                                />  
+                              <br/>
+
+                              <div class="mb-3">
+                                <label cLabel>Choose Icon 2</label>                              
+                                <div class="icon-radio-group">
+                                  <label *ngFor="let icon of iconList" class="icon-radio-option">
+                                    <input 
+                                      type="radio"
+                                      [value]="icon.url"
+                                      formControlName="icon2"
+                                      [checked]="true"
+                                      (click)="$event.preventDefault()"
+                                    />
+                                    <img [src]="icon.url" height="30px" width="30px" />
+                                  </label>
+                                </div>
+                              </div>
+                                <input
+                                cFormControl
+                                placeholder="Enter chapter2"
+                                type="text"
+                                formControlName="chapter2"
+                                readonly
+                                />
+                              <br/>
+
+                              <div class="mb-3">
+                                <label cLabel>Choose Icon 3</label>                              
+                                <div class="icon-radio-group">
+                                  <label *ngFor="let icon of iconList" class="icon-radio-option">
+                                    <input 
+                                      type="radio"
+                                      [value]="icon.url"
+                                      formControlName="icon3"
+                                      [checked]="true"
+                                      (click)="$event.preventDefault()"
+                                    />
+                                    <img [src]="icon.url" height="30px" width="30px" />
+                                  </label>
+                                </div>                             
+                              </div>
+                                <input
+                                cFormControl
+                                placeholder="Enter chapter3"
+                                type="text"
+                                formControlName="chapter3"
+                                readonly
+                                /> 
+                              <br/>
+
+                              <div class="mb-3">
+                                <label cLabel>Choose Icon 4</label>                              
+                                <div class="icon-radio-group">
+                                  <label *ngFor="let icon of iconList" class="icon-radio-option">
+                                    <input 
+                                      type="radio"
+                                      [value]="icon.url"
+                                      formControlName="icon4"
+                                      [checked]="true"
+                                      (click)="$event.preventDefault()"
+                                    />
+                                    <img [src]="icon.url" height="30px" width="30px" />
+                                  </label>
+                                </div>                              
+                              </div>  
+                              <input
+                              cFormControl
+                              placeholder="Enter chapter4"
+                              type="text"
+                              formControlName="chapter4"
+                              readonly
+                              />  
+                              <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeSyllabusItem(i)"><i class="bi bi-x-circle"></i></button> -->
+                            </div>
+                        </div>
+                        <!-- --- repeat block end --  -->
+                      </div>
+  
+                      <!-- <div class="mb-1 mt-3">
+                        <button cButton color="primary" type="button" (click)="addSyllabusItem()">Add Syllabus Item</button>
+                      </div> -->
+  
+                    </div>
+                  </div>
+  
+                  <!-- -------  Syllabus Block -- end --  -->
+
+                  <div class="mb-4 mt-5 card inner_card" *ngIf="courseData?.whytakecourse?.length">
+                    <div class="card-body inner_card_body">
+                      <label class="inner_card_title">Kordie Title:</label>
+  
+                      <div class="inner_repeat_block_bg " formArrayName="whytakecourse" >
+                        <!-- --- repeat block start --  -->
+                        <div
+                          *ngFor="let courseItem of whytakecourseControls; let x = index"
+                          [formGroupName]="x"
+                          class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                        >
+  
+                          <div class=" card-body inner_card_body ">
+                              <div class="mb-3">
+                                <label cLabel for="exampleFormControlInput13">Title {{x+1}}</label>
+                                <input
+                                  cFormControl
+                                  placeholder="Enter title"
+                                  type="text"
+                                  formControlName="title"
+                                  readonly
+                                />
+                              </div>
+  
+                              <div class="mb-3">
+                                <label cLabel for="exampleFormControlInput13">Image {{x+1}}</label>
+                                <!-- <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelect($event, x , 'courseImage')"
+                                /> -->
+                              </div>
+                              <!-- Image Preview -->
+                              <div *ngIf="takeCourseImagePreviews[x]" class="image-preview mb-3">
+                                <!-- <label cLabel>Image Preview</label> -->
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="takeCourseImagePreviews[x]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                              </div>
+  
+                              <div class="mb-3">
+                                <label cLabel>Description {{x+1}}</label>
+                                <textarea
+                                  cFormControl
+                                  placeholder="Enter description"
+                                  formControlName="description"
+                                  readonly
+                                ></textarea>
+                              </div>
+  
+                              <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="x > 0"  color="danger" type="button" (click)="removecourseItem(x)"><i class="bi bi-x-circle"></i></button> -->
+                            </div>
+                        </div>
+                        <!-- --- repeat block end --  -->
+                      </div>
+  
+                      <!-- <div class="mb-1 mt-3" *ngIf="whytakecourseControls && whytakecourseControls.length < 4">
+                        <button cButton color="primary" type="button" (click)="addCourseItem()">Add Course Title Item</button>
+                      </div> -->
+  
+                    </div>
+                  </div>
+  
+                  <!-- -------  Syllabus Block -- end --  -->
+  
+                  <div class="mb-3">
+                      <label cLabel >Curator Title </label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Curator Title"
+                          type="text"
+                          formControlName="curator_title"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('curator_title').errors?.required || addEditForm.get('curator_title').errors?.pattern) && (addEditForm.get('curator_title').dirty || addEditForm.get('curator_title').touched)" class="error">Please enter curator title.</p>
+                      </div> -->
+                  </div>
+  
+                  <div class="mb-3">
+                      <!-- <label cLabel >Kordie Title </label> -->
+                      <label cLabel>Why learn with Kordie</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Kordie Title"
+                          type="text"
+                          formControlName="kordie_title"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('kordie_title').errors?.required || addEditForm.get('kordie_title').errors?.pattern) && (addEditForm.get('kordie_title').dirty || addEditForm.get('kordie_title').touched)" class="error">Please enter kordie title.</p>
+                      </div> -->
+                  </div>
+  
+                  <div class="mb-3">
+                    <label cLabel >Plan Duration </label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Plan Duration"
+                        type="number"
+                        formControlName="plan_duration"
+                        readonly
+                    />
+                </div>
+  
+                  <div class="mb-3">
+                      <label cLabel >Course Impact Title </label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Impact Title"
+                          type="text"
+                          formControlName="course_impact_title"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('course_impact_title').errors?.required || addEditForm.get('course_impact_title').errors?.pattern) && (addEditForm.get('course_impact_title').dirty || addEditForm.get('course_impact_title').touched)" class="error">Please enter course impact title.</p>
+                      </div> -->
+                  </div>
+  
+                  <!-- <div class="mb-3">
+                      <label cLabel for="exampleFormControlInput13">Course Impact Image *</label>
+                      <input cFormControl  type="file" formControlName="course_impact_image" accept="image/*" (change)="onImageSelected2($event)"/>
+                  </div> -->
+  
+                  <div *ngIf="impactImagePreview" class="image-preview mb-3">
+                    <div class="image-preview mb-3 imgVideo_preview">
+                        <label cLabel >Course Impact Image</label>
+                        <img class="imgVideo_box"  [src]="impactImagePreview" alt="Preview">
+                    </div>
+                  </div>
+  
+                  <div class="mb-3">
+                      <label cLabel >Course Impact Summary </label>
+                      <input
+                        cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Course Impact Summary"
+                        type="text"
+                        formControlName="course_impact_summary"
+                        readonly
+                      />
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_impact_summary')?.errors?.required || addEditForm.get('course_impact_summary')?.errors?.pattern) &&
+                                  (addEditForm.get('course_impact_summary')?.dirty || addEditForm.get('course_impact_summary')?.touched)"
+                          class="error"
+                        >
+                          Please enter course impact summary.
+                        </p>
+                      </div> -->
+                  </div>
+  
+                  <div class="mb-3">
+                    <label cLabel >Course Impact Testimonial Heading </label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Course Impact Testimonial Heading"
+                        type="text"
+                        formControlName="course_impact_testinomial_heading"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('course_impact_testinomial_heading').errors?.required || addEditForm.get('course_impact_testinomial_heading').errors?.pattern) && (addEditForm.get('course_impact_testinomial_heading').dirty || addEditForm.get('course_impact_testinomial_heading').touched)" class="error">Please enter course impact testinomial heading.</p>
+                    </div> -->
+                  </div>
+  
+                  <!-- Testimonials Details  -- block --  start --  -->
+  
+                  <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+  
+                      <label class="inner_card_title">Course Impact Testimonials Details:</label>
+                      <div class="inner_repeat_block_bg" formArrayName="course_impact_testinomial">
+                        <!-- --- repeat block start --  -->
+                        <div
+                          *ngFor="let testimonialsItem of testimonialsControls; let j = index"
+                          [formGroupName]="j"
+                          class="testimonials-item inner_repeat_block condition_block card mb-4 mt-4"
+                        >
+  
+                          <div class=" card-body inner_card_body ">
+                            <div class="mb-3">
+                              <label cLabel>Date {{j+1}}</label>
+                              <input
+                                cFormControl
+                                placeholder="Enter Date"
+                                type="date"
+                                formControlName="date"
+                                readonly
+                              />
+                              <!-- <div *ngIf="testimonialsItem.get('date')?.invalid && testimonialsItem.get('date')?.touched" class="error">
+                                Please enter date.
+                              </div> -->
+                            </div>
+  
+                            <div class="mb-3">
+                              <label cLabel>Name {{j+1}}</label>
+                              <input
+                              cFormControl
+                              placeholder="Enter Name"
+                              type="text"
+                              formControlName="name"
+                              readonly
+                            />
+                              <!-- <textarea
+                                cFormControl
+                                placeholder="Enter Name"
+                                formControlName="name"
+                              ></textarea> -->
+                              <!-- <div
+                                *ngIf="testimonialsItem.get('name')?.invalid && testimonialsItem.get('name')?.touched"
+                                class="error"
+                              >
+                                Please enter name.
+                              </div> -->
+                            </div>
+  
+                            <div class="mb-3">
+                                <label cLabel>Designation {{j+1}}</label>
+                                <input
+                                  cFormControl
+                                  placeholder="Enter Designation"
+                                  type="text"
+                                  formControlName="designation"
+                                  readonly
+                                />
+                                <!-- <textarea
+                                  cFormControl
+                                  placeholder="Enter Designation"
+                                  formControlName="designation"
+                                ></textarea> -->
+                                <!-- <div
+                                  *ngIf="testimonialsItem.get('designation')?.invalid && testimonialsItem.get('designation')?.touched"
+                                  class="error"
+                                >
+                                  Please enter designation.
+                                </div> -->
+                            </div>
+  
+                            <div class="mb-3">
+                                <label cLabel>Feedback {{j+1}}</label>
+                                <textarea
+                                  cFormControl
+                                  placeholder="Enter Feedback"
+                                  formControlName="feedback"
+                                  readonly
+                                ></textarea>
+                                <!-- <div
+                                  *ngIf="testimonialsItem.get('feedback')?.invalid && testimonialsItem.get('feedback')?.touched"
+                                  class="error"
+                                >
+                                  Please enter feedback.
+                                </div> -->
+                            </div>
+  
+                            <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="j > 0" color="danger" type="button" (click)="removetestimonialsItem(j)"><i class="bi bi-x-circle"></i></button> -->
+                          </div>
+  
+                        </div>
+                        <!-- --- repeat block end --  -->
+  
+  
+                      </div>
+                      <!-- <button cButton color="primary" type="button" (click)="addTestimonialsItem()">Add Testimonials Item</button> -->
+  
+                    </div>
+                  </div>
+  
+                  <!-- Testimonials Details  -- block --  end -- == -->
+  
+                    <div class="mb-3">
+                      <label cLabel >Course Next Title </label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Next Title"
+                          type="text"
+                          formControlName="course_next_title"
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('course_next_title').errors?.required || addEditForm.get('course_next_title').errors?.pattern) && (addEditForm.get('course_next_title').dirty || addEditForm.get('course_next_title').touched)" class="error">Please enter course next title.</p>
+                      </div> -->
+                    </div>
+  
+                    <div class="mb-3">
+                      <label cLabel>Next Course</label>
+                      <ng-multiselect-dropdown
+                        id="next-course"
+                        [placeholder]="'Select Next Course'"
+                        [data]="courseList || []"
+                        [settings]="dropdownSettings_course"
+                        formControlName="course_next_id"
+                        [disabled]="isDisabled"
+                      >
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_goal')?.errors?.['required'] || addEditForm.get('course_goal')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_goal')?.dirty || addEditForm.get('course_goal')?.touched)"
+                          class="error">
+                          Please select course goal.
+                        </p>
+                      </div> -->
+                    </div>
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Course Next Subtitle *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Next Subtitle"
+                          type="text"
+                          formControlName="course_next_subtitle"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('course_next_subtitle').errors?.required || addEditForm.get('course_next_subtitle').errors?.pattern) && (addEditForm.get('course_next_subtitle').dirty || addEditForm.get('course_next_subtitle').touched)" class="error">Please enter course next subtitle.</p>
+                      </div>
+                    </div> -->
+                    <!--
+                    <div class="mb-3">
+                      <label cLabel >Faq Title *</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Faq Title"
+                          type="text"
+                          formControlName="faq_title"
+                      />
+                      <div class="error">
+                          <p *ngIf="(addEditForm.get('faq_title').errors?.required || addEditForm.get('faq_title').errors?.pattern) && (addEditForm.get('faq_title').dirty || addEditForm.get('faq_title').touched)" class="error">Please enter faq title.</p>
+                      </div>
+                    </div> -->
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Interest*</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_interest">
+                          <option value="" hidden disabled>Select Interest</option>
+                          <option *ngFor="let interest of interestList" [value]="interest._id">  {{ interest.name }}</option>
+                      </select>
+                      <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_interest')?.errors?.['required'] || addEditForm.get('course_interest')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_interest')?.dirty || addEditForm.get('course_interest')?.touched)"
+                          class="error">
+                          Please select interest.
+                        </p>
+                      </div>
+                    </div> -->
+  
+                   
+  
+                    <!-- <div class="mb-3">
+                      <label cLabel >Industry*</label>
+                      <select aria-label="Default select example" cSelect formControlName="course_industry">
+                          <option value="" hidden disabled>Select Industry</option>
+                          <option *ngFor="let industry of industryList" [value]="industry._id">  {{ industry.name }}</option>
+                      </select>
+                      <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_industry')?.errors?.['required'] || addEditForm.get('course_industry')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_industry')?.dirty || addEditForm.get('course_industry')?.touched)"
+                          class="error">
+                          Please select industry.
+                        </p>
+                      </div>
+                    </div> -->
+  
+                   
+
+                    <div class="mb-4 mt-5 card inner_card">
+                      <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Course Tag:</label>
+    
+                        <div class="inner_repeat_block_bg " formArrayName="course_tag" >
+                          <!-- --- repeat block start --  -->
+                          <div
+                            *ngFor="let courseItem of course_tagControls; let f = index"
+                            [formGroupName]="f"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                          >
+    
+                            <div class=" card-body inner_card_body ">
+                              <div class="mb-3">
+                                <label cLabel >Tag {{f+1}}*</label>
+                                <select aria-label="Default select example" cSelect formControlName="tag" [attr.disabled]="isDisabled">
+                                  <option value="" hidden disabled>Select Tag</option>
+                                  <option value="New">New</option>
+                                  <option value="Popular">Popular</option>
+                                  <option value="Course">Course</option>
+                                  <option value="Skill_Path">Skill Path</option>
+                              </select>
+                                </div>
+  
+                                <div class="mb-3">
+                                  <label cLabel >Color {{f+1}}*</label>
+                                  <input cFormControl
+                                      id="exampleFormControlInput1"
+                                      type="color"
+                                      formControlName="color"
+                                      style="height: 60px; width: 100px; border: 0px none;"
+                                      readonly
+                                  />
+                                </div>
+                                <div class="mb-3">
+                                  <label cLabel >Text Color {{f+1}}*</label>
+                                  <select aria-label="Default select example" cSelect formControlName="text_color" [attr.disabled]="isDisabled">
+                                      <option value="" hidden disabled>Select Text Color</option>
+                                      <option value="#323232">Black</option>
+                                      <option value="#FFFFFF">White</option>
+                                  </select>
+                                </div>
+                              </div>
+                          </div>
+                          <!-- --- repeat block end --  -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label cLabel >Last Updated Date</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Last Updated Date"
+                          type="text"
+                          formControlName="last_updated_date"
+                          readonly
+                      />
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('last_updated_date').errors?.required || addEditForm.get('last_updated_date').errors?.pattern) && (addEditForm.get('last_updated_date').dirty || addEditForm.get('last_updated_date').touched)" class="error">Please enter course name.</p>
+                      </div> -->
+                  </div>
+
+                  <div class="mb-3">
+                    <label cLabel >Skill Track</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Skill Track"
+                        type="text"
+                        formControlName="skill_track"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('skill_track').errors?.required || addEditForm.get('skill_track').errors?.pattern) && (addEditForm.get('skill_track').dirty || addEditForm.get('skill_track').touched)" class="error">Please enter skill track.</p>
+                    </div> -->
+                </div>
+  
+                  <!-- <button
+                      cButton
+                      class="me-1"
+                      type="submit"
+                      [disabled]="!addEditForm.valid"
+                  >
+                      Save
+                  </button> -->
+              </form>
+            </c-card-body>
+        </c-card>
+    </c-col>
+  </c-row>
+  

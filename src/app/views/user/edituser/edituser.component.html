@@ -1,0 +1,104 @@
+<div class="backbutton">
+  <button cButton class="me-1" (click)="backClicked()">
+    <svg cIcon
+        name="cilArrowThickLeft"
+        size="sm"
+      ></svg> Back
+  </button>
+</div>
+
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <!-- <app-docs-callout href="forms/form-control" name="Form Control"></app-docs-callout> -->
+    </c-col>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>Edit User</strong>
+        </c-card-header>
+        <c-card-body>
+
+            <!-- <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+              <div>{{displayMessage}}</div>
+            </c-alert>
+    
+            <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+              <div>{{errorMessage}}</div>
+            </c-alert> -->
+            
+          <!-- <app-docs-example href="forms/form-control"> -->
+            <form cForm [formGroup]="editForm" (ngSubmit)="editUser()">
+              <div class="mb-3">
+                <label cLabel  >Name *</label>
+                <input cFormControl
+                       id="exampleFormControlInput1"
+                       placeholder="Name"
+                       type="text"
+                       formControlName="name"
+                />
+
+                <div class="error" *ngFor="let validation of validation_messages.name">
+                    <p *ngIf="editForm.get('name').hasError(validation.type) && (editForm.get('name').dirty || editForm.get('name').touched)">{{ validation.message }}</p>
+                </div>
+
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput2">Email *</label>
+                <input cFormControl
+                       readonly
+                       id="exampleFormControlInput2"
+                       placeholder="Email"
+                       type="email"
+                       formControlName="email"
+                />
+
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput3">Phone *</label>
+                <input cFormControl
+                       id="exampleFormControlInput3"
+                       placeholder="Phone"
+                       type="text"
+                       formControlName="phone"
+                />
+
+                <div class="error" *ngFor="let validation of validation_messages.phone">
+                    <p *ngIf="editForm.get('phone').hasError(validation.type) && (editForm.get('phone').dirty || editForm.get('phone').touched)">{{ validation.message }}</p>
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput4">Role *</label>
+                <select aria-label="Default select example" cSelect formControlName="roles">
+                  <option value="">Select Role</option>
+                  <option [value]="role.slug" *ngFor="let role of roleList">{{role.name}}</option>
+                </select> 
+
+                <div class="error" *ngFor="let validation of validation_messages.roles">
+                  <p *ngIf="editForm.get('roles').hasError(validation.type) && (editForm.get('roles').dirty || editForm.get('roles').touched)">{{ validation.message }}</p>
+                </div>
+
+              </div>
+
+              <button 
+              cButton
+              class="me-1"
+              [disabled]="!editForm.valid"
+              type="submit"
+                >
+                Update
+            </button>
+
+
+            </form>
+          <!-- </app-docs-example> -->
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+
+
+  </c-row>
+  
+  

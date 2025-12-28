@@ -1,0 +1,96 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/goal-based-talent-development-solution-management/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+
+                        </div>
+                    </div>
+                </div>
+
+            </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addDeliveryForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addDeliveryForm.get('title')?.errors?.['required'] || addDeliveryForm.get('title')?.errors?.['pattern']) && (addDeliveryForm.get('title')?.dirty || addDeliveryForm.get('title')?.touched)" class="error">
+                                Please enter title.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Image *</label>
+                        <input cFormControl  type="file" formControlName="image" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div>
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel >Image *</label>
+                            <img class="imgVideo_box"  [src]="imagePreview" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" (ready)="onEditorReady($event)" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addDeliveryForm.get('description')?.errors?.['required'] || addDeliveryForm.get('description')?.errors?.['pattern']) && (addDeliveryForm.get('description')?.dirty || addDeliveryForm.get('description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label cLabel  >Link</label>
+                        <input cFormControl
+                           id="exampleFormControlInput2"
+                           placeholder="link"
+                           type="text"
+                           formControlName="link"
+                        />
+                    </div> -->
+                    <button
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addDeliveryForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

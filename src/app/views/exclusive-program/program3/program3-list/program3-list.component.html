@@ -1,0 +1,103 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/dashboard">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To Dashboard
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <!-- <div class="search-element page_search_block">
+            <div class="searchval">
+                <input cFormControl placeholder="Search by title" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchVal"/>
+            </div>
+            <div class="searchbutton">
+                <button class="button_appearance_none search_btn_icon" (click)="getList()" title="Search">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div> -->
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Exclusive Program 3 List</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            <!-- <button cButton class="me-1" routerLink="/impact/create">
+                                Add Impact
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">Course Description</th>
+                                <th scope="col" class="table_text_center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i= index">
+                                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                                <td>{{item.course_name ? item.course_name : 'N/A'}}</td>
+                                <td>
+                                    <div *ngIf="item.course_description; else noDescription">
+                                      <!-- Render images -->
+                                      <ng-container *ngIf="isHtmlContent(item.course_description)">
+                                        <span class="table_td_des_img">
+                                            <img
+                                            *ngFor="let imgSrc of extractImages(item.course_description)"
+                                            [src]="imgSrc"
+                                            alt="course_description Image"
+                                            style="height: 50px; width: 50px; margin-right: 5px;"
+                                            />
+                                        </span>
+
+                                      </ng-container>
+                                      <!-- Render truncated string -->
+                                      <span>{{ truncateText(stripHtml(item.course_description), 50) }}</span>
+                                    </div>
+                                    <ng-template #noDescription>N/A</ng-template>
+                                </td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn" [routerLink]="['/exclusive-program/program3-list/program3-view', item._id]" (click)="currentPage()" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="table_icon_btn" [routerLink]="['/exclusive-program/program3-list/program3-edit', item._id]" (click)="currentPage()" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <!-- <a class="table_icon_btn" (click)="delete(item._id)" style="cursor: pointer;" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a> -->   
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!listData?.length">
+                                <td colspan="4">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </c-card-body>
+            <c-card-footer *ngIf="listData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getList($event)">
+                </app-pagination>
+            </c-card-footer>
+        </c-card>
+    </c-col>
+</c-row>

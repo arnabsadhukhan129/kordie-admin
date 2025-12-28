@@ -1,0 +1,46 @@
+.error 
+{
+        color: red;
+        position: absolute;
+        margin-top: 34px;
+}
+
+.error-msg
+{
+    color: red;
+    text-align : center;
+}
+
+.display-msg
+{
+    color: green;
+    text-align : center;
+}
+
+re-captcha.is-invalid > div {
+    border: 1px solid #dc3545 !important;
+    border-radius: 0.2rem;
+  }
+
+  .login-wrapper h3 {color: #f5821f; text-align: center; padding: 20px 0;}
+  .login-wrapper h3 span{color: #666;}
+  .login-logo { text-align: center;}
+  .login-logo img{ max-width: 35%; width: 100%;}
+
+  .login-wrapper .error {position: relative; margin: 0; padding: 0; width: 100%;}
+  .login-wrapper .error p {margin: 0; padding: 10px 0 0;}
+
+  .login-wrapper  button:focus, .login-wrapper input:focus {box-shadow: none;}
+  .login-wrapper input:focus {border-color: #666;}
+  .login-wrapper  button.forgot-link { border: 0;}
+  .login-wrapper  button.forgot-link:hover {border: 0; color: #666;}
+
+  .text-right{
+    text-align: right;
+  }
+
+  .alert-msg{
+    width: 50%;
+    left: 25%;
+    margin-top: 10px;
+}

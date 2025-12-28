@@ -1,0 +1,71 @@
+:host {
+  .legend {
+    small {
+      font-size: x-small;
+    }
+  }
+}
+
+
+
+.dashboard-box {display: flex; min-height: 200px; border-radius: 10px; margin-bottom: 20px; justify-content: center; align-items: center; color: #fff;}
+.dashboard-box .content {width: 50%; padding: 10px; text-align: center; border-right: 1px solid #fff; background: #f5821f; padding: 20px 0px; border-radius: 20px 0px 0px 20px;}
+.dashboard-box .content:nth-child(2){border-right: none; background: #666; padding: 20px 0px; border-radius: 0px 20px 20px 0px;}
+.dashboard-box .content .active-icon{
+  height: 40px;
+  width: auto;
+  font-weight: 900;
+}
+.dashboard-box .content .inactive-icon{
+  height: 40px;
+  width: auto;
+  font-weight: 900;
+}
+.dashboard-box h3 {font-size: 25x; font-weight: 700;}
+.bg-orange {background-color: #f5821f;}
+.bg-gray {background-color: #666;}
+
+.graph{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.graph img{
+  width: 100%;
+  max-width: 500px;
+}
+
+.dashboard-box:hover {
+  cursor: pointer;
+}
+
+.date-picker{
+  display: flex;
+  width: 50%;
+
+  span{
+    padding-right: 10px;
+  }
+}
+
+.graph-button {
+  float: right;
+
+}
+.graph-ele
+{
+  display: flex;
+  width: 100%;
+}
+.graph-radio
+{
+  width: 50%;
+  float: right;
+}
+.graph-heading
+{
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,107 @@
+<div class="backbutton">
+    <!-- <button cButton class="me-1" routerLink="/section-title-mangement/meet-your-curators/list"> -->
+    <button cButton class="me-1" routerLink="/meet-your-curators/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="name"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('name')?.errors?.['required'] || addEditForm.get('name')?.errors?.['pattern']) && (addEditForm.get('name')?.dirty || addEditForm.get('name')?.touched)" class="error">
+                                Please enter name.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Image *</label>
+                        <input cFormControl  type="file" formControlName="image" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div>
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel >Image *</label>
+                            <img class="imgVideo_box"  [src]="imagePreview" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Desgination *</label>
+                        <input cFormControl
+                        id="exampleFormControlInput2"
+                        placeholder="Desgination"
+                        type="text"
+                        formControlName="desgination"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('desgination')?.errors?.['required'] || addEditForm.get('desgination')?.errors?.['pattern']) && (addEditForm.get('desgination')?.dirty || addEditForm.get('desgination')?.touched)" class="error">
+                                Please enter desgination.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >At</label>
+                        <input cFormControl
+                           id="exampleFormControlInput2"
+                           placeholder="at"
+                           type="text"
+                           formControlName="at"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('at')?.errors?.['required'] || addEditForm.get('at')?.errors?.['pattern']) && (addEditForm.get('at')?.dirty || addEditForm.get('at')?.touched)" class="error">
+                                Please enter at.
+                            </p>
+                        </div>
+                    </div>
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

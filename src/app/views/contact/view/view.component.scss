@@ -1,0 +1,15 @@
+.custom-grey-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #c2c2c2;
+    color: #333;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+  
+    &:hover {
+      background-color: #d1d1d1;
+      color: #000;
+    }
+  }
+  

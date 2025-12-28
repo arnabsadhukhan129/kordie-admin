@@ -1,0 +1,110 @@
+<p>test works!</p>
+
+<!--
+<ng-multiselect-dropdown
+  [placeholder]="'custom placeholder'"
+  [settings]="dropdownSettings"
+  [data]="dropdownList"
+  [(ngModel)]="selectedItems"
+  (onSelect)="onItemSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+>
+</ng-multiselect-dropdown> -->
+
+
+<div class="contaner_box_block">
+  <div class="multi_select_box">
+    <ul>
+      <li>
+        <input type="checkbox" id="checkbox1" name="checkbox1" value="1">
+        <label for="checkbox1">Option 1</label>
+      </li>
+      <li>
+        <input type="checkbox" id="checkbox2" name="checkbox2" value="2">
+        <label for="checkbox2">Option 2</label>
+      </li>
+      <li>
+        <input type="checkbox" id="checkbox3" name="checkbox3" value="3">
+        <label for="checkbox3">Option 3</label>
+      </li>
+      <li>
+        <input type="checkbox" id="checkbox4" name="checkbox4" value="4">
+        <label for="checkbox4">Option 4</label>
+      </li>
+      <li>
+        <input type="checkbox" id="checkbox5" name="checkbox5" value="5">
+        <label for="checkbox5">Option 5</label>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+
+<!-- ===========    -->
+
+<ng-template #userDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button
+      cButton
+      color=""
+      [caret]="false"
+      cDropdownToggle
+      class="py-0 header_user_btn"
+    >
+      <c-avatar
+        cTextColor="primary"
+        shape="rounded-1"
+        size="md"
+
+        status="success"
+      > </c-avatar>
+      <c-avatar
+      cTextColor="primary"
+      shape="rounded-1"
+      size="md"
+      src="./assets/img/avatars/blank-profile-picture.webp"
+      status="success"
+    > </c-avatar>
+
+    </button>
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto user-drop-list">
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+      </li>
+      <li>
+        <a routerLink="/user/profile" cDropdownItem>
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          Profile
+        </a>
+      </li>
+
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
+      </li>
+      <li></li>
+      <li>
+        <a routerLink="/user/changepassword" cDropdownItem>
+          <!-- <svg cIcon class="me-2" name="cilHttps"></svg> -->
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Change Password
+        </a>
+      </li>
+
+      <li>
+        <hr cDropdownDivider/>
+      </li>
+      <li>
+        <a routerLink=""  cDropdownItem>
+          <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+          Log out
+        </a>
+      </li>
+      <li></li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+
+<!-- ===========   -->
+

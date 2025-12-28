@@ -1,0 +1,47 @@
+.error 
+{
+        color: red;
+        position: absolute;
+        // margin-top: 24px;
+}
+
+.error-msg
+{
+    color: red;
+    text-align : center;
+}
+
+.display-msg
+{
+    color: green;
+    text-align : center;
+}
+.search-element .searchby
+{
+    width : 40%;
+    margin-right : 20px;
+}
+
+.search-element .searchval
+{
+    width : 40%;
+}
+.search-element{
+    display: flex;
+    padding-bottom : 20px;
+    width: 100%;
+}
+
+.searchbutton{
+    width : 10%;
+    text-align : right;
+    margin-left : 9px;
+}
+
+.error p {
+    margin-left: 8px;
+}
+
+a:hover {
+    cursor: pointer;
+}

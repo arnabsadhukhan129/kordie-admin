@@ -1,0 +1,1355 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/exclusive-program/program2-list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+  </div>
+  <c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">View Details</strong>
+            </c-card-header>
+  
+            <c-card-body class="view_page_cardBody">
+  
+              <!-- <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                  <div>{{displayMessage}}</div>
+              </c-alert>
+              <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                  <div>{{errorMessage}}</div>
+              </c-alert> -->
+  
+              <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                  <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+              </ngx-spinner>
+  
+              <form [formGroup]="addEditForm">
+                  <div class="mb-3">
+                      <label cLabel >Course Name</label>
+                      <input cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Course Name"
+                          type="text"
+                          formControlName="course_name"
+                          readonly
+                      />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label cLabel >Sanna Course</label>
+                    <select aria-label="Default select example" cSelect formControlName="sana_course_id" [attr.disabled]="isDisabled">
+                        <option value="" hidden disabled>Select Sana Course</option>
+                        <option *ngFor="let getCourse of getCourseList" [value]="getCourse.id"> {{ getCourse.id }} - {{ getCourse.title }}</option>
+                    </select>
+                    <!-- <div class="error">
+                      <p
+                        *ngIf="(addEditForm.get('sana_course_id')?.errors?.['required'] || addEditForm.get('sana_course_id')?.errors?.['pattern']) &&
+                              (addEditForm.get('sana_course_id')?.dirty || addEditForm.get('sana_course_id')?.touched)"
+                        class="error">
+                        Please select sana course.
+                      </p>
+                    </div> -->
+                  </div>
+  
+                  <div class="mb-3">
+                      <label cLabel >Course Description</label>
+                      <ckeditor class="input_appearance_none editWeb_textArea" formControlName="course_description" [config]="editorConfig"></ckeditor>
+                      <!-- <div class="error">
+                          <p *ngIf="(addEditForm.get('course_description')?.errors?.['required'] || addEditForm.get('course_description')?.errors?.['pattern']) && (addEditForm.get('course_description')?.dirty || addEditForm.get('course_description')?.touched)" class="error">
+                              Please enter course description.
+                          </p>
+                      </div> -->
+                  </div>
+
+                  <div class="mb-3">
+                      <label cLabel >Course Category</label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select Course Category'"
+                        [data]="categoryList || []"
+                        [settings]="dropdownSettings_category"
+                        formControlName="course_category"
+                        [disabled]="isDisabled"
+                        >
+                      </ng-multiselect-dropdown>
+  
+                      <!-- <div class="error">
+                        <p
+                          *ngIf="(addEditForm.get('course_category')?.errors?.['required'] || addEditForm.get('course_category')?.errors?.['pattern']) &&
+                                (addEditForm.get('course_category')?.dirty || addEditForm.get('course_category')?.touched)"
+                          class="error">
+                          Please select course category.
+                        </p>
+                      </div> -->
+                    </div>
+
+                   <!-- -------  Stats Block -- start --  -->
+                   <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Banner Icon Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="banner_icon_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item1 of bannerIconControls; let m = index"
+                            [formGroupName]="m"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{m+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{m+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Image {{m+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, m, 'bannerIcon')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="bannerIconPreviews[m]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="bannerIconPreviews[m]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="bannerIconControls && bannerIconControls.length <1">
+                            <!-- <button cButton color="primary" type="button" (click)="addbannerIcontem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Banner Bottom Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="banner_bottom_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item2 of bottomControls; let n = index"
+                            [formGroupName]="n"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{n+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{n+1}}</label>
+                                        <textarea
+                                          cFormControl
+                                          placeholder="Description"
+                                          formControlName="description"
+                                          readonly
+                                        ></textarea>
+                                    </div>
+                                    <button cButton class="inner_card_close_btn close_btn" *ngIf="n > 0"  color="danger" type="button" (click)="removeBannerSection(n)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="bottomControls && bottomControls.length < 3">
+                            <!-- <button cButton color="primary" type="button" (click)="addBannerBottom()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Banner Type</label>
+                    <select aria-label="Default select example" cSelect formControlName="banner_type" (change)="selectType($event)" [attr.disabled]="isDisabled">
+                        <option value="" hidden disabled>Select banner type</option>
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                    </select>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('banner_type')?.errors?.['required'] || addEditForm.get('banner_type')?.errors?.['pattern']) && (addEditForm.get('banner_type')?.dirty || addEditForm.get('banner_type')?.touched)" class="error">Please select banner type.</p>
+                    </div> -->
+                </div>
+
+
+                <div class="mb-3" *ngIf="mediaType">
+                    <label cLabel >Banner Media</label>
+                    <!-- <input cFormControl 
+                           type="file" 
+                           formControlName="banner_media" 
+                           [accept]="mediaType === 'image' ? 'image/*' : 'video/*'" 
+                           (change)="onMediaSelected($event,'banner')"/> -->
+                </div>
+                <div *ngIf="mediaType === 'image' && imagePreview" class="image-preview mb-3">
+                    <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                </div>
+                <div *ngIf="mediaType === 'video' && videoPreview" class="video-preview mb-3">
+                    <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel>Banner Bottom Section Image </label>
+                    <!-- <input cFormControl  type="file" formControlName="banner_bottom_section_media" accept="image/*" (change)="onImageSelected($event, 0, 'bottomImage')"/> -->
+                </div>
+                <div *ngIf="bottomImagePreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="bottomImagePreview" alt="Preview">
+                  </div>
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Banner Bottom Section Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Banner Bottom Section Title"
+                        type="text"
+                        formControlName="banner_bottom_section_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('banner_bottom_section_title')?.errors?.['required'] || addEditForm.get('banner_bottom_section_title')?.errors?.['pattern']) && (addEditForm.get('banner_bottom_section_title')?.dirty || addEditForm.get('banner_bottom_section_title')?.touched)" class="error">Please enter banner bottom section title.</p>
+                    </div> -->
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Banner Bottom Section Description</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="banner_bottom_section_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('banner_bottom_section_description')?.errors?.['required'] || addEditForm.get('banner_bottom_section_description')?.errors?.['pattern']) && (addEditForm.get('banner_bottom_section_description')?.dirty || addEditForm.get('banner_bottom_section_description')?.touched)" class="error">
+                            Please enter banner bottom section description.
+                        </p>
+                    </div> -->
+                </div>
+
+
+                 <!-- -------  Stats Block -- start --  -->
+                 <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Banner Slide Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="banner_slide_data" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item3 of slideControls; let o = index"
+                            [formGroupName]="o"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{o+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Icon {{o+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, o, 'slideIcon')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="slideIconPreviews[o]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="slideIconPreviews[o]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="slideControls && slideControls.length < 6">
+                            <!-- <button cButton color="primary" type="button" (click)="addSlideItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+
+                <div class="mb-3">
+                    <label cLabel >program overview title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="program overview title"
+                        type="text"
+                        formControlName="program_overview_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('program_overview_title')?.errors?.['required'] || addEditForm.get('program_overview_title')?.errors?.['pattern']) && (addEditForm.get('program_overview_title')?.dirty || addEditForm.get('program_overview_title')?.touched)" class="error">Please enter program overview title.</p>
+                    </div> -->
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Program Overview Type</label>
+                    <select aria-label="Default select example" cSelect formControlName="program_overview_type" (change)="selectOverviewType($event)" [attr.disabled]="isDisabled">
+                        <option value="" hidden disabled>Select program overview type</option>
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                    </select>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('program_overview_type')?.errors?.['required'] || addEditForm.get('program_overview_type')?.errors?.['pattern']) && (addEditForm.get('program_overview_type')?.dirty || addEditForm.get('program_overview_type')?.touched)" class="error">Please select program overview type.</p>
+                    </div> -->
+                </div>
+
+
+                <div class="mb-3" *ngIf="overViewType">
+                    <label cLabel >Program Overview Media</label>
+                    <!-- <input cFormControl 
+                           type="file" 
+                           formControlName="program_overview_media" 
+                           [accept]="overViewType === 'image' ? 'image/*' : 'video/*'" 
+                           (change)="onMediaSelected($event,'overview')"/> -->
+                </div>
+                <div *ngIf="overViewType === 'image' && imagePreview1" class="image-preview mb-3">
+                    <img [src]="imagePreview1" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                </div>
+                <div *ngIf="overViewType === 'video' && videoPreview1" class="video-preview mb-3">
+                    <video [src]="videoPreview1" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Program Overview Description</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="program_overview_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('program_overview_description')?.errors?.['required'] || addEditForm.get('program_overview_description')?.errors?.['pattern']) && (addEditForm.get('program_overview_description')?.dirty || addEditForm.get('program_overview_description')?.touched)" class="error">
+                            Please enter program overview description.
+                        </p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Address To Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Address To Title"
+                        type="text"
+                        formControlName="address_to_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('address_to_title')?.errors?.['required'] || addEditForm.get('address_to_title')?.errors?.['pattern']) && (addEditForm.get('address_to_title')?.dirty || addEditForm.get('address_to_title')?.touched)" class="error">Please enter address to title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Address To Subtitle</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Address To Subtitle"
+                        type="text"
+                        formControlName="address_to_subtitle"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('address_to_subtitle')?.errors?.['required'] || addEditForm.get('address_to_subtitle')?.errors?.['pattern']) && (addEditForm.get('address_to_subtitle')?.dirty || addEditForm.get('address_to_subtitle')?.touched)" class="error">Please enter address to subtitle.</p>
+                    </div> -->
+                </div>
+
+                 <!-- -------  Stats Block -- start --  -->
+                 <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Address to List :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="address_to_list" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item4 of tagControls; let p = index"
+                            [formGroupName]="p"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{p+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{p+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Logo {{p+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, p, 'addressLogo')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="addressLogoPreviews[p]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="addressLogoPreviews[p]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="tagControls && tagControls.length <4">
+                            <!-- <button cButton color="primary" type="button" (click)="addAddressList()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+
+                <div class="mb-3">
+                    <label cLabel >Address To Type</label>
+                    <select aria-label="Default select example" cSelect formControlName="address_to_type" (change)="selectAddressType($event)" [attr.disabled]="isDisabled">
+                        <option value="" hidden disabled>Select address to type</option>
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                    </select>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('address_to_type')?.errors?.['required'] || addEditForm.get('address_to_type')?.errors?.['pattern']) && (addEditForm.get('address_to_type')?.dirty || addEditForm.get('address_to_type')?.touched)" class="error">Please select address to type</p>
+                    </div> -->
+                </div>
+
+
+                <div class="mb-3" *ngIf="addressType">
+                    <label cLabel >Address To Media</label>
+                    <!-- <input cFormControl 
+                           type="file" 
+                           formControlName="address_to_media" 
+                           [accept]="addressType === 'image' ? 'image/*' : 'video/*'" 
+                           (change)="onMediaSelected($event,'address')"/> -->
+                </div>
+                <div *ngIf="addressType === 'image' && imagePreview2" class="image-preview mb-3">
+                    <img [src]="imagePreview2" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                </div>
+                <div *ngIf="addressType === 'video' && videoPreview2" class="video-preview mb-3">
+                    <video [src]="videoPreview2" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+
+                <div class="mb-3">
+                    <label cLabel >Key lerning title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Key lerning title"
+                        type="text"
+                        formControlName="key_lerning_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('key_lerning_title')?.errors?.['required'] || addEditForm.get('key_lerning_title')?.errors?.['pattern']) && (addEditForm.get('key_lerning_title')?.dirty || addEditForm.get('key_lerning_title')?.touched)" class="error">Please enter key learning title.</p>
+                    </div> -->
+                </div>
+
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Key Lerning Area :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="key_lerning_area" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item5 of areaControls; let q = index"
+                            [formGroupName]="q"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{q+1}}</label>
+                                        <textarea
+                                          cFormControl
+                                          placeholder="Description"
+                                          formControlName="description_list"
+                                          readonly
+                                        ></textarea>
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="n > 0"  color="danger" type="button" (click)="removeBannerSection(n)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="areaControls && areaControls.length < 2">
+                            <!-- <button cButton color="primary" type="button" (click)="addArea()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+               
+
+                <div class="mb-3">
+                    <label cLabel >Meet Author Title </label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Meet Author Title"
+                        type="text"
+                        formControlName="meet_author_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('meet_author_title')?.errors?.['required'] || addEditForm.get('meet_author_title')?.errors?.['pattern']) && (addEditForm.get('meet_author_title')?.dirty || addEditForm.get('meet_author_title')?.touched)" class="error">Please enter meet author title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Meet Author Subtitle</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="meet author subtitle"
+                        type="text"
+                        formControlName="meet_author_title_subtitle"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('meet_author_title_subtitle')?.errors?.['required'] || addEditForm.get('meet_author_title_subtitle')?.errors?.['pattern']) && (addEditForm.get('meet_author_title_subtitle')?.dirty || addEditForm.get('meet_author_title_subtitle')?.touched)" class="error">Please enter meet author subtitle.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Meet Author Media</label>
+                    <!-- <input cFormControl  type="file" formControlName="meet_author_media" accept="image/*" (change)="onImageSelected($event, 0, 'authorMedia')"/> -->
+                </div>
+                <div *ngIf="authorMediaPreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="authorMediaPreview" alt="Preview">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Meet Author Subtitle Media</label>
+                    <!-- <input cFormControl  type="file" formControlName="meet_author_subtitle_media" accept="image/*" (change)="onImageSelected($event, 0, 'authorSubTitleMedia')"/> -->
+                </div>
+                <div *ngIf="authorSubtitleMediaPreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="authorSubtitleMediaPreview" alt="Preview">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Meet Author Description </label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="mett_author_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('mett_author_description')?.errors?.['required'] || addEditForm.get('mett_author_description')?.errors?.['pattern']) && (addEditForm.get('mett_author_description')?.dirty || addEditForm.get('mett_author_description')?.touched)" class="error">
+                            Please enter meet author description.
+                        </p>
+                    </div> -->
+                </div>
+
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Meet Author Logo :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="meet_author_logo" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item7 of logoControls; let s = index"
+                            [formGroupName]="s"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel>Logo {{s+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, s, 'logo')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="logoPreviews[s]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="logoPreviews[s]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="logoControls && logoControls.length < 9">
+                            <!-- <button cButton color="primary" type="button" (click)="addLogo()" >Add Logo</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Meet Author Program Description</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="meet_author_program_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('meet_author_program_description')?.errors?.['required'] || addEditForm.get('meet_author_program_description')?.errors?.['pattern']) && (addEditForm.get('meet_author_program_description')?.dirty || addEditForm.get('meet_author_program_description')?.touched)" class="error">
+                            Please enter meet author program description.
+                        </p>
+                    </div> -->
+                </div>
+
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Meet Author Bottom Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="mett_author_bottom_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item8 of meetBottomControls; let t = index"
+                            [formGroupName]="t"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{t+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{t+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Image {{t+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, t, 'meetBottomImage')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="bottomImagePreviews[t]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="bottomImagePreviews[t]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="meetBottomControls && meetBottomControls.length <4">
+                            <!-- <button cButton color="primary" type="button" (click)="addbottomItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+  
+                <div class="mb-3">
+                    <label cLabel>Syllabus Title Icon</label>
+                    <!-- <input cFormControl  type="file" formControlName="syllabus_title_icon" accept="image/*" (change)="onImageSelected($event, 0, 'syllabusIcon')"/> -->
+                </div>
+                <div *ngIf="syllabusIconPreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="syllabusIconPreview" alt="Preview">
+                  </div>
+                </div> 
+
+                <div class="mb-3">
+                    <label cLabel >syllabus Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="syllabus Title"
+                        type="text"
+                        formControlName="syllabus_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('syllabus_title')?.errors?.['required'] || addEditForm.get('syllabus_title')?.errors?.['pattern']) && (addEditForm.get('syllabus_title')?.dirty || addEditForm.get('syllabus_title')?.touched)" class="error">Please enter syllabus title.</p>
+                    </div> -->
+                </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Syllabus Title Subtitle Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="syllabus_title_subtitle_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item9 of syllabusTitleControls; let u = index"
+                            [formGroupName]="u"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{u+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="syllabusTitleControls && syllabusTitleControls.length <3">
+                            <!-- <button cButton color="primary" type="button" (click)="addSyllabusTitle()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                 <!-- -------  Stats Block -- start --  -->
+                 <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Syllabus Accordion Block Section:</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="syllabus_accordion_block" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item15 of blockControls; let a = index"
+                            [formGroupName]="a"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{a+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Time {{a+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Time"
+                                        type="text"
+                                        formControlName="time"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{a+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Image {{a+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="image/*"
+                                          (change)="onImageSelected($event, a, 'blockImage')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="blockImagePreviews[a]" class="image-preview mb-3">
+                                        <img
+                                          class="imgVideo_box"
+                                          [src]="blockImagePreviews[a]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="blockControls && blockControls.length <6">
+                            <!-- <button cButton color="primary" type="button" (click)="addblockItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Self Study Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Self Study Title"
+                        type="text"
+                        formControlName="self_study_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('self_study_title')?.errors?.['required'] || addEditForm.get('self_study_title')?.errors?.['pattern']) && (addEditForm.get('self_study_title')?.dirty || addEditForm.get('self_study_title')?.touched)" class="error">Please enter self study title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Self Study Description </label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="self_study_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('self_study_description')?.errors?.['required'] || addEditForm.get('self_study_description')?.errors?.['pattern']) && (addEditForm.get('self_study_description')?.dirty || addEditForm.get('self_study_description')?.touched)" class="error">
+                            Please enter self study description.
+                        </p>
+                    </div> -->
+                </div>
+
+                 <!-- -------  Stats Block -- start --  -->
+                 <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Self Study Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="self_study_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item11 of studyControls; let w = index"
+                            [formGroupName]="w"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{w+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{w+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="studyControls && studyControls.length <4">
+                            <!-- <button cButton color="primary" type="button" (click)="addStudyItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Benefit Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Benefit Title"
+                        type="text"
+                        formControlName="benefit_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('benefit_title')?.errors?.['required'] || addEditForm.get('benefit_title')?.errors?.['pattern']) && (addEditForm.get('benefit_title')?.dirty || addEditForm.get('benefit_title')?.touched)" class="error">Please enter benefit title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Benefit Image</label>
+                    <!-- <input cFormControl  type="file" formControlName="benefit_image" accept="image/*" (change)="onImageSelected($event, 0, 'benifitImage')"/> -->
+                </div>
+                <div *ngIf="benifitImage" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="benifitImage" alt="Preview">
+                  </div>
+                </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Benefit Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="benefit_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item12 of benifitControls; let y = index"
+                            [formGroupName]="y"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{y+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{y+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="benifitControls && benifitControls.length <6">
+                            <!-- <button cButton color="primary" type="button" (click)="addBenifitItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Hotel Concept Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Hotel Concept Title"
+                        type="text"
+                        formControlName="hotel_concept_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('hotel_concept_title')?.errors?.['required'] || addEditForm.get('hotel_concept_title')?.errors?.['pattern']) && (addEditForm.get('hotel_concept_title')?.dirty || addEditForm.get('hotel_concept_title')?.touched)" class="error">Please enter hotel concept title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Hotel Concept Logo</label>
+                    <!-- <input cFormControl  type="file" formControlName="hotel_concept_logo" accept="image/*" (change)="onImageSelected($event, 0, 'hotelConceptLogo')"/> -->
+                </div>
+                <div *ngIf="hotelLogo" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="hotelLogo" alt="Preview">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Sneak Peek Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Sneak Peek Title"
+                        type="text"
+                        formControlName="sneak_peek_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('sneak_peek_title')?.errors?.['required'] || addEditForm.get('sneak_peek_title')?.errors?.['pattern']) && (addEditForm.get('sneak_peek_title')?.dirty || addEditForm.get('sneak_peek_title')?.touched)" class="error">Please enter sneak peek title.</p>
+                    </div> -->
+                </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Sneak Peek Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="sneak_peek_section" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item10 of tabContentControls; let v = index"
+                            [formGroupName]="v"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Tab Title {{v+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Tab Title"
+                                        type="text"
+                                        formControlName="tab_title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Tab Content Title {{v+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Tab Content Title"
+                                        type="text"
+                                        formControlName="tab_content_title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <!-- <div class="mb-3">
+                                        <label cLabel>Tab Content Description *</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Enter Tab Content Description"
+                                        formControlName="tab_content_description"
+                                        ></textarea>
+                                    </div> -->
+
+                                    <div class="mb-3">
+                                        <label cLabel>Tab Content Media {{v+1}}</label>
+                                        <!-- <input
+                                          cFormControl
+                                          type="file"
+                                          accept="video/*"
+                                          (change)="onVideoSelected($event, v, 'tabContentMedia')"
+                                        /> -->
+                                    </div>
+                                    <!-- Image Preview -->
+                                    <div *ngIf="contentPreviews[v]" class="image-preview mb-3">
+                                        <video [src]="contentPreviews[v]" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                                        <!-- <img
+                                          class="imgVideo_box"
+                                          [src]="bottomImagePreviews[t]"
+                                          alt="Preview"
+                                          style="max-width: 100%; height: auto;"
+                                        /> -->
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="tabContentControls && tabContentControls.length <4">
+                            <!-- <button cButton color="primary" type="button" (click)="addtabContentItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Enrol Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Enrol Title"
+                        type="text"
+                        formControlName="enrol_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_title')?.errors?.['required'] || addEditForm.get('enrol_title')?.errors?.['pattern']) && (addEditForm.get('enrol_title')?.dirty || addEditForm.get('enrol_title')?.touched)" class="error">Please enter enrol title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Enrol Description</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="enrol_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_description')?.errors?.['required'] || addEditForm.get('enrol_description')?.errors?.['pattern']) && (addEditForm.get('enrol_description')?.dirty || addEditForm.get('enrol_description')?.touched)" class="error">
+                            Please enter enrol description.
+                        </p>
+                    </div> -->
+                </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Enrol Title Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="enrol_section_title" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item13 of externalControls; let f = index"
+                            [formGroupName]="f"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{f+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Enrol Section Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="externalControls && externalControls.length <6">
+                            <!-- <button cButton color="primary" type="button" (click)="addBenifitItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Enrol Single Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Enrol Single Title"
+                        type="text"
+                        formControlName="enrol_single_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_single_title')?.errors?.['required'] || addEditForm.get('enrol_single_title')?.errors?.['pattern']) && (addEditForm.get('enrol_single_title')?.dirty || addEditForm.get('enrol_single_title')?.touched)" class="error">Please enter enrol single title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Enrol Single Duration</label>
+                    <div class="input_percentage_block">
+                        <input
+                            cFormControl
+                            placeholder="Enter Enrol Single Duration"
+                            type="number"
+                            formControlName="enrol_single_duration"
+                            (keypress)="allowOnlyPositiveNumbers($event)"
+                            (input)="preventNegativeValues($event)"
+                            readonly
+                        />
+                    </div>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_single_duration')?.errors?.['required'] || addEditForm.get('enrol_single_duration')?.errors?.['pattern']) && (addEditForm.get('enrol_single_duration')?.dirty || addEditForm.get('enrol_single_duration')?.touched)" class="error">Please enter enrol single duration.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Enrol Single Price</label>
+                    <div class="input_percentage_block">
+                        <input
+                            cFormControl
+                            placeholder="Enter Enrol Single Price"
+                            type="number"
+                            formControlName="enrol_single_price"
+                            (keypress)="allowOnlyPositiveNumbers($event)"
+                            (input)="preventNegativeValues($event)"
+                            readonly
+                        />
+                    </div>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_single_price')?.errors?.['required'] || addEditForm.get('enrol_single_price')?.errors?.['pattern']) && (addEditForm.get('enrol_single_price')?.dirty || addEditForm.get('enrol_single_price')?.touched)" class="error">Please enter enrol single price.</p>
+                    </div> -->
+                </div>
+
+
+                <!-- <div class="mb-3">
+                    <label cLabel >Enrol Single Discount *</label>
+                    <div class="input_percentage_block">
+                        <input
+                            cFormControl
+                            placeholder="Enter Enrol Single Discount"
+                            type="number"
+                            formControlName="enrol_single_discount"
+                            (keypress)="allowOnlyPositiveNumbers($event)"
+                            (input)="preventNegativeValues($event)"
+                        />
+                    </div>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('enrol_single_discount')?.errors?.['required'] || addEditForm.get('enrol_single_discount')?.errors?.['pattern']) && (addEditForm.get('enrol_single_discount')?.dirty || addEditForm.get('enrol_single_discount')?.touched)" class="error">Please enter enrol single discount.</p>
+                    </div>
+                </div> -->
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Enrol Single Plan Box Section :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="enrol_single_plan_box" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item13 of planBoxControls; let z = index"
+                            [formGroupName]="z"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel>Description {{z+1}}</label>
+                                        <textarea
+                                        cFormControl
+                                        placeholder="Description"
+                                        formControlName="description"
+                                        readonly
+                                        ></textarea>
+                                    </div>
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="m > 0"  color="danger" type="button" (click)="removeExploreItem(m)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3" *ngIf="planBoxControls && planBoxControls.length <6">
+                            <!-- <button cButton color="primary" type="button" (click)="addBoxItem()" >Add Item</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- -------  Stats Block -- end --  -->
+
+                <div class="mb-3">
+                    <label cLabel >Certificate Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Certificate Title"
+                        type="text"
+                        formControlName="certificate_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('certificate_title')?.errors?.['required'] || addEditForm.get('certificate_title')?.errors?.['pattern']) && (addEditForm.get('certificate_title')?.dirty || addEditForm.get('certificate_title')?.touched)" class="error">Please enter certificate title.</p>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Certificate Description</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="certificate_description" [config]="editorConfig"></ckeditor>
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('certificate_description')?.errors?.['required'] || addEditForm.get('certificate_description')?.errors?.['pattern']) && (addEditForm.get('certificate_description')?.dirty || addEditForm.get('certificate_description')?.touched)" class="error">
+                            Please enter certificate description.
+                        </p>
+                    </div> -->
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label cLabel>Certificate Image*</label>
+                    <input cFormControl  type="file" formControlName="certificate_image" accept="image/*" (change)="onImageSelected($event, 0, 'certificateImage')"/>
+                </div>
+                <div *ngIf="certificateImagePreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="certificateImagePreview" alt="Preview">
+                  </div>
+                </div> -->
+
+                <div class="mb-3">
+                    <label cLabel >Faq Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Faq Title"
+                        type="text"
+                        formControlName="faq_title"
+                        readonly
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('faq_title')?.errors?.['required'] || addEditForm.get('faq_title')?.errors?.['pattern']) && (addEditForm.get('faq_title')?.dirty || addEditForm.get('faq_title')?.touched)" class="error">Please enter faq title.</p>
+                    </div> -->
+                </div>
+
+  
+                  <!-- <button
+                      cButton
+                      class="me-1"
+                      type="submit"
+                      [disabled]="!addEditForm.valid"
+                  >
+                      Save
+                  </button> -->
+              </form>
+            </c-card-body>
+        </c-card>
+    </c-col>
+  </c-row>
+  

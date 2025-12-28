@@ -1,0 +1,211 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/enquiry/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Name"
+                           type="text"
+                           formControlName="full_name"
+                           [readonly]="detailsId"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('full_name')?.errors?.['required'] || addEditForm.get('full_name')?.errors?.['pattern']) 
+                                        && (addEditForm.get('full_name')?.dirty || addEditForm.get('full_name')?.touched)" 
+                                class="error">
+                                Please enter name.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Email *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Email"
+                           type="text"
+                           formControlName="email"
+                           [readonly]="detailsId"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('email')?.errors?.['required'] || addEditForm.get('email')?.errors?.['pattern']) 
+                                        && (addEditForm.get('email')?.dirty || addEditForm.get('email')?.touched)" 
+                                class="error">
+                                Please enter email.
+                            </p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('email')?.errors?.['invalidEmail'] &&
+                                (addEditForm.get('email')?.dirty || addEditForm.get('email')?.touched)
+                                "
+                                class="error"
+                            >
+                           Invalid email.
+                          </p>
+                        </div>
+                       
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Company *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="company"
+                           type="text"
+                           formControlName="company"
+                           [readonly]="detailsId"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('company')?.errors?.['required'] || addEditForm.get('company')?.errors?.['pattern']) 
+                                        && (addEditForm.get('company')?.dirty || addEditForm.get('company')?.touched)" 
+                                class="error">
+                                Please enter company.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Linkedin</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Linkedin"
+                           type="text"
+                           formControlName="linkedin"
+                           [readonly]="detailsId"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Message *</label>
+                        <textarea
+                          cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Message"
+                          type="text"
+                          formControlName="messageDetails"
+                          [readonly]="detailsId"
+                        ></textarea>
+                        
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('messageDetails')?.errors?.['required'] || addEditForm.get('messageDetails')?.errors?.['pattern']) &&
+                                    (addEditForm.get('messageDetails')?.dirty || addEditForm.get('messageDetails')?.['touched'])"
+                            class="error"
+                          >
+                            Please enter message.
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- <div class="mb-3" *ngIf="detailsId"> -->
+                        <div class="mb-3">
+                        <label cLabel >Total Amount *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Total Amount"
+                           type="number"
+                           formControlName="totalAmount"
+                           (keypress)="allowOnlyPositiveNumbers($event)"
+                           (input)="preventNegativeValues($event)"
+                        />
+                    </div>
+
+                    <!-- <div class="mb-3" *ngIf="detailsId"> -->
+                        <div class="mb-3">
+                        <label cLabel >Discount</label>
+                        <div class="input_percentage_block">
+                            <input
+                                cFormControl
+                                placeholder="Enter Discount"
+                                type="number"
+                                formControlName="discount"
+                                (keypress)="allowOnlyPositiveNumbers($event)"
+                                (input)="preventNegativeValues($event)"
+                            />
+                            <span class="percentage_icon">%</span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="mb-3" *ngIf="detailsId"> -->
+                        <div class="mb-3">
+                        <label cLabel >Paid Amount *</label>
+                        <div class="input_percentage_block">
+                            <input
+                                cFormControl
+                                placeholder="Enter Paid Amount"
+                                type="number"
+                                formControlName="paidAmount"
+                                (keypress)="allowOnlyPositiveNumbers($event)"
+                                (input)="preventNegativeValues($event)"
+                            />
+                            
+                        </div>
+                    </div>
+
+                    <!-- <div class="mb-3" *ngIf="detailsId"> -->
+                        <div class="mb-3">
+                        <label cLabel >Amount To Be Paid *</label>
+                        <div class="input_percentage_block">
+                            <input
+                                cFormControl
+                                placeholder="Enter Amount To Be Paid"
+                                type="number"
+                                formControlName="amountToBePaid"
+                                (keypress)="allowOnlyPositiveNumbers($event)"
+                                (input)="preventNegativeValues($event)"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- <div class="mb-3" *ngIf="detailsId"> -->
+                        <div class="mb-3">
+                        <label cLabel> Payment Status *</label>
+                        <select aria-label="Default select example" cSelect formControlName="paymentStatus">
+                            <option value="" hidden disabled>Select Payment Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

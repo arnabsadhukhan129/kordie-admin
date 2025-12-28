@@ -1,0 +1,298 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/course-category/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Course Category Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+              <c-card-body class="view_page_cardBody">
+                <form [formGroup]="viewForm">
+                    <div class="mb-3">
+                        <label cLabel >Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Category Name"
+                           type="text"
+                           formControlName="name"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Slug</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Category Slug"
+                           type="text"
+                           formControlName="slug"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <label cLabel > Category Image</label>
+                            <img class="imgVideo_box" [src]="categoryData?.category_image ? categoryData?.category_image : 'assets/kordie-admin-image/no-image-found-01.png'">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label cLabel >Banner Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Banner Title"
+                           type="text"
+                           formControlName="bannerTitle"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Banner Subtitle</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Banner Subtitle"
+                           type="text"
+                           formControlName="bannerSubtitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Banner Tags</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Banner Tags"
+                           type="text"
+                           formControlName="bannerTag"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel > Banner Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="bannerDescription" [config]="editorConfig"></ckeditor>
+                    </div>
+                    <span *ngIf="categoryData?.herosection?.media">
+                        <div class="mb-3" >
+                            <label cLabel >Banner {{ categoryData?.herosection?.type | titlecase }}</label>
+                        </div>
+                        
+                        <div *ngIf="categoryData?.herosection?.type === 'image'" class="image-preview imgVideo_preview mb-3">
+                            <img [src]="categoryData?.herosection?.media" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                        </div>
+                        
+                        <div *ngIf="categoryData?.herosection?.type === 'video'" class="video-preview imgVideo_preview mb-3">
+                            <video [src]="categoryData?.herosection?.media" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                        </div>
+                    </span>
+                    
+                    <div class="mb-3">
+                        <label cLabel >Banner Link </label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Banner Link"
+                            type="text"
+                            formControlName="link"
+                            readonly
+                        />
+                        
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label cLabel >URL</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Url"
+                           type="text"
+                           formControlName="link"
+                           readonly
+                        />
+                    </div> -->
+                    <!-- <div class="mb-3">
+                        <label cLabel >Crucial skill Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Crucial skillset Title"
+                           type="text"
+                           formControlName="crucialSkillsetTitle"
+                           readonly
+                        />
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label cLabel >Product Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Product Section Title"
+                           type="text"
+                           formControlName="productsectionTitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel > Product Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="productsectionDescription" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Collection Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Collection Section Title"
+                           type="text"
+                           formControlName="collectionsectionTitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel > Collection Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="collectionsectionDescription" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Social Media Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Social Media Title"
+                           type="text"
+                           formControlName="socialmediaTitle"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Social Media Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="socialmediaDescription" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label cLabel >Social Media Link</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Social Media Link"
+                           type="text"
+                           formControlName="socialmediaLink"
+                           readonly
+                        />
+                    </div> -->
+
+                    <!-- <div class="mb-3">
+                        <label cLabel >Why Learn With Kordie Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Why Learn With Kordie Title"
+                           type="text"
+                           formControlName="whylearnTitle"
+                           readonly
+                        />
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label cLabel >Related Material Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Related Materials Title"
+                           type="text"
+                           formControlName="relatedsectionTitle"
+                           readonly
+                        />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label cLabel > Related Material Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="relatedsectionDescription" [config]="editorConfig"></ckeditor>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Related Material Link</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Related Materials Link"
+                           type="text"
+                           formControlName="relatedsectionLink"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Brand Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Brand Section Title"
+                           type="text"
+                           formControlName="brandsectionTitle"
+                           readonly
+                        />
+                    </div>
+                    <span *ngIf="categoryData?.brandsection?.media">
+                        <div class="mb-3" >
+                            <label cLabel > Brand {{ categoryData?.brandsection?.type | titlecase }}</label>
+                        </div>
+                        
+                        <div *ngIf="categoryData?.brandsection?.type === 'image'" class="image-preview imgVideo_preview mb-3">
+                            <img [src]="categoryData?.brandsection?.media" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                        </div>
+                        
+                        <div *ngIf="categoryData?.brandsection?.type === 'video'" class="video-preview imgVideo_preview mb-3">
+                            <video [src]="categoryData?.brandsection?.media" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                        </div>
+                    </span>
+                    
+                    <div class="mb-3">
+                        <label cLabel >School Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Social Media Title"
+                           type="text"
+                           formControlName="schoolTitle"
+                           readonly
+                        />
+                    </div>
+                    <span *ngIf="categoryData?.school?.media">
+                        <div class="mb-3" >
+                            <label cLabel > School {{ categoryData?.school?.type | titlecase }}</label>
+                        </div>
+                        
+                        <div *ngIf="categoryData?.school?.type === 'image'" class="image-preview imgVideo_preview mb-3">
+                            <img [src]="categoryData?.school?.media" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                        </div>
+                        
+                        <div *ngIf="categoryData?.school?.type === 'video'" class="video-preview imgVideo_preview mb-3">
+                            <video [src]="categoryData?.school?.media" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                        </div>
+                    </span>
+                    
+                    <!-- <div class="mb-3">
+                        <label cLabel >Faq Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Faq Title"
+                           type="text"
+                           formControlName="faqTitle"
+                           readonly
+                        />
+                    </div> -->
+                    
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

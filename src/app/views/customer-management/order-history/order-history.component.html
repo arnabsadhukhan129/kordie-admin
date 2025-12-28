@@ -1,0 +1,142 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/customer-management/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To Customer List Page
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <!-- <div class="search-element page_search_block">
+            <div class="searchval">
+                <input cFormControl placeholder="Search here" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchVal"/>
+            </div>
+            <div class="searchbutton">
+                <button class="button_appearance_none search_btn_icon" >
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div> -->
+
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Course Details</strong>
+                        </div>
+                        <!-- <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/customer-management/create">
+                                Add Customer
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">Course Price</th>
+                                <th scope="col">Paid Amount</th>
+                                <th scope="col">Payment Method Type</th>
+                                <th scope="col">Purchase Date(YYYY-MM-DD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of getData; let i= index">
+                                <th scope="row">{{(i+1)}}</th>
+                                <td>{{ stripHtmlTags(item.course_name) || 'N/A' }}</td>
+                                <td>{{item.course_price ? item.course_price : 0}}</td>
+                                <td>{{item.paid_amount ? item.paid_amount : 0}}</td>
+                                <td>{{item.payment_method_type ? item.payment_method_type : 'N/A'}}</td>
+                                <td>{{ item.purchased_at ? (item.purchased_at | date:'yyyy-MM-dd') : 'N/A' }}</td>
+                            </tr>
+                            <tr *ngIf="!getData?.length">
+                                <td colspan="6">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </c-card-body>
+            <!-- <c-card-footer *ngIf="getData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getOrderDetails($event)">
+                </app-pagination>
+            </c-card-footer> -->
+        </c-card>
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Subscription Plan Details</strong>
+                        </div>
+                        <!-- <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/customer-management/create">
+                                Add Customer
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">Plan Name</th>
+                                <th scope="col">Plan Price</th>
+                                <th scope="col">Paid Amount</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Payment Method Type</th>
+                                <th scope="col">Purchase Date(YYYY-MM-DD)</th>
+                                <th scope="col" class="table_text_center">Manage Subscription</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let val of getPlan; let i= index">
+                                <th scope="row">{{(i+1)}}</th>
+                                <td>{{ stripHtmlTags(val.plan_name) || 'N/A' }}</td>
+                                <td>{{val.price ? val.price : 0}}</td>
+                                <td>{{val.paid_amount ? val.paid_amount : 0}}</td>
+                                <td>{{val.discount ? val.discount : 0}}</td>
+                                <td>{{val.payment_method_type ? val.payment_method_type : 'N/A'}}</td>
+                                <td>{{ val.purchased_at ? (val.purchased_at | date:'yyyy-MM-dd') : 'N/A' }}</td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn" 
+                                        [routerLink]="['/subscription/subscribed-user-list/', val._id]"
+                                        (click)="getUrl()"
+                                        title="Manage Subscription">
+                                            <i class="bi bi-gear"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!getPlan?.length">
+                                <td colspan="8">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </c-card-body>
+            <!-- <c-card-footer *ngIf="getData?.length > 0">
+                <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getOrderDetails($event)">
+                </app-pagination>
+            </c-card-footer> -->
+        </c-card>
+    </c-col>
+</c-row>

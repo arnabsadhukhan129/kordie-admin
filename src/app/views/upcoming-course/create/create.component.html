@@ -1,0 +1,163 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/upcoming-course/upcoming-course-list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('title')?.errors?.['required'] || addEditForm.get('title')?.errors?.['pattern']) 
+                                        && (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)" 
+                                class="error">
+                                Please enter title.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Tag *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Tag"
+                           type="text"
+                           formControlName="tag"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('tag')?.errors?.['required'] || addEditForm.get('tag')?.errors?.['pattern']) 
+                                        && (addEditForm.get('tag')?.dirty || addEditForm.get('tag')?.touched)" 
+                                class="error">
+                                Please enter tag.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('description')?.errors?.['required'] || addEditForm.get('description')?.errors?.['pattern']) && (addEditForm.get('description')?.dirty || addEditForm.get('description')?.touched)" class="error">
+                                Please enter description.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel for="exampleFormControlInput13"> Image *</label>
+                        <input cFormControl  type="file" formControlName="image" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div>
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <div class="image-preview mb-3 imgVideo_preview">
+                            <img class="imgVideo_box"  [src]="imagePreview" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel> Year *</label>
+                        <select aria-label="Default select example" cSelect formControlName="year">
+                            <option value="" hidden disabled>Select Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('year')?.errors?.['required'] || addEditForm.get('year')?.errors?.['pattern']) && (addEditForm.get('year')?.dirty || addEditForm.get('year')?.touched)" class="error">Please select year.</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel> Month *</label>
+                        <select aria-label="Default select example" cSelect formControlName="month">
+                            <option value="" hidden disabled>Select Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('month')?.errors?.['required'] || addEditForm.get('month')?.errors?.['pattern']) && (addEditForm.get('month')?.dirty || addEditForm.get('month')?.touched)" class="error">Please select month.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Duration *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Duration"
+                           type="text"
+                           formControlName="time"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('time')?.errors?.['required'] || addEditForm.get('time')?.errors?.['pattern']) 
+                                        && (addEditForm.get('time')?.dirty || addEditForm.get('time')?.touched)" 
+                                class="error">
+                                Please enter duration.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Course Category*</label>
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Select Course Category'"
+                          [data]="categoryList || []"
+                          [settings]="dropdownSettings_category"
+                          formControlName="categeoryId">
+                        </ng-multiselect-dropdown>
+    
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('categeoryId')?.errors?.['required'] || addEditForm.get('categeoryId')?.errors?.['pattern']) &&
+                                  (addEditForm.get('categeoryId')?.dirty || addEditForm.get('categeoryId')?.touched)"
+                            class="error">
+                            Please select course category.
+                          </p>
+                        </div>
+                    </div>
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

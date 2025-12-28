@@ -1,0 +1,104 @@
+<div class="backbutton">
+    <button cButton class="me-1"
+    [routerLink]="['/subscription/subscribed-user-list/', detailsId]">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >First Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="First Name"
+                           type="text"
+                           formControlName="first_name"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Last Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Last Name"
+                           type="text"
+                           formControlName="last_name"
+                           readonly
+                        />
+                        
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Email *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Email"
+                           type="text"
+                           formControlName="email"
+                           [readonly]="detailsId"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Subscription Purchase Date *</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Subscription Purchase Date"
+                          type="date"
+                          formControlName="subscription_date"
+                          readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Subscription Expiry Date *</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Subscription Expiry Date"
+                          type="date"
+                          formControlName="subscription_end_date"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('subscription_end_date')?.errors?.['required'] || addEditForm.get('subscription_end_date')?.errors?.['pattern']) && (addEditForm.get('subscription_end_date')?.dirty || addEditForm.get('subscription_end_date')?.touched)" class="error">Please enter subscription expiry date.</p>
+                        </div>
+                    </div>
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

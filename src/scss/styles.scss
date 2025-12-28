@@ -1,0 +1,159 @@
+/* You can add global styles to this file, and also import other style files */
+// If you want to override variables do it here
+@import "variables";
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+// Import styles with default layout.
+@import "@coreui/coreui/scss/coreui";
+
+// Import Chart.js custom tooltips styles
+@import "@coreui/chartjs/scss/coreui-chartjs";
+
+// perfect scrollbar theming for use with [perfectScrollbar] directive
+//@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+@import "layout";
+
+// Some temp fixes
+@import "fixes";
+
+// Prism.js
+@import "examples";
+
+// If you want to add something do it here
+@import "custom";
+
+.error 
+{
+        color: red;
+}
+
+.error-msg
+{
+    color: red;
+    text-align : center;
+    margin-bottom: 12px;
+}
+
+.display-msg
+{
+    color: green;
+    text-align : center;
+    margin-bottom: 12px;
+}
+
+.sidebar-brand {
+    padding: 10px;
+}
+
+.sidebar {
+    background-color: #333;
+}
+
+.btn-primary {
+    background-color: #f5821f;
+    border-color: #f5821f;
+
+    
+}
+
+.btn:hover {
+    background-color: #666;
+    border-color: #666;
+}
+
+.btn-primary.disabled
+{
+    background-color: #666;
+    border-color: #666;
+}
+
+a{
+    color: #f5821f;
+}
+
+a:hover{
+    color: #f5821f;
+}
+
+.forgot-link{
+    color: #f5821f;
+}
+
+.forgot-link:hover{
+    color: #f5821f;
+    background-color: transparent;
+}
+
+.sidebar-nav .nav-link.active, .sidebar-nav .nav-link:hover {background-color: #f5821f;}
+.sidebar-nav .nav-group .nav-group-items {background-color: #666;}
+
+.dropdown-item.active, .dropdown-item:active {background-color: #f5821f;}
+.user-drop-list.dropdown-menu { border: 1px solid #f5821f; overflow: hidden;}
+
+.user-drop-list.dropdown-menu h6.bg-light {background-color: #f5821f!important; color: #fff;}
+
+.btn-check:focus + .btn, .btn:focus,
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show
+{background-color: #f5821f; border-color: #f5821f; box-shadow: none;}
+
+.sidebar-brand-full { margin: 0 auto; display: block;}
+
+.text-inactive { color: red;}
+.text-active { color: green;}
+
+.orange-btn{
+    background-color: #f5821f; 
+    border-color: #f5821f; 
+    box-shadow: none;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    text-decoration: none;
+    float: right;
+}
+.orange-btn:hover{
+    background-color: #666;
+    border-color: #666;
+    color: #fff;
+}
+
+.timing{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.timesec{
+    width: 50%;
+    max-width: 70%;
+}
+.radiosec{
+    width: 30%;
+    max-width: 30%;
+    text-align: left;
+}
+
+.form-switch-xl .form-check-input{
+    width: 3em;
+    margin-right: 10px;
+}
+
+.options{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 13%;
+}
+
+.backbutton {
+    // margin: 10px;
+    margin-bottom: 10px;
+}
+
+.alert-with-icon{
+    padding-left: 65px;
+}
+

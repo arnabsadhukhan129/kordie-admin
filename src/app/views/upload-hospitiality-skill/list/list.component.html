@@ -1,0 +1,74 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/titlelist">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <div class="search-element page_search_block">
+            <div class="searchval">
+                <!-- <input cFormControl placeholder="Search by name" type="text" (input)="changeSearchType($event)" [(ngModel)]="searchVal"/> -->
+            </div>
+            <div class="searchbutton">
+                <!-- <button class="button_appearance_none search_btn_icon" title="Search">
+                    <i class="bi bi-search"></i>
+                </button> -->
+            </div>
+        </div>
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>Logo List</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            <button cButton class="me-1" routerLink="/section-title-mangement/hospitality-upskilling/create">
+                                Upload Logo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <div class="table_resposive_block">
+                    <table cTable>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table_th">SI No.</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col" class="table_text_center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i= index">
+                                <th scope="row">{{((activePage-1)*recordsPerPage)+(i+1)}}</th>
+                                <td ><img style="height: 80px;width: 80px;" [src]="item.logo ? item.logo : 'assets/kordie-admin-image/no-image-found-01.png'"></td>
+                                <td>
+                                    <div class="table_action_btn table_text_center">
+                                        <a class="table_icon_btn" (click)="delete(item._id)" style="cursor: pointer;" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!listData?.length">
+                                <td colspan="3">No Data Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </c-card-body>
+            <c-card-footer *ngIf="listData?.length > 0">
+                <!-- <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="getList($event)">
+                </app-pagination> -->
+            </c-card-footer>
+        </c-card>
+    </c-col>
+</c-row>

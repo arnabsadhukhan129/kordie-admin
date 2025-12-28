@@ -1,0 +1,826 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/impact/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong>View Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+
+            <c-card-body>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel >Impact Title</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Impact Title"
+                            type="text"
+                            formControlName="impact_title"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Impact Video</label>
+                    </div>
+                    <div *ngIf="videoPreview" class="video-preview mb-3">
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Impact Subtitle</label>
+                        <input cFormControl
+                            id="exampleFormControlInput1"
+                            placeholder="Impact Sub Title"
+                            type="text"
+                            formControlName="impact_subtitle"
+                            readonly
+                        />
+                    </div>
+
+
+                    <!-- -------  Stats Block -- start --  -->
+                    <div class="mb-4 mt-5 card inner_card">
+                        <div class="card-body inner_card_body">
+                            <label class="inner_card_title">Impact Subsection :</label>
+
+                            <div class="inner_repeat_block_bg " formArrayName="impactsubsection" >
+                                <!-- --- repeat block start --  -->
+                                <div
+                                *ngFor="let item of impactsubsectionControls; let i = index"
+                                [formGroupName]="i"
+                                class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                                >
+                                    <div class=" card-body inner_card_body ">
+
+                                        <div class="mb-3">
+                                            <label cLabel >Title </label>
+                                            <input
+                                            cFormControl
+                                            placeholder="Enter Title"
+                                            type="text"
+                                            formControlName="title"
+                                            readonly
+                                            />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label cLabel>Image</label>
+                                        </div>
+                                        <!-- Image Preview -->
+                                        <div *ngIf="impactImagePreviews[i]" class="image-preview mb-3">
+                                            <img
+                                              class="imgVideo_box"
+                                              [src]="impactImagePreviews[i]"
+                                              alt="Preview"
+                                              style="max-width: 100%; height: auto;"
+                                            />
+                                        </div>
+
+                                        <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeimpactsubsectionItem(i)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                    </div>
+                                </div>
+                            <!-- --- repeat block end --  -->
+                            </div>
+                            <!-- <div class="mb-1 mt-3" *ngIf="impactsubsectionControls && impactsubsectionControls.length < 3">
+                                <button cButton color="primary" type="button" (click)="addImpactsubsectionItem()" >Add Item</button>
+                            </div> -->
+                        </div>
+                    </div>
+                <!-- -------  Stats Block -- end --  -->
+
+
+                <div class="mb-3">
+                    <label cLabel>Hospitality Title</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Hospitality Title"
+                        type="text"
+                        formControlName="hospitality_title"
+                        readonly
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Hospitality Subtitle</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Hospitality Subtitle"
+                        type="text"
+                        formControlName="hospitality_subtitle"
+                        readonly
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Hospitality Description</label>
+                    <textarea
+                      cFormControl
+                      placeholder="Enter Hospitality Description"
+                      formControlName="hospitality_description"
+                      readonly
+                    ></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel>Hospitality Image</label>
+                </div>
+                <div *ngIf="hospitalityImagePreview" class="image-preview mb-3">
+                  <div class="image-preview mb-3 imgVideo_preview">
+                      <img class="imgVideo_box"  [src]="hospitalityImagePreview" alt="Preview">
+                  </div>
+                </div>
+
+                <!-- -------  Stats Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Hospitality Features :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="hospitality_features" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let item1 of hospitalityFeaturesControls; let j = index"
+                            [formGroupName]="j"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+
+                                    <div class="mb-3">
+                                        <label cLabel >Title </label>
+                                        <input
+                                        cFormControl
+                                        placeholder="Enter Title"
+                                        type="text"
+                                        formControlName="title"
+                                        readonly
+                                        />
+                                    </div>
+
+                                    <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="j > 0"  color="danger" type="button" (click)="removeHospitalityFeaturesItem(j)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <!-- <div class="mb-1 mt-3" *ngIf="hospitalityFeaturesControls && hospitalityFeaturesControls.length < 5">
+                            <button cButton color="primary" type="button" (click)="addhospitalityFeaturesItem()" >Add Item</button>
+                        </div> -->
+                    </div>
+                </div>
+            <!-- -------  Stats Block -- end --  -->
+
+            <div class="mb-3">
+                <label cLabel>Hospitality Bottom Subtitle</label>
+                <input cFormControl
+                    id="exampleFormControlInput1"
+                    placeholder="Hospitality Bottom Subtitle"
+                    type="text"
+                    formControlName="hospitality_bottom_subtitle"
+                    readonly
+                />
+                <!-- <div class="error">
+                    <p *ngIf="(addEditForm.get('hospitality_bottom_subtitle')?.errors?.['required'] || addEditForm.get('hospitality_bottom_subtitle')?.errors?.['pattern']) && (addEditForm.get('hospitality_bottom_subtitle')?.dirty || addEditForm.get('hospitality_bottom_subtitle')?.touched)" class="error">
+                        Please enter hospitality bottom subtitle.
+                    </p>
+                </div> -->
+            </div>
+
+            <div class="mb-3">
+                <label cLabel>Employer Title</label>
+                <input cFormControl
+                    id="exampleFormControlInput1"
+                    placeholder="Employer Title"
+                    type="text"
+                    formControlName="employer_title"
+                    readonly
+                />
+            </div>
+
+            <div class="mb-3">
+                <label cLabel>Employer Description</label>
+                <textarea
+                  cFormControl
+                  placeholder="Employer Description"
+                  formControlName="employer_description"
+                  readonly
+                ></textarea>
+            </div>
+
+            <!-- -------  Stats Block -- start --  -->
+            <div class="mb-4 mt-5 card inner_card">
+                <div class="card-body inner_card_body">
+                    <label class="inner_card_title">Employer Stats :</label>
+
+                    <div class="inner_repeat_block_bg " formArrayName="employer_stats" >
+                        <!-- --- repeat block start --  -->
+                        <div
+                        *ngFor="let item2 of employerStatsControls; let k = index"
+                        [formGroupName]="k"
+                        class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                        >
+                            <div class=" card-body inner_card_body ">
+
+                                <div class="mb-3">
+                                    <label cLabel >Stat </label>
+                                    <input
+                                    cFormControl
+                                    placeholder="Enter Stat"
+                                    type="text"
+                                    formControlName="stat"
+                                    readonly
+                                    />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label cLabel>Description</label>
+                                    <textarea
+                                      cFormControl
+                                      placeholder="Description"
+                                      formControlName="description"
+                                      readonly
+                                    ></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label cLabel>Image</label>
+                                </div>
+                                <!-- Image Preview -->
+                                <div *ngIf="statImagePreviews[k]" class="image-preview mb-3">
+                                    <img
+                                      class="imgVideo_box"
+                                      [src]="statImagePreviews[k]"
+                                      alt="Preview"
+                                      style="max-width: 100%; height: auto;"
+                                    />
+                                </div>
+
+                                <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="k > 0"  color="danger" type="button" (click)="removeEmployerStatsItem(k)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                            </div>
+                        </div>
+                    <!-- --- repeat block end --  -->
+                    </div>
+                    <!-- <div class="mb-1 mt-3" *ngIf="employerStatsControls && employerStatsControls.length < 3">
+                        <button cButton color="primary" type="button" (click)="addemployerStatsItem()" >Add Item</button>
+                    </div> -->
+                </div>
+            </div>
+        <!-- -------  Stats Block -- end --  -->
+
+
+        <div class="mb-3">
+            <label cLabel>Employer Action</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Employer Action"
+                type="text"
+                formControlName="employer_action"
+                readonly
+            />
+        </div>
+
+
+        <div class="mb-3">
+            <label cLabel>Student Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Student Title"
+                type="text"
+                formControlName="student_title"
+                readonly
+            />
+            
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Student Subtitle</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Student Subtitle"
+                type="text"
+                formControlName="student_subtitle"
+                readonly
+            />
+            
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Student Description</label>
+            <textarea
+              cFormControl
+              placeholder="Student Description"
+              formControlName="student_description"
+              readonly
+            ></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Student Image </label>
+        </div>
+        <div *ngIf="studentImagePreview" class="image-preview mb-3">
+          <div class="image-preview mb-3 imgVideo_preview">
+              <img class="imgVideo_box"  [src]="studentImagePreview" alt="Preview">
+          </div>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Student Action</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Student Action"
+                type="text"
+                formControlName="student_action"
+                readonly
+            />
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Student Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Student Title"
+                type="text"
+                formControlName="sustainability_title"
+                readonly
+            />
+            
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Description</label>
+            <textarea
+              cFormControl
+              placeholder="Sustainability Description"
+              formControlName="sustainability_description"
+              readonly
+            ></textarea>
+           
+        </div>
+
+        <!-- -------  Stats Block -- start --  -->
+        <div class="mb-4 mt-5 card inner_card">
+            <div class="card-body inner_card_body">
+                <label class="inner_card_title">Sustainability Program :</label>
+
+                <div class="inner_repeat_block_bg " formArrayName="sustainability_program" >
+                    <!-- --- repeat block start --  -->
+                    <div
+                    *ngFor="let item3 of sustainabilityProgramControls; let p = index"
+                    [formGroupName]="p"
+                    class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                    >
+                        <div class=" card-body inner_card_body ">
+
+                            <div class="mb-3">
+                                <label cLabel>Description</label>
+                                <textarea
+                                  cFormControl
+                                  placeholder="Description"
+                                  formControlName="description"
+                                  readonly
+                                ></textarea>
+                                <!-- <div
+                                  *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                  class="error"
+                                >
+                                  Please enter description.
+                                </div> -->
+                            </div>
+
+                            
+                            <div class="mb-3">
+                                <label cLabel > Media Type</label>
+                                <input cFormControl
+                                    id="exampleFormControlInput1"
+                                    placeholder="Media Type"
+                                    type="text"
+                                    formControlName="type"
+                                    readonly
+                                />
+                                <!-- <select
+                                    aria-label="Default select example"
+                                    cSelect
+                                    formControlName="type"
+                                    (change)="selectType($event, p)"
+                                >
+                                    <option value="" hidden disabled>Select Type</option>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                </select> -->
+                            </div>
+                            <!-- <div class="mb-3">
+                                <input
+                                  cFormControl
+                                  type="file"
+                                  [accept]="(getType[p] === 'image' ? 'image/*' : 'video/*')"
+                                  (change)="onMediaSelected($event, p)"
+                                
+                                />
+                                <input
+                                hidden
+                                  cFormControl
+                                  type="text"
+                                  formControlName="media"
+                                />
+                            </div> -->
+                            
+                            <div *ngIf="(getType[p] === 'image' || mediaTypes[p] === 'image') && sustainabilityImageImagePreviews[p]" class="image-preview mb-3">
+                                <img [src]="sustainabilityImageImagePreviews[p]" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                            </div>
+                              
+                            <div *ngIf="(mediaTypes[p] === 'video' || getType[p] === 'video') && sustainabilityvideoPreview[p]" class="video-preview mb-3">
+                                <video [src]="sustainabilityvideoPreview[p]" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                            </div>
+
+                            <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="p > 0"  color="danger" type="button" (click)="removeSustainabilityProgramItem(p)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                        </div>
+                    </div>
+                <!-- --- repeat block end --  -->
+                </div>
+                <!-- <div class="mb-1 mt-3" *ngIf="sustainabilityProgramControls && sustainabilityProgramControls.length < 3">
+                    <button cButton color="primary" type="button" (click)="addSustainabilityProgramItem()" >Add Item</button>
+                </div> -->
+            </div>
+        </div>
+        <!-- -------  Stats Block -- end --  -->
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Text</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Sustainability Text"
+                type="text"
+                formControlName="sustainability_text"
+                readonly
+            />
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Strategy Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Sustainability Strategy Title"
+                type="text"
+                formControlName="sustainability_strategy_title"
+                readonly
+            />
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Strategy Description</label>
+            <textarea
+              cFormControl
+              placeholder="Sustainability Strategy Description"
+              formControlName="sustainability_strategy_description"
+              readonly
+            ></textarea>
+        </div>
+
+        <!-- -------  Stats Block -- start --  -->
+        <div class="mb-4 mt-5 card inner_card">
+            <div class="card-body inner_card_body">
+                <label class="inner_card_title">Sustainability Strategy Program :</label>
+
+                <div class="inner_repeat_block_bg " formArrayName="sustainability_strategy_program" >
+                    <!-- --- repeat block start --  -->
+                    <div
+                    *ngFor="let item4 of sustainabilityStrategyProgramControls; let q = index"
+                    [formGroupName]="q"
+                    class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                    >
+                        <div class=" card-body inner_card_body ">
+
+                            <div class="mb-3">
+                                <label cLabel >Title </label>
+                                <input
+                                cFormControl
+                                placeholder="Enter Title"
+                                type="text"
+                                formControlName="title"
+                                readonly
+                                />
+                            <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                Please enter text.
+                            </div> -->
+                            </div>
+
+                            <div class="mb-3">
+                                <label cLabel>Description</label>
+                                <textarea
+                                  cFormControl
+                                  placeholder="Description"
+                                  formControlName="description"
+                                  readonly
+                                ></textarea>
+                                <!-- <div
+                                  *ngIf="syllabusItem.get('description')?.invalid && syllabusItem.get('description')?.touched"
+                                  class="error"
+                                >
+                                  Please enter description.
+                                </div> -->
+                            </div>
+
+                            <div class="mb-3">
+                                <label cLabel>Image</label>
+                                <!-- <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelected($event, q, 'strategyImage')"
+                                /> -->
+                            </div>
+                            <!-- Image Preview -->
+                            <div *ngIf="strategyImageImagePreviews[q]" class="image-preview mb-3">
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="strategyImageImagePreviews[q]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label cLabel>Icon</label>
+                                <!-- <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelected($event, q, 'strategyIcon')"
+                                /> -->
+                            </div>
+                            <!-- Image Preview -->
+                            <div *ngIf="strategyIconPreviews[q]" class="image-preview mb-3">
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="strategyIconPreviews[q]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                            </div>
+
+                            <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="q > 0"  color="danger" type="button" (click)="removeSustainabilityStrategyProgramItem(q)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                        </div>
+                    </div>
+                <!-- --- repeat block end --  -->
+                </div>
+                <!-- <div class="mb-1 mt-3" *ngIf="sustainabilityStrategyProgramControls && sustainabilityStrategyProgramControls.length < 3">
+                    <button cButton color="primary" type="button" (click)="addSustainabilityStrategyProgramItem()" >Add Item</button>
+                </div> -->
+            </div>
+        </div>
+        <!-- -------  Stats Block -- end --  -->
+        
+        <div class="mb-3">
+            <label cLabel>Sustainability Strategy Subtitle</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Sustainability Strategy Subtitle"
+                type="text"
+                formControlName="sustainability_strategy_subtitle"
+                readonly
+            />
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Strategy Text</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Sustainability Strategy Text"
+                type="text"
+                formControlName="sustainability_strategy_text"
+                readonly
+            />
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Sustainability Image</label>
+        </div>
+        <div *ngIf="sustainabilityImagePreview" class="image-preview mb-3">
+          <div class="image-preview mb-3 imgVideo_preview">
+              <img class="imgVideo_box"  [src]="sustainabilityImagePreview" alt="Preview">
+          </div>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Goal Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Goal Title"
+                type="text"
+                formControlName="goal_title"
+                readonly
+            />
+        
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Goal Icon</label>
+            <!-- <input cFormControl  type="file" formControlName="goal_icon" accept="image/*" (change)="onImageSelected2($event, 'goalIcon')"/> -->
+        </div>
+        <div *ngIf="goalIconPreview" class="image-preview mb-3">
+          <div class="image-preview mb-3 imgVideo_preview">
+              <img class="imgVideo_box"  [src]="goalIconPreview" alt="Preview">
+          </div>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Goal Image </label>
+            <!-- <input cFormControl  type="file" formControlName="goal_image" accept="image/*" (change)="onImageSelected2($event, 'goalImage')"/> -->
+        </div>
+        <div *ngIf="goalImagePreview" class="image-preview mb-3">
+          <div class="image-preview mb-3 imgVideo_preview">
+              <img class="imgVideo_box"  [src]="goalImagePreview" alt="Preview">
+          </div>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Goal Description.</label>
+            <textarea
+              cFormControl
+              placeholder="Goal  Description"
+              formControlName="goal_description"
+              readonly
+            ></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label cLabel>Goal Social Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Goal Social Title"
+                type="text"
+                formControlName="goal_social_title"
+                readonly
+            />
+        </div>
+
+
+        <!-- -------  Stats Block -- start --  -->
+        <div class="mb-4 mt-5 card inner_card">
+            <div class="card-body inner_card_body">
+                <label class="inner_card_title">Goal Social :</label>
+
+                <div class="inner_repeat_block_bg " formArrayName="goal_social" >
+                    <!-- --- repeat block start --  -->
+                    <div
+                    *ngFor="let item5 of goalSocialProgramControls; let s = index"
+                    [formGroupName]="s"
+                    class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                    >
+                        <div class=" card-body inner_card_body ">
+
+                            <div class="mb-3">
+                                <label cLabel >Title </label>
+                                <input
+                                cFormControl
+                                placeholder="Enter title"
+                                type="text"
+                                formControlName="title"
+                                readonly
+                                />
+                            <!-- <div *ngIf="statsItem.get('text')?.invalid && statsItem.get('text')?.touched" class="error">
+                                Please enter text.
+                            </div> -->
+                            </div>
+
+                            <div class="mb-3">
+                                <label cLabel>Icon</label>
+                                <!-- <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelected($event, s, 'socialImage')"
+                                /> -->
+                            </div>
+                            <!-- Image Preview -->
+                            <div *ngIf="socialImagePreviews[s]" class="image-preview mb-3">
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="socialImagePreviews[s]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                            </div>
+
+                            <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="s > 0"  color="danger" type="button" (click)="removeGoalSocialProgramItem(s)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                        </div>
+                    </div>
+                <!-- --- repeat block end --  -->
+                </div>
+                <!-- <div class="mb-1 mt-3" *ngIf="goalSocialProgramControls && goalSocialProgramControls.length < 5">
+                    <button cButton color="primary" type="button" (click)="addgoalSocialProgramItem()" >Add Item</button>
+                </div> -->
+            </div>
+        </div>
+        <!-- -------  Stats Block -- end --  -->
+
+       
+
+        <div class="mb-3">
+            <label cLabel>Goal Climate Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="Goal Climate Title"
+                type="text"
+                formControlName="goal_climate_title"
+                readonly
+            />
+            <!-- <div class="error">
+                <p *ngIf="(addEditForm.get('goal_climate_title')?.errors?.['required'] || addEditForm.get('goal_climate_title')?.errors?.['pattern']) && (addEditForm.get('goal_climate_title')?.dirty || addEditForm.get('goal_climate_title')?.touched)" class="error">
+                    Please enter goal climate title.
+                </p>
+            </div> -->
+        </div>
+
+         <!-- -------  Stats Block -- start --  -->
+         <div class="mb-4 mt-5 card inner_card">
+            <div class="card-body inner_card_body">
+                <label class="inner_card_title">Goal Climate :</label>
+
+                <div class="inner_repeat_block_bg " formArrayName="goal_climate" >
+                    <!-- --- repeat block start --  -->
+                    <div
+                    *ngFor="let item2 of goalClimateProgramControls; let r = index"
+                    [formGroupName]="r"
+                    class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                    >
+                        <div class=" card-body inner_card_body ">
+
+                            <div class="mb-3">
+                                <label cLabel >Title </label>
+                                <input
+                                cFormControl
+                                placeholder="Enter title"
+                                type="text"
+                                formControlName="title"
+                                readonly
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label cLabel>Icon</label>
+                                <!-- <input
+                                  cFormControl
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="onImageSelected($event, r, 'climateImage')"
+                                /> -->
+                            </div>
+                            <!-- Image Preview -->
+                            <div *ngIf="climateImagePreviews[r]" class="image-preview mb-3">
+                                <img
+                                  class="imgVideo_box"
+                                  [src]="climateImagePreviews[r]"
+                                  alt="Preview"
+                                  style="max-width: 100%; height: auto;"
+                                />
+                            </div>
+
+                            <!-- <button cButton class="inner_card_close_btn close_btn" *ngIf="r > 0"  color="danger" type="button" (click)="removeGoalClimateProgramItem(r)" title="Close"><i class="bi bi-x-circle"></i></button> -->
+                        </div>
+                    </div>
+                <!-- --- repeat block end --  -->
+                </div>
+                <!-- <div class="mb-1 mt-3" *ngIf="goalClimateProgramControls && goalClimateProgramControls.length < 3">
+                    <button cButton color="primary" type="button" (click)="addGoalClimateProgramItem()" >Add Item</button>
+                </div> -->
+            </div>
+        </div>
+        <!-- -------  Stats Block -- end --  -->
+
+        <div class="mb-3">
+            <label cLabel>More Title</label>
+            <input cFormControl
+                id="exampleFormControlInput1"
+                placeholder="More Title"
+                type="text"
+                formControlName="more_title"
+                readonly
+            />
+        </div>
+    </form>
+    </c-card-body>
+    </c-card>
+    </c-col>
+</c-row>

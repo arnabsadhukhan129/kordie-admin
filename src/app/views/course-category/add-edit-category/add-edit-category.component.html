@@ -1,0 +1,430 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/course-category/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="sub-head">
+                    <div class="section_title_block">
+                        <div class="section_title_block_left">
+                            <strong *ngIf="!detailsId">Add Details</strong>
+                            <strong *ngIf="detailsId">Edit Details</strong>
+                        </div>
+                        <div class="section_title_block_right">
+
+                        </div>
+                    </div>
+                </div>
+            </c-card-header>
+            <c-card-body class="view_page_cardBody">
+
+            <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                <div>{{displayMessage}}</div>
+            </c-alert>
+            <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                <div>{{errorMessage}}</div>
+            </c-alert>
+
+            <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+            </ngx-spinner>
+
+            <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                <div class="mb-3">
+                    <label cLabel >Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Title"
+                        type="text"
+                        formControlName="name"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('name')?.errors?.['required'] || addEditForm.get('name')?.errors?.['pattern']) && (addEditForm.get('name')?.dirty || addEditForm.get('name')?.touched)" class="error">Please enter title.</p>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="detailsId">
+                    <label cLabel >Slug *</label>
+                    <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Slug"
+                           type="text"
+                           formControlName="slug"
+                    />
+                    <!-- <div class="error">
+                        <p *ngIf="(addEditForm.get('slug')?.errors?.['required'] || addEditForm.get('slug')?.errors?.['pattern']) && (addEditForm.get('slug')?.dirty || addEditForm.get('slug')?.touched)" class="error">Please enter slug.</p>
+                    </div> -->
+                  </div>
+                <!-- <div class="mb-3">
+                    <label cLabel >Category Image *</label>
+                    <input cFormControl  type="file" formControlName="category_image" accept="image/*" (change)="onImageSelected($event,'category')"/>
+                </div>
+                <div *ngIf="imagePreview" class="image-preview mb-3 imgVideo_preview">
+                    <label cLabel >Category Image Preview</label>
+                    <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 150px; max-height: 150px;" />
+                </div> -->
+                <div class="mb-3">
+                    <label cLabel >Banner Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Banner Title"
+                        type="text"
+                        formControlName="bannerTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('bannerTitle')?.errors?.['required'] || addEditForm.get('bannerTitle')?.errors?.['pattern']) && (addEditForm.get('bannerTitle')?.dirty || addEditForm.get('bannerTitle')?.touched)" class="error">Please enter banner title.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label cLabel >Banner Subtitle *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Banner Subtitle"
+                        type="text"
+                        formControlName="bannerSubtitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('bannerSubtitle')?.errors?.['required'] || addEditForm.get('bannerSubtitle')?.errors?.['pattern']) && (addEditForm.get('bannerSubtitle')?.dirty || addEditForm.get('bannerSubtitle')?.touched)" class="error">Please enter banner subtitle.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label cLabel >Banner Tags *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Banner Tags"
+                        type="text"
+                        formControlName="bannerTag"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('bannerTag')?.errors?.['required'] || addEditForm.get('bannerTag')?.errors?.['pattern']) && (addEditForm.get('bannerTag')?.dirty || addEditForm.get('bannerTag')?.touched)" class="error">Please enter banner tags.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label cLabel >Banner Description *</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="bannerDescription" [config]="editorConfig" ></ckeditor>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('bannerDescription')?.errors?.['required'] || addEditForm.get('bannerDescription')?.errors?.['pattern']) && (addEditForm.get('bannerDescription')?.dirty || addEditForm.get('bannerDescription')?.touched)" class="error">
+                            Please enter banner description.
+                        </p>
+                    </div>
+                </div>
+
+                
+
+                <div class="mb-3">
+                    <label cLabel > Banner Media Type*</label>
+                    <select aria-label="Default select example" cSelect formControlName="bannerMediaType" (change)="selectType($event,'banner')">
+                        <option value="" hidden disabled>Select Type</option>
+                        <!-- <option value="image">Image</option> -->
+                        <option value="video">Video</option>
+                    </select>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('bannerMediaType')?.errors?.['required'] || addEditForm.get('bannerMediaType')?.errors?.['pattern']) && (addEditForm.get('bannerMediaType')?.dirty || addEditForm.get('bannerMediaType')?.touched)" class="error">Please select media type.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3" *ngIf="bannerType">
+                    <label cLabel>Banner {{ bannerType | titlecase }} *</label>
+                    <input cFormControl
+                           type="file"
+                           #bannerFileInput
+                           formControlName="bannerMedia"
+                           [accept]="bannerType === 'image' ? 'image/*' : 'video/*'"
+                           (change)="onMediaSelected($event)"/>
+                </div>
+                <div *ngIf="bannerType === 'image' && bannerImagePreview" class="image-preview mb-3">
+                    <img [src]="bannerImagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;" />
+                </div>
+
+                <div *ngIf="bannerType === 'video' && bannerVideoPreview" class="video-preview mb-3">
+                    <video [src]="bannerVideoPreview" controls style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Banner Link *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Banner Link"
+                        type="text"
+                        formControlName="link"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('link')?.errors?.['required'] || addEditForm.get('link')?.errors?.['pattern']) && (addEditForm.get('link')?.dirty || addEditForm.get('link')?.touched)" class="error">Please enter banner Link.</p>
+                    </div>
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label cLabel >Crucial Skill Title*</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Crucial Skill Title"
+                        type="text"
+                        formControlName="crucialSkillsetTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('crucialSkillsetTitle')?.errors?.['required'] || addEditForm.get('crucialSkillsetTitle')?.errors?.['pattern']) && (addEditForm.get('crucialSkillsetTitle')?.dirty || addEditForm.get('crucialSkillsetTitle')?.touched)" class="error">Please enter crucial skill title.</p>
+                    </div>
+                </div> -->
+
+
+
+                <div class="mb-3">
+                    <label cLabel >Product Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Product Title"
+                        type="text"
+                        formControlName="productsectionTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('productsectionTitle')?.errors?.['required'] || addEditForm.get('productsectionTitle')?.errors?.['pattern']) && (addEditForm.get('productsectionTitle')?.dirty || addEditForm.get('productsectionTitle')?.touched)" class="error">Please enter product title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Product Description *</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="productsectionDescription" [config]="editorConfig"></ckeditor>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('productsectionDescription')?.errors?.['required'] || addEditForm.get('productsectionDescription')?.errors?.['pattern']) && (addEditForm.get('productsectionDescription')?.dirty || addEditForm.get('productsectionDescription')?.touched)" class="error">
+                            Please enter product description.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Collection Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Collection Title"
+                        type="text"
+                        formControlName="collectionsectionTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('collectionsectionTitle')?.errors?.['required'] || addEditForm.get('collectionsectionTitle')?.errors?.['pattern']) && (addEditForm.get('collectionsectionTitle')?.dirty || addEditForm.get('collectionsectionTitle')?.touched)" class="error">Please enter collection title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Collection Description *</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="collectionsectionDescription" [config]="editorConfig"></ckeditor>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('collectionsectionDescription')?.errors?.['required'] || addEditForm.get('collectionsectionDescription')?.errors?.['pattern']) && (addEditForm.get('collectionsectionDescription')?.dirty || addEditForm.get('collectionsectionDescription')?.touched)" class="error">
+                            Please enter collection description.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Social Media Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Social Media Title"
+                        type="text"
+                        formControlName="socialmediaTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('socialmediaTitle')?.errors?.['required'] || addEditForm.get('socialmediaTitle')?.errors?.['pattern']) && (addEditForm.get('socialmediaTitle')?.dirty || addEditForm.get('socialmediaTitle')?.touched)" class="error">Please enter social media title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Social Media Description *</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="socialmediaDescription" [config]="editorConfig"></ckeditor>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('socialmediaDescription')?.errors?.['required'] || addEditForm.get('socialmediaDescription')?.errors?.['pattern']) && (addEditForm.get('socialmediaDescription')?.dirty || addEditForm.get('socialmediaDescription')?.touched)" class="error">
+                            Please enter social media description.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label cLabel for="exampleFormControlInput13">Social Media Image *</label>
+                    <input cFormControl  type="file" formControlName="socialmedia_image" accept="image/*" (change)="onImageSelected($event,'social')"/>
+                </div>
+                <div *ngIf="socialMediaImagePreview" class="image-preview mb-3 imgVideo_preview">
+                    <label cLabel >Social Media Image Preview</label>
+                    <img [src]="socialMediaImagePreview" alt="Preview" class="imgVideo_box" style="max-width: 150px; max-height: 150px;" />
+                </div> -->
+
+                <!-- <div class="mb-3">
+                    <label cLabel >Social Media Link *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Social Media Link"
+                        type="text"
+                        formControlName="socialmediaLink"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('socialmediaLink')?.errors?.['required'] || addEditForm.get('socialmediaLink')?.errors?.['pattern']) && (addEditForm.get('socialmediaLink')?.dirty || addEditForm.get('socialmediaLink')?.touched)" class="error">Please enter Social Media Link.</p>
+                    </div>
+                </div> -->
+                <!-- for now it will disabled -Aashutosh -->
+                <!-- <div class="mb-3">
+                    <label cLabel >Why Learn Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Why Learn Title"
+                        type="text"
+                        formControlName="whylearnTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('whylearnTitle')?.errors?.['required'] || addEditForm.get('whylearnTitle')?.errors?.['pattern']) && (addEditForm.get('whylearnTitle')?.dirty || addEditForm.get('whylearnTitle')?.touched)" class="error">Please enter title.</p>
+                    </div>
+                </div> -->
+
+                <div class="mb-3">
+                    <label cLabel >Related Material Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Realted Material Title"
+                        type="text"
+                        formControlName="relatedsectionTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('relatedsectionTitle')?.errors?.['required'] || addEditForm.get('relatedsectionTitle')?.errors?.['pattern']) && (addEditForm.get('relatedsectionTitle')?.dirty || addEditForm.get('relatedsectionTitle')?.touched)" class="error">Please enter related material title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Related Material Description *</label>
+                    <ckeditor class="input_appearance_none editWeb_textArea" formControlName="relatedsectionDescription" [config]="editorConfig"></ckeditor>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('relatedsectionDescription')?.errors?.['required'] || addEditForm.get('relatedsectionDescription')?.errors?.['pattern']) && (addEditForm.get('relatedsectionDescription')?.dirty || addEditForm.get('relatedsectionDescription')?.touched)" class="error">
+                            Please enter related material description.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Related Material Link *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Related Material Link"
+                        type="text"
+                        formControlName="relatedsectionLink"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('relatedsectionLink')?.errors?.['required'] || addEditForm.get('relatedsectionLink')?.errors?.['pattern']) && (addEditForm.get('relatedsectionLink')?.dirty || addEditForm.get('relatedsectionLink')?.touched)" class="error">Please enter related material Link.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >Brand Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Brand Title"
+                        type="text"
+                        formControlName="brandsectionTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('brandsectionTitle')?.errors?.['required'] || addEditForm.get('brandsectionTitle')?.errors?.['pattern']) && (addEditForm.get('brandsectionTitle')?.dirty || addEditForm.get('brandsectionTitle')?.touched)" class="error">Please enter brand title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel > Brand Media Type*</label>
+                    <select aria-label="Default select example" cSelect formControlName="brandMediaType" (change)="selectType($event,'brand')">
+                        <option value="" hidden disabled>Select Type</option>
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                    </select>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('brandMediaType')?.errors?.['required'] || addEditForm.get('brandMediaType')?.errors?.['pattern']) && (addEditForm.get('brandMediaType')?.dirty || addEditForm.get('brandMediaType')?.touched)" class="error">Please select media type.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3" *ngIf="brandType">
+                    <label cLabel >Brand {{ brandType ? (brandType | titlecase) : '' }} *</label>
+                    <input cFormControl
+                           type="file"
+                           #brandFileInput
+                           formControlName="brandMedia"
+                           [accept]="brandType === 'image' ? 'image/*' : 'video/*'"
+                           (change)="onBrandMediaSelected($event)"/>
+                </div>
+                <div *ngIf="brandType === 'image' && brandImagePreview" class="image-preview mb-3">
+                    <img [src]="brandImagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;" />
+                </div>
+
+                <div *ngIf="brandType === 'video' && brandVideoPreview" class="video-preview mb-3">
+                    <video [src]="brandVideoPreview" controls style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel >School Title *</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="School Title"
+                        type="text"
+                        formControlName="schoolTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('schoolTitle')?.errors?.['required'] || addEditForm.get('schoolTitle')?.errors?.['pattern']) && (addEditForm.get('schoolTitle')?.dirty || addEditForm.get('schoolTitle')?.touched)" class="error">Please enter school title.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel > School Media Type*</label>
+                    <select aria-label="Default select example" cSelect formControlName="schoolMediaType" (change)="selectType($event,'school')">
+                        <option value="" hidden disabled>Select Type</option>
+                        <!-- <option value="image">Image</option> -->
+                        <option value="video">Video</option>
+                    </select>
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('schoolMediaType')?.errors?.['required'] || addEditForm.get('schoolMediaType')?.errors?.['pattern']) && (addEditForm.get('schoolMediaType')?.dirty || addEditForm.get('schoolMediaType')?.touched)" class="error">Please select media type.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3" *ngIf="schoolType">
+                    <label cLabel>School {{ schoolType ? (schoolType | titlecase) : '' }} *</label>
+                    <input cFormControl
+                           type="file"
+                           #schoolFileInput
+                           formControlName="schoolMedia"
+                           [accept]="schoolType === 'image' ? 'image/*' : 'video/*'"
+                           (change)="onSchoolMediaSelected($event)"/>
+                </div>
+                <div *ngIf="schoolType === 'image' && schoolImagePreview" class="image-preview mb-3">
+                    <img [src]="schoolImagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;" />
+                </div>
+
+                <div *ngIf="schoolType === 'video' && schoolVideoPreview" class="video-preview mb-3">
+                    <video [src]="schoolVideoPreview" controls style="max-width: 200px; max-height: 200px;"></video>
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label cLabel  >Faq Title*</label>
+                    <input cFormControl
+                        id="exampleFormControlInput1"
+                        placeholder="Faq Title"
+                        type="text"
+                        formControlName="faqTitle"
+                    />
+                    <div class="error">
+                        <p *ngIf="(addEditForm.get('faqTitle')?.errors?.['required'] || addEditForm.get('faqTitle')?.errors?.['pattern']) && (addEditForm.get('faqTitle')?.dirty || addEditForm.get('faqTitle')?.touched)" class="error">Please enter faq title.</p>
+                    </div>
+                </div> -->
+
+                <div class="mb-3">
+                    <button
+                    cButton
+                    class="me-1"
+                    type="submit"
+                    [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </div>
+
+            </form>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

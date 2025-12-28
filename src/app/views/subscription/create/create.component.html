@@ -1,0 +1,179 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/subscription/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel >Plan Name *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Plan Name"
+                           type="text"
+                           formControlName="plan_name"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('plan_name')?.errors?.['required'] || addEditForm.get('plan_name')?.errors?.['pattern']) 
+                                        && (addEditForm.get('plan_name')?.dirty || addEditForm.get('plan_name')?.touched)" 
+                                class="error">
+                                Please enter plan name.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Sub Title*</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Sub Title"
+                           type="text"
+                           formControlName="sub_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('sub_title')?.errors?.['required'] || addEditForm.get('sub_title')?.errors?.['pattern']) 
+                                        && (addEditForm.get('sub_title')?.dirty || addEditForm.get('sub_title')?.touched)" 
+                                class="error">
+                                Please enter sub title.
+                            </p>
+                        </div>
+                       
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Tag</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Tag"
+                           type="text"
+                           formControlName="tag"
+                        />
+                        <!-- <div class="error">
+                            <p *ngIf="(addEditForm.get('tag').errors?.required || addEditForm.get('tag').errors?.pattern) && (addEditForm.get('tag').dirty || addEditForm.get('tag').touched)" class="error">Please enter tag.</p>
+                        </div> -->
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Amount *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Amount"
+                           type="number"
+                           formControlName="price"
+                           (keypress)="allowOnlyPositiveDecimalNumbers($event)"
+                           (input)="preventNegativeValues($event)"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('price')?.errors?.['required'] || addEditForm.get('price')?.errors?.['pattern']) && (addEditForm.get('price')?.dirty || addEditForm.get('price')?.['touched'])" class="error">
+                                Please enter amount.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Discount Amount *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder=" Discount Amount"
+                           type="number"
+                           formControlName="discount"
+                           (keypress)="allowOnlyPositiveDecimalNumbers($event)"
+                           (input)="preventNegativeValues($event)"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('discount')?.errors?.['required'] || addEditForm.get('discount')?.errors?.['pattern']) && (addEditForm.get('discount')?.dirty || addEditForm.get('discount')?.['touched'])" class="error">
+                                Please enter discount amount.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Details *</label>
+                        <textarea
+                          cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Details"
+                          type="text"
+                          formControlName="details"
+                          (blur)="processLearnTitle()"
+                        ></textarea>
+                        
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('details')?.errors?.['required'] || addEditForm.get('details')?.errors?.['pattern']) &&
+                                    (addEditForm.get('details')?.dirty || addEditForm.get('details')?.['touched'])"
+                            class="error"
+                          >
+                            Please enter details.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label cLabel >IS Membership*</label>
+                        <select aria-label="Default select example" cSelect formControlName="is_membership">
+                            <option [ngValue]="null" disabled hidden>Select Option</option>
+                            <option [ngValue]="true">Yes</option>
+                            <option [ngValue]="false">No</option>
+                          </select>                          
+                        <div class="error">
+                          <p
+                            *ngIf="(addEditForm.get('is_membership')?.errors?.['required'] || addEditForm.get('is_membership')?.errors?.['pattern']) &&
+                                  (addEditForm.get('is_membership')?.dirty || addEditForm.get('is_membership')?.['touched'])"
+                            class="error">
+                            Please select option.
+                          </p>
+                        </div>
+                      </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Special Note</label>
+                        <textarea
+                          cFormControl
+                          placeholder="Enter Special Note"
+                          formControlName="special_note"
+                        ></textarea>
+                        <!-- <div class="error">
+                            <p *ngIf="(addEditForm.get('special_note')?.errors?.['required'] || addEditForm.get('special_note')?.errors?.['pattern']) && (addEditForm.get('special_note')?.dirty || addEditForm.get('special_note')?.touched)" class="error">
+                                Please enter special note.
+                            </p>
+                        </div> -->
+                    </div>
+                    
+
+                    <button 
+                        cButton
+                        class="me-1"
+                        type="submit"
+                        [disabled]="!addEditForm.valid"
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

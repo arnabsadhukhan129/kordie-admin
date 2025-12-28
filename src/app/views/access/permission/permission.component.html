@@ -1,0 +1,87 @@
+<div class="backbutton">
+  <button cButton class="me-1" (click)="backClicked()">
+    <svg cIcon name="cilArrowThickLeft" size="sm"></svg> Back
+  </button>
+</div>
+
+<div class="card">
+
+  <!-- <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+    <div>{{displayMessage}}</div>
+  </c-alert>
+
+  <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+    <div>{{errorMessage}}</div>
+  </c-alert> -->
+
+  <!-- <div>
+          <select aria-label="Default select example" cSelect (change)="changeSearchType($event)"  [(ngModel)]="selectedUserRoleIndex">
+              <option value="">Select Role</option>
+              <option [value]="i" *ngFor="let userRole of userRoleData; let i=index;">{{userRole?.name}}</option>
+          </select>
+      </div> -->
+
+  <!-- <c-card-body>
+        <c-accordion [alwaysOpen]="true" class="shadow accordion-custom rounded-2">
+          <c-accordion-item *ngFor="let item of items; let i = index;" [visible]="i===1">
+            <ng-template cTemplateId="accordionHeader">
+              Custom Accordion item #{{i}}
+            </ng-template>
+            <ng-template cTemplateId="accordionBody">
+              <small><i>{{i}}.</i></small>
+              <span [innerHTML]="getAccordionBodyText(i.toString())"></span>
+            </ng-template>
+          </c-accordion-item>
+        </c-accordion>
+    </c-card-body> -->
+
+
+  <c-card-body>
+    <c-accordion [alwaysOpen]="true" class="shadow accordion-custom rounded-2">
+
+      <div *ngFor="let resource of resourceData; let i = index;">
+        <c-accordion-item [visible]="true" >
+          <ng-template cTemplateId="accordionHeader">
+            {{resource?.name}}
+          </ng-template>
+          <ng-template cTemplateId="accordionBody">
+            <!-- <small><i>{{i}}.</i></small> -->
+            <!-- <span [innerHTML]="getAccordionBodyText(i, resource.slug)"></span> -->
+            <div *ngFor="let userRole of userRoleData?.rights; let z = index;">
+              <!-- {{userRole.resource}} -->
+
+              <div *ngIf="userRole.resource == resource.slug">
+                <!-- <div *ngFor="let property of userRole.access | keyvalue">
+                                    {{property.key}}: {{property.value}}
+                              </div>       -->
+
+                <div class="mb-3 radiosec" *ngFor="let property of userRole.access | keyvalue">
+                  <c-form-check sizing="xl" switch>
+                    <input cFormCheckInput type="checkbox" [(ngModel)]="property.value"
+                      (change)="changeAccess($event,property.key,z)" />
+                      <!-- <label cFormCheckLabel>{{property?.key}}</label> -->
+                    <label cFormCheckLabel *ngIf="property?.key === 'create'">Add</label>
+                    <label cFormCheckLabel *ngIf="property?.key === 'update'">Edit</label>
+                    <label cFormCheckLabel *ngIf="property?.key === 'read'">View</label>
+                    <label cFormCheckLabel *ngIf="property?.key === 'delete'">Delete</label>
+                  </c-form-check>
+                </div>
+              </div>
+
+            </div>
+          </ng-template>
+        </c-accordion-item>
+      </div>
+
+    </c-accordion>
+
+    <button cButton class="me-1 per-up" type="button" (click)="updateRole()">
+      Save
+    </button>
+
+  </c-card-body>
+
+
+
+
+</div>

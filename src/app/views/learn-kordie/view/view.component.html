@@ -1,0 +1,52 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/section-title-mangement/learn-kordie/list">
+        <svg cIcon
+            name="cilArrowThickLeft"
+            size="sm"
+          ></svg> Back To List
+      </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong>View Details</strong>
+              </c-card-header>
+              <c-card-body>
+                <form [formGroup]="viewDetailsForm">
+                    <div class="mb-3">
+                        <label cLabel >Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                           readonly
+                        />
+                    </div>
+                    <span *ngIf="getDetails?.media">
+                        <div class="mb-3" >
+                            <label cLabel >{{ getDetails?.type | titlecase }} *</label>
+                        </div>
+                        
+                        <div *ngIf="getDetails?.type === 'image'" class="image-preview mb-3">
+                            <img [src]="getDetails?.media" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                        </div>
+                        
+                        <div *ngIf="getDetails?.type === 'video'" class="video-preview mb-3">
+                            <video [src]="getDetails?.media" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                        </div>
+                    </span>
+
+                    <div class="mb-3">
+                        <label cLabel >Description</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description" [config]="editorConfig" (ready)="onEditorReady($event)"></ckeditor>
+                    </div>
+
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

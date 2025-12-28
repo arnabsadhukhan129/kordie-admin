@@ -1,0 +1,116 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/subscription/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="detailsId">View Details</strong>
+              </c-card-header>
+              <c-card-body>
+
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm">
+                    <div class="mb-3">
+                        <label cLabel >Plan Name</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Plan Name"
+                           type="text"
+                           formControlName="plan_name"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Sub Title</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Sub Title"
+                           type="text"
+                           formControlName="sub_title"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Tag</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Tag"
+                           type="text"
+                           formControlName="tag"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Amount</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Amount"
+                           type="number"
+                           formControlName="price"
+                           readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Discount Amount</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder=" Discount Amount"
+                           type="number"
+                           formControlName="discount"
+                           readonly
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label cLabel >Details</label>
+                        <textarea
+                          cFormControl
+                          id="exampleFormControlInput1"
+                          placeholder="Details"
+                          type="text"
+                          formControlName="details"
+                          (blur)="processLearnTitle()"
+                          readonly
+                        ></textarea>
+                        
+                      </div>
+
+                      <div class="mb-3">
+                        <label cLabel >IS Membership</label>
+                        <select aria-label="Default select example" cSelect formControlName="is_membership" [attr.disabled]="true">
+                            <option value="" hidden disabled>Select Option</option>
+                            <option [value]="true">Yes</option>
+                            <option [value]="false">No</option>
+                        </select>
+                      </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Special Note</label>
+                        <textarea
+                          cFormControl
+                          placeholder="Enter Special Note"
+                          formControlName="special_note"
+                          readonly
+                        ></textarea>
+                    </div>
+                
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

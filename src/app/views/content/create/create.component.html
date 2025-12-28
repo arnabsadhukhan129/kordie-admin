@@ -1,0 +1,259 @@
+<div class="backbutton">
+    <button cButton class="me-1" routerLink="/content/list">
+      <svg cIcon
+          name="cilArrowThickLeft"
+          size="sm"
+        ></svg> Back To List
+    </button>
+</div>
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+    </c-col>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header>
+                <strong *ngIf="!detailsId">Add Details</strong>
+                <strong *ngIf="detailsId">Edit Details</strong>
+              </c-card-header>
+              <c-card-body class="view_page_cardBody ">
+
+                <c-alert color="success" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="displayMessage!=''">
+                    <div>{{displayMessage}}</div>
+                </c-alert>
+                <c-alert color="danger" class="d-flex align-items-center" *ngIf="checkMessage()" fade [visible]="errorMessage!=''">
+                    <div>{{errorMessage}}</div>
+                </c-alert>
+
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color: white"><c-spinner></c-spinner></p>
+                </ngx-spinner>
+
+                <form [formGroup]="addEditForm" (ngSubmit)="add()">
+                    <div class="mb-3">
+                        <label cLabel>Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Title"
+                           type="text"
+                           formControlName="title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('title')?.errors?.['required'] || addEditForm.get('title')?.errors?.['pattern']) && (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)" class="error">Please enter title.</p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('title')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('title')?.dirty || addEditForm.get('title')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Url *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Url"
+                           type="text"
+                           formControlName="url"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('url')?.errors?.['required'] || addEditForm.get('url')?.errors?.['pattern']) && (addEditForm.get('url')?.dirty || addEditForm.get('url')?.touched)" class="error">Please enter url.</p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('url')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('url')?.dirty || addEditForm.get('url')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label cLabel>Body *</label>
+                        <textarea
+                            cFormControl
+                            placeholder="Body"
+                            formControlName="body"
+                        ></textarea>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('body')?.errors?.['required'] || addEditForm.get('body')?.errors?.['pattern']) && (addEditForm.get('body')?.dirty || addEditForm.get('body')?.touched)" class="error">
+                                Please enter body.
+                            </p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('body')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('body')?.dirty || addEditForm.get('body')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div> -->
+
+
+                    <div class="mb-3">
+                        <label cLabel >Body *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea"  formControlName="body" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('body')?.errors?.['required'] || addEditForm.get('body')?.errors?.['pattern']) && (addEditForm.get('body')?.dirty || addEditForm.get('body')?.touched)" class="error">
+                                Please enter body.
+                            </p>
+                            <!-- <p
+                            *ngIf="
+                                addEditForm.get('body')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('body')?.dirty || addEditForm.get('body')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p> -->
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Meta Title *</label>
+                        <input cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Meta Title"
+                           type="text"
+                           formControlName="meta_title"
+                        />
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('meta_title')?.errors?.['required'] || addEditForm.get('meta_title')?.errors?.['pattern']) && (addEditForm.get('meta_title')?.dirty || addEditForm.get('meta_title')?.touched)" class="error">Please enter meta title.</p>
+                            <p
+                            *ngIf="
+                                addEditForm.get('meta_title')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('meta_title')?.dirty || addEditForm.get('meta_title')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel >Meta Description *</label>
+                        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="meta_description" [config]="editorConfig"></ckeditor>
+                        <div class="error">
+                            <p *ngIf="(addEditForm.get('meta_description')?.errors?.['required'] || addEditForm.get('meta_description')?.errors?.['pattern']) && (addEditForm.get('meta_description')?.dirty || addEditForm.get('meta_description')?.touched)" class="error">
+                                Please enter meta description.
+                            </p>
+                            <!-- <p
+                            *ngIf="
+                                addEditForm.get('meta_description')?.errors?.['hasSpace'] &&
+                                (addEditForm.get('meta_description')?.dirty || addEditForm.get('meta_description')?.touched)
+                                "
+                                class="error"
+                            >
+                            Space is not allowed.
+                          </p> -->
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Meta Keywords *</label>
+                        <input
+                          cFormControl
+                          placeholder="Enter Meta Keywords"
+                          type="text"
+                          formControlName="meta_keywords"
+                          
+                        />
+                        <p *ngIf="(addEditForm.get('meta_keywords')?.errors?.['required'] || addEditForm.get('meta_keywords')?.errors?.['pattern']) && (addEditForm.get('meta_keywords')?.dirty || addEditForm.get('meta_keywords')?.touched)" class="error">
+                            Please enter meta Keywords.
+                        </p>
+                        <p
+                        *ngIf="
+                            addEditForm.get('meta_keywords')?.errors?.['hasSpace'] &&
+                            (addEditForm.get('meta_keywords')?.dirty || addEditForm.get('meta_keywords')?.touched)
+                            "
+                            class="error"
+                        >
+                        Space is not allowed.
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label cLabel>Image</label>
+                        <input cFormControl  type="file" formControlName="images" accept="image/*" (change)="onImageSelected($event)"/>
+                    </div>
+                    <div *ngIf="imagePreview" class="image-preview mb-3">
+                        <img [src]="imagePreview" alt="Preview" class="imgVideo_box" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label cLabel>Video</label>
+                        <input cFormControl  type="file" formControlName="videos" accept="video/*" (change)="onvideoSelected($event)"/>
+                    </div>
+                    <div *ngIf="videoPreview" class="video-preview mb-3">
+                        <video [src]="videoPreview" controls class="imgVideo_box" style="max-width: 200px; max-height: 200px;"></video>
+                    </div>
+
+                <!-- -------  sections Block -- start --  -->
+                <div class="mb-4 mt-5 card inner_card">
+                    <div class="card-body inner_card_body">
+                        <label class="inner_card_title">Sections :</label>
+
+                        <div class="inner_repeat_block_bg " formArrayName="sections" >
+                            <!-- --- repeat block start --  -->
+                            <div
+                            *ngFor="let sectionItem of sectionControls; let i = index"
+                            [formGroupName]="i"
+                            class="syllabus-item inner_repeat_block condition_block card mb-4 mt-4"
+                            >
+                                <div class=" card-body inner_card_body ">
+                                    <div class="mb-3">
+                                        <label cLabel >Title {{i+1}}</label>
+                                        <input
+                                        cFormControl
+                                        placeholder="title"
+                                        type="text"
+                                        formControlName="title"
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label cLabel >Content {{i+1}}</label>
+                                        <!-- <input
+                                        cFormControl
+                                        placeholder="content"
+                                        type="text"
+                                        formControlName="content"
+                                        /> -->
+                                        <ckeditor *ngIf="isEditorVisible"  class="input_appearance_none editWeb_textArea"  formControlName="content" [config]="editorConfig"></ckeditor>
+                                    </div>
+
+                                    <button cButton class="inner_card_close_btn close_btn" *ngIf="i > 0"  color="danger" type="button" (click)="removeSectionItem(i)" title="Close"><i class="bi bi-x-circle"></i></button>
+                                </div>
+                            </div>
+                        <!-- --- repeat block end --  -->
+                        </div>
+                        <div class="mb-1 mt-3">
+                            <button cButton color="primary" type="button" (click)="addSectionItem()">Add Item</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- -------  Stats Block -- end --  -->
+
+                    <button
+                        cButton
+                        class="me-1"
+                        type="submit"
+                       
+                    >
+                        Save
+                    </button>
+                </form>
+              </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
